@@ -46,6 +46,18 @@ func (mr *MockHandlerMockRecorder) BlogCreate(uc interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlogCreate", reflect.TypeOf((*MockHandler)(nil).BlogCreate), uc)
 }
 
+// BlogEdit mocks base method.
+func (m *MockHandler) BlogEdit(uc uc.EditBlogUseCase) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "BlogEdit", uc)
+}
+
+// BlogEdit indicates an expected call of BlogEdit.
+func (mr *MockHandlerMockRecorder) BlogEdit(uc interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlogEdit", reflect.TypeOf((*MockHandler)(nil).BlogEdit), uc)
+}
+
 // BlogGet mocks base method.
 func (m *MockHandler) BlogGet(uc uc.GetBlogUseCase) {
 	m.ctrl.T.Helper()
@@ -103,6 +115,18 @@ func (m *MockBlogLogic) BlogCreate(uc uc.CreateBlogUseCase) {
 func (mr *MockBlogLogicMockRecorder) BlogCreate(uc interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlogCreate", reflect.TypeOf((*MockBlogLogic)(nil).BlogCreate), uc)
+}
+
+// BlogEdit mocks base method.
+func (m *MockBlogLogic) BlogEdit(uc uc.EditBlogUseCase) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "BlogEdit", uc)
+}
+
+// BlogEdit indicates an expected call of BlogEdit.
+func (mr *MockBlogLogicMockRecorder) BlogEdit(uc interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlogEdit", reflect.TypeOf((*MockBlogLogic)(nil).BlogEdit), uc)
 }
 
 // BlogGet mocks base method.

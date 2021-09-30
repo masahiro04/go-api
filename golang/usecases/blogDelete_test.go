@@ -1,0 +1,89 @@
+package uc_test
+
+import (
+	"errors"
+	"net/http/httptest"
+	"testing"
+
+	formatter "clean_architecture/golang/adapters/json.formatter"
+	presenter "clean_architecture/golang/adapters/json.presenter"
+	"clean_architecture/golang/usecases"
+	"github.com/gin-gonic/gin"
+
+	mock "clean_architecture/golang/adapters/uc.mock"
+	"clean_architecture/golang/testData"
+	"github.com/golang/mock/gomock"
+	"github.com/stretchr/testify/assert"
+)
+
+func TestBlogDelete_happyCase(t *testing.T) {
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	blog := testData.Blog()
+
+	i := mock.NewMockedInteractor(mockCtrl)
+	i.BlogRW.EXPECT().Delete(blog.ID).Return(nil).Times(1)
+
+	ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
+	pre := presenter.New(ginContext)
+	form := formatter.NewPresenter(pre)
+	useCase := uc.DeleteBlogUseCase{
+		OutputPort: form,
+		InputPort: uc.DeleteBlogParams{
+			Id: blog.ID,
+		},
+	}
+
+	i.GetUCHandler().BlogDelete(useCase)
+
+	assert.NoError(t, nil)
+	assert.NoError(t, form.Present())
+}
+
+func TestBlogDelete_fails(t *testing.T) {
+	blog := testData.Blog()
+
+	mutations := map[string]mock.Tester{
+		"shouldPass": {
+			Calls: func(i *mock.Interactor) { // change nothing
+			},
+			ShouldPass: true},
+		"failed to save the company": {
+			Calls: func(i *mock.Interactor) {
+				i.BlogRW.EXPECT().Delete(blog.ID).Return(errors.New(""))
+			}},
+	}
+
+	validCalls := func(i *mock.Interactor) {
+		i.BlogRW.EXPECT().Delete(blog.ID).Return(nil).AnyTimes()
+	}
+
+	for testName, mutation := range mutations {
+		t.Run(testName, func(t *testing.T) {
+			mockCtrl := gomock.NewController(t)
+			defer mockCtrl.Finish()
+			i := mock.NewMockedInteractor(mockCtrl)
+			mutation.Calls(&i)
+			validCalls(&i)
+
+			ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
+			pre := presenter.New(ginContext)
+			form := formatter.NewPresenter(pre)
+			useCase := uc.DeleteBlogUseCase{
+				OutputPort: form,
+				InputPort: uc.DeleteBlogParams{
+					Id: blog.ID,
+				},
+			}
+
+			i.GetUCHandler().BlogDelete(useCase)
+
+			if mutation.ShouldPass {
+				assert.NoError(t, form.Present())
+				return
+			}
+
+			assert.Error(t, form.Present())
+		})
+	}
+}

@@ -46,6 +46,18 @@ func (mr *MockHandlerMockRecorder) BlogCreate(uc interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlogCreate", reflect.TypeOf((*MockHandler)(nil).BlogCreate), uc)
 }
 
+// BlogDelete mocks base method.
+func (m *MockHandler) BlogDelete(uc uc.DeleteBlogUseCase) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "BlogDelete", uc)
+}
+
+// BlogDelete indicates an expected call of BlogDelete.
+func (mr *MockHandlerMockRecorder) BlogDelete(uc interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlogDelete", reflect.TypeOf((*MockHandler)(nil).BlogDelete), uc)
+}
+
 // BlogEdit mocks base method.
 func (m *MockHandler) BlogEdit(uc uc.EditBlogUseCase) {
 	m.ctrl.T.Helper()
@@ -115,6 +127,18 @@ func (m *MockBlogLogic) BlogCreate(uc uc.CreateBlogUseCase) {
 func (mr *MockBlogLogicMockRecorder) BlogCreate(uc interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlogCreate", reflect.TypeOf((*MockBlogLogic)(nil).BlogCreate), uc)
+}
+
+// BlogDelete mocks base method.
+func (m *MockBlogLogic) BlogDelete(uc uc.DeleteBlogUseCase) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "BlogDelete", uc)
+}
+
+// BlogDelete indicates an expected call of BlogDelete.
+func (mr *MockBlogLogicMockRecorder) BlogDelete(uc interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlogDelete", reflect.TypeOf((*MockBlogLogic)(nil).BlogDelete), uc)
 }
 
 // BlogEdit mocks base method.

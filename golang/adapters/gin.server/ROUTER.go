@@ -39,7 +39,7 @@ func (rH RouterHandler) blogsRoutes(api *gin.RouterGroup) {
 	blogs.POST("", rH.blogPost)
 	blogs.PUT("/:id", rH.blogPatch)
 	blogs.PATCH("/:id", rH.blogPatch)
-	//blogs.DELETE("/:id", rH.companyDelete)
+	blogs.DELETE("/:id", rH.blogDelete)
 }
 
 func (rH RouterHandler) errorCatcher() gin.HandlerFunc {

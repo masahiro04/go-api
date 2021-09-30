@@ -13,6 +13,7 @@ type BlogLogic interface {
 	BlogGet(uc GetBlogUseCase)
 	BlogCreate(uc CreateBlogUseCase)
 	BlogEdit(uc EditBlogUseCase)
+	BlogDelete(uc DeleteBlogUseCase)
 }
 
 type HandlerConstructor struct {

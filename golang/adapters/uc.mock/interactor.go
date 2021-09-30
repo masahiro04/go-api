@@ -74,6 +74,18 @@ func (m *MockPresenter) EXPECT() *MockPresenterMockRecorder {
 	return m.recorder
 }
 
+// CreateBlog mocks base method.
+func (m *MockPresenter) CreateBlog(blog *domain.Blog) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "CreateBlog", blog)
+}
+
+// CreateBlog indicates an expected call of CreateBlog.
+func (mr *MockPresenterMockRecorder) CreateBlog(blog interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateBlog", reflect.TypeOf((*MockPresenter)(nil).CreateBlog), blog)
+}
+
 // GetBlog mocks base method.
 func (m *MockPresenter) GetBlog(blog *domain.Blog) {
 	m.ctrl.T.Helper()

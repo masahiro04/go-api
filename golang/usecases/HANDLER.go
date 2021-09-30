@@ -9,8 +9,9 @@ type Handler interface {
 }
 
 type BlogLogic interface {
-	BlogGet(uc GetBlogUseCase)
 	BlogGetAll(uc GetBlogsUseCase)
+	BlogGet(uc GetBlogUseCase)
+	BlogCreate(uc CreateBlogUseCase)
 }
 
 type HandlerConstructor struct {

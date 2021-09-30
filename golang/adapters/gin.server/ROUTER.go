@@ -36,7 +36,7 @@ func (rH RouterHandler) blogsRoutes(api *gin.RouterGroup) {
 	blogs := api.Group("/blogs")
 	blogs.GET("", rH.blogsGetAll)
 	blogs.GET("/:id", rH.blogGet)
-	//blogs.POST("", rH.companyPost)
+	blogs.POST("", rH.blogPost)
 	//blogs.PUT("/:id", rH.companyPatch)
 	//blogs.PATCH("/:id", rH.companyPatch)
 	//blogs.DELETE("/:id", rH.companyDelete)

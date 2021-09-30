@@ -34,6 +34,18 @@ func (m *MockHandler) EXPECT() *MockHandlerMockRecorder {
 	return m.recorder
 }
 
+// BlogCreate mocks base method.
+func (m *MockHandler) BlogCreate(uc uc.CreateBlogUseCase) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "BlogCreate", uc)
+}
+
+// BlogCreate indicates an expected call of BlogCreate.
+func (mr *MockHandlerMockRecorder) BlogCreate(uc interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlogCreate", reflect.TypeOf((*MockHandler)(nil).BlogCreate), uc)
+}
+
 // BlogGet mocks base method.
 func (m *MockHandler) BlogGet(uc uc.GetBlogUseCase) {
 	m.ctrl.T.Helper()
@@ -79,6 +91,18 @@ func NewMockBlogLogic(ctrl *gomock.Controller) *MockBlogLogic {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockBlogLogic) EXPECT() *MockBlogLogicMockRecorder {
 	return m.recorder
+}
+
+// BlogCreate mocks base method.
+func (m *MockBlogLogic) BlogCreate(uc uc.CreateBlogUseCase) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "BlogCreate", uc)
+}
+
+// BlogCreate indicates an expected call of BlogCreate.
+func (mr *MockBlogLogicMockRecorder) BlogCreate(uc interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlogCreate", reflect.TypeOf((*MockBlogLogic)(nil).BlogCreate), uc)
 }
 
 // BlogGet mocks base method.

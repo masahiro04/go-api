@@ -25,6 +25,7 @@ type Presenter interface {
 	Raise(errorKind domain.ErrorKinds, err error)
 	Present() error
 	GetBlog(blog *domain.Blog)
+	CreateBlog(blog *domain.Blog)
 	GetBlogs(blogs domain.BlogCollection)
 }
 

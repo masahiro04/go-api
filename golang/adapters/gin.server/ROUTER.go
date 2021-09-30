@@ -1,11 +1,8 @@
 package server
 
 import (
-	"fmt"
-	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
-
 	"clean_architecture/golang/usecases"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/render"
 )
@@ -37,12 +34,12 @@ func (rH RouterHandler) SetRoutes(r *gin.Engine) {
 
 func (rH RouterHandler) blogsRoutes(api *gin.RouterGroup) {
 	blogs := api.Group("/blogs")
-	blogs.GET("", rH.companyGetAll)
-	blogs.GET("/:id", rH.companyGet)
-	blogs.POST("", rH.companyPost)
-	blogs.PUT("/:id", rH.companyPatch)
-	blogs.PATCH("/:id", rH.companyPatch)
-	blogs.DELETE("/:id", rH.companyDelete)
+	blogs.GET("", rH.blogsGetAll)
+	blogs.GET("/:id", rH.blogGet)
+	//blogs.POST("", rH.companyPost)
+	//blogs.PUT("/:id", rH.companyPatch)
+	//blogs.PATCH("/:id", rH.companyPatch)
+	//blogs.DELETE("/:id", rH.companyDelete)
 }
 
 func (rH RouterHandler) errorCatcher() gin.HandlerFunc {

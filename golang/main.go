@@ -74,7 +74,6 @@ func run() {
 		infra.DebugMode,
 	)
 	// DB
-	//conn := "host=localhost port=5432 user=root password=11111111 dbname=hrbase_api sslmode=disable"
 	conn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		viper.GetString("db.host"),
 		viper.GetInt("db.port"),

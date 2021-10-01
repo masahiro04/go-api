@@ -4,4 +4,6 @@ COPY . /app
 WORKDIR /app
 
 RUN go get -u github.com/cosmtrek/air
+RUN go get -v github.com/rubenv/sql-migrate/...
+
 RUN go mod download

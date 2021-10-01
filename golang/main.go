@@ -74,12 +74,16 @@ func run() {
 		infra.DebugMode,
 	)
 	// DB
-	conn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		viper.GetString("db.host"),
-		viper.GetInt("db.port"),
-		viper.GetString("db.user"),
-		viper.GetString("db.password"),
-		viper.GetString("db.name"))
+	//conn := "host=localhost port=5432 user=postgresql password=postgresql dbname=golang_api sslmode=disable"
+	conn := "postgres://postgresql:postgresql@db:5432/golang_api?sslmode=disable"
+	// "postgres://username:password@localhost/db_name?sslmode=disable"
+
+	//conn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+	//	viper.GetString("db.host"),
+	//	viper.GetInt("db.port"),
+	//	viper.GetString("db.user"),
+	//	viper.GetString("db.password"),
+	//	viper.GetString("db.name"))
 	db, err := sql.Open("postgres", conn)
 	if err != nil {
 		panic(err)

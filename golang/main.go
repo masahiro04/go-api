@@ -19,7 +19,8 @@ import (
 	validator "clean_architecture/golang/adapters/validator"
 
 	infra "clean_architecture/golang/infrastructure"
-	"clean_architecture/golang/usecases"
+	uc "clean_architecture/golang/usecases"
+
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"

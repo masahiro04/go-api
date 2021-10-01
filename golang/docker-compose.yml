@@ -5,11 +5,10 @@ services:
     volumes:
       - ./:/app
     tty: true
-    command: "go run main.go"
-    env_file:
-      - ./.env
+    command: "air -c .air.toml"
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - 8080:8080
+

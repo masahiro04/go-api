@@ -29,9 +29,17 @@ services:
       POSTGRES_USER: postgresql
       POSTGRES_PASSWORD: postgresql
       POSTGRES_PORT: 5432
-    volumes:
-      - db:/var/lib/postgresql/data
+#    volumes: # ここあるとdataがdockerに保持されて、削除してもデータあるので注意
+#      - db:/var/lib/postgresql/data
+
+#volumes:
+#  db:
+#    driver: local
 
 volumes:
-  db:
-    driver: local
+  dbdata:
+    driver_opts:
+      type: none
+      device: $PWD/.dbdata # Create volume for postgresql
+#　　　　　　　　　↑dbdataの実体は $PWD/.dbdata である
+      o: bind

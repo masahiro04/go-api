@@ -6,5 +6,5 @@ CREATE TABLE blogs (
     body VARCHAR(255) NOT NULL,
     created_at TIMESTAMP,
     updated_at TIMESTAMP NOT NULL,
-    deleted_at TIMESTAMP NOT NULL
+    deleted_at TIMESTAMP
 );

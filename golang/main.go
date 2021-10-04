@@ -74,9 +74,8 @@ func run() {
 		infra.DebugMode,
 	)
 	// DB
-	//conn := "host=localhost port=5432 user=postgresql password=postgresql dbname=golang_api sslmode=disable"
-	conn := "postgres://postgresql:postgresql@db:5432/golang_api?sslmode=disable"
-	// "postgres://username:password@localhost/db_name?sslmode=disable"
+	conn := "host=localhost port=5432 user=masahirookubo dbname=golang_api sslmode=disable" // local向け
+	//conn := "postgres://postgresql:postgresql@db:5432/golang_api?sslmode=disable" // docker向け
 
 	//conn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 	//	viper.GetString("db.host"),

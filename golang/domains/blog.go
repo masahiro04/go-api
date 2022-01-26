@@ -59,39 +59,39 @@ func (b *Blog) UpdateBody(body blog.Body) *Blog {
 	return b
 }
 
-type BlogCollection []*Blog
-type BlogUpdatableProperty int
+// type BlogCollection []*Blog
+// type BlogUpdatableProperty int
 
-const (
-	BlogTitle BlogUpdatableProperty = iota
-	BlogBody
-)
+// const (
+// 	BlogTitle BlogUpdatableProperty = iota
+// 	BlogBody
+// )
 
-func UpdateBlog(initial *Blog, opts ...func(fields *Blog)) {
-	for _, v := range opts {
-		v(initial)
-	}
-}
+// func UpdateBlog(initial *Blog, opts ...func(fields *Blog)) {
+// 	for _, v := range opts {
+// 		v(initial)
+// 	}
+// }
 
-func (blogs BlogCollection) ApplyLimitAndOffset(limit, offset int) BlogCollection {
-	if limit <= 0 {
-		return []*Blog{}
-	}
-
-	blogsSize := len(blogs)
-	min := offset
-	if min < 0 {
-		min = 0
-	}
-
-	if min > blogsSize {
-		return []*Blog{}
-	}
-
-	max := min + limit
-	if max > blogsSize {
-		max = blogsSize
-	}
-
-	return blogs[min:max]
-}
+// func (blogs BlogCollection) ApplyLimitAndOffset(limit, offset int) BlogCollection {
+// 	if limit <= 0 {
+// 		return []*Blog{}
+// 	}
+//
+// 	blogsSize := len(blogs)
+// 	min := offset
+// 	if min < 0 {
+// 		min = 0
+// 	}
+//
+// 	if min > blogsSize {
+// 		return []*Blog{}
+// 	}
+//
+// 	max := min + limit
+// 	if max > blogsSize {
+// 		max = blogsSize
+// 	}
+//
+// 	return blogs[min:max]
+// }

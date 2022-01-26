@@ -39,7 +39,7 @@ uc_test:
 	go test ./usecases
 
 domain_test:
-	go test ./domains/blog
+	go test ./domains
 
 cover:
 	go test -cover ./... -coverprofile=cover.out.tmp | grep coverage:

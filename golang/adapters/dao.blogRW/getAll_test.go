@@ -4,6 +4,7 @@ import (
 	blogRW "clean_architecture/golang/adapters/dao.blogRW"
 	"clean_architecture/golang/testData"
 	"database/sql/driver"
+	"fmt"
 	"regexp"
 	"testing"
 	"time"
@@ -31,8 +32,7 @@ func TestRw_GetAll_Success(t *testing.T) {
 	blog := testData.Blog()
 
 	// DBモック用意
-	mock.ExpectQuery(regexp.QuoteMeta(
-		regexp.QuoteMeta(blogRW.GetAllSql))).
+	mock.ExpectQuery(regexp.QuoteMeta(blogRW.GetAllSql)).
 		WithArgs().
 		WillReturnRows(mock.NewRows([]string{
 			"id",
@@ -60,6 +60,47 @@ func TestRw_GetAll_Success(t *testing.T) {
 	assert.Equal(t, blogs.Size(), 1)
 
 	//// 使用されたモックDBが期待通りの値を持っているかを検証
+	if err := mock.ExpectationsWereMet(); err != nil {
+		t.Errorf("there were unfulfilled expectations: %s", err)
+	}
+}
+
+func TestRw_GetAll_Fail(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+	defer db.Close()
+
+	rw := blogRW.New(db)
+	blog := testData.Blog()
+
+	// DBモック用意
+	mock.ExpectQuery(regexp.QuoteMeta(blogRW.GetAllSql)).
+		WithArgs().
+		WillReturnRows(mock.NewRows([]string{
+			"id",
+			"title",
+			"body",
+			"created_at",
+			"updated_at",
+		}).AddRow(
+			blog.ID().Value(),
+			blog.Title().Value(),
+			blog.Body().Value(),
+			blog.CreatedAt(),
+			blog.UpdatedAt(),
+		)).
+		WillReturnError(fmt.Errorf("some error"))
+
+	_, err = rw.GetAll()
+
+	// モック化されたDBを用いてテスト対象関数を実行
+	if err == nil {
+		t.Errorf("Expect error happens:%s", err)
+	}
+
+	// 使用されたモックDBが期待通りの値を持っているかを検証
 	if err := mock.ExpectationsWereMet(); err != nil {
 		t.Errorf("there were unfulfilled expectations: %s", err)
 	}

@@ -7,11 +7,14 @@ import (
 
 	formatter "clean_architecture/golang/adapters/json.formatter"
 	presenter "clean_architecture/golang/adapters/json.presenter"
-	"clean_architecture/golang/usecases"
+
 	"github.com/gin-gonic/gin"
 
 	mock "clean_architecture/golang/adapters/uc.mock"
 	"clean_architecture/golang/testData"
+
+	uc "clean_architecture/golang/usecases"
+
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 )
@@ -22,7 +25,7 @@ func TestBlogDelete_happyCase(t *testing.T) {
 	blog := testData.Blog()
 
 	i := mock.NewMockedInteractor(mockCtrl)
-	i.BlogRW.EXPECT().Delete(blog.ID).Return(nil).Times(1)
+	i.BlogRW.EXPECT().Delete(blog.ID.Value()).Return(nil).Times(1)
 
 	ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
 	pre := presenter.New(ginContext)
@@ -30,7 +33,7 @@ func TestBlogDelete_happyCase(t *testing.T) {
 	useCase := uc.DeleteBlogUseCase{
 		OutputPort: form,
 		InputPort: uc.DeleteBlogParams{
-			Id: blog.ID,
+			Id: blog.ID.Value(),
 		},
 	}
 
@@ -72,7 +75,7 @@ func TestBlogDelete_fails(t *testing.T) {
 			useCase := uc.DeleteBlogUseCase{
 				OutputPort: form,
 				InputPort: uc.DeleteBlogParams{
-					Id: blog.ID,
+					Id: blog.ID.Value(),
 				},
 			}
 

@@ -1,7 +1,8 @@
 package uc
 
 import (
-	"clean_architecture/golang/domain"
+	"clean_architecture/golang/domains"
+	blog2 "clean_architecture/golang/domains/blog"
 )
 
 type EditBlogUseCase struct {
@@ -15,46 +16,47 @@ type EditBlogParams struct {
 	Body  string
 }
 
-func (req EditBlogParams) getEditableFields() map[domain.BlogUpdatableProperty]*string {
-	return map[domain.BlogUpdatableProperty]*string{
-		domain.BlogTitle: &req.Title,
-		domain.BlogBody:  &req.Body,
+func (req EditBlogParams) getEditableFields() map[domains.BlogUpdatableProperty]*string {
+	return map[domains.BlogUpdatableProperty]*string{
+		domains.BlogTitle: &req.Title,
+		domains.BlogBody:  &req.Body,
 	}
 }
 
 func (i interactor) BlogEdit(uc EditBlogUseCase) {
-	var blog *domain.Blog
+	var blog *domains.Blog
 	var err error
 
 	blog, err = i.blogRW.GetById(uc.InputPort.Id)
 	if err != nil {
-		uc.OutputPort.Raise(domain.BadRequest, err)
+		uc.OutputPort.Raise(domains.BadRequest, err)
 		return
 	}
 	if blog == nil {
-		uc.OutputPort.Raise(domain.NotFound, errNotFound)
+		uc.OutputPort.Raise(domains.NotFound, errNotFound)
 		return
 	}
-	if blog.ID != uc.InputPort.Id {
-		uc.OutputPort.Raise(domain.UnprocessableEntity, errWrongCompany)
+	id, _ := blog2.NewId(uc.InputPort.Id)
+	if blog.ID != id {
+		uc.OutputPort.Raise(domains.UnprocessableEntity, errWrongCompany)
 		return
 	}
 
-	fieldsToUpdate := uc.InputPort.getEditableFields()
-	domain.UpdateBlog(blog,
-		domain.SetBlogTitle(fieldsToUpdate[domain.BlogTitle]),
-		domain.SetBlogBody(fieldsToUpdate[domain.BlogBody]),
-	)
-
-	err = i.validator.Validate(*blog)
+	title, err := blog2.UpdateTitle(&uc.InputPort.Title)
 	if err != nil {
-		uc.OutputPort.Raise(domain.UnprocessableEntity, err)
+		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
 		return
 	}
 
-	updatedBlog, err := i.blogRW.Update(uc.InputPort.Id, *blog)
+	body, err := blog2.UpdateBody(&uc.InputPort.Body)
 	if err != nil {
-		uc.OutputPort.Raise(domain.UnprocessableEntity, err)
+		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		return
+	}
+
+	updatedBlog, err := i.blogRW.Update(uc.InputPort.Id, domains.BuildBlog(id, *title, *body))
+	if err != nil {
+		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
 		return
 	}
 

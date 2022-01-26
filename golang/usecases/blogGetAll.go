@@ -1,7 +1,7 @@
 package uc
 
 import (
-	"clean_architecture/golang/domain"
+	"clean_architecture/golang/domains"
 )
 
 type GetBlogsUseCase struct {
@@ -17,11 +17,11 @@ type GetBlogsParams struct {
 func (i interactor) BlogGetAll(uc GetBlogsUseCase) {
 	blogs, err := i.blogRW.GetAll()
 	if err != nil {
-		uc.OutputPort.Raise(domain.BadRequest, err)
+		uc.OutputPort.Raise(domains.BadRequest, err)
 		return
 	}
 
-	blogs = domain.BlogCollection(blogs).ApplyLimitAndOffset(uc.InputPort.Limit, uc.InputPort.Offset)
+	blogs = domains.BlogCollection(blogs).ApplyLimitAndOffset(uc.InputPort.Limit, uc.InputPort.Offset)
 
 	uc.OutputPort.GetBlogs(blogs)
 }

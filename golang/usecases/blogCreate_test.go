@@ -7,11 +7,13 @@ import (
 
 	formatter "clean_architecture/golang/adapters/json.formatter"
 	presenter "clean_architecture/golang/adapters/json.presenter"
-	"clean_architecture/golang/usecases"
+
 	"github.com/gin-gonic/gin"
 
 	mock "clean_architecture/golang/adapters/uc.mock"
 	"clean_architecture/golang/testData"
+	uc "clean_architecture/golang/usecases"
+
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 )
@@ -33,8 +35,8 @@ func TestBlogCreate_happyCase(t *testing.T) {
 	useCase := uc.CreateBlogUseCase{
 		OutputPort: form,
 		InputPort: uc.CreateBlogParams{
-			Title: blog.Title,
-			Body:  blog.Body,
+			Title: blog.Title.Value(),
+			Body:  blog.Body.Value(),
 		},
 	}
 
@@ -82,8 +84,8 @@ func TestBlogCreate_fails(t *testing.T) {
 			useCase := uc.CreateBlogUseCase{
 				OutputPort: form,
 				InputPort: uc.CreateBlogParams{
-					Title: blog.Title,
-					Body:  blog.Body,
+					Title: blog.Title.Value(),
+					Body:  blog.Body.Value(),
 				},
 			}
 

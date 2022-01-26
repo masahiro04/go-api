@@ -5,7 +5,7 @@
 package mock
 
 import (
-	domain "clean_architecture/golang/domain"
+	domains "clean_architecture/golang/domains"
 	sql "database/sql"
 	reflect "reflect"
 
@@ -75,7 +75,7 @@ func (m *MockPresenter) EXPECT() *MockPresenterMockRecorder {
 }
 
 // CreateBlog mocks base method.
-func (m *MockPresenter) CreateBlog(blog *domain.Blog) {
+func (m *MockPresenter) CreateBlog(blog *domains.Blog) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "CreateBlog", blog)
 }
@@ -87,7 +87,7 @@ func (mr *MockPresenterMockRecorder) CreateBlog(blog interface{}) *gomock.Call {
 }
 
 // GetBlog mocks base method.
-func (m *MockPresenter) GetBlog(blog *domain.Blog) {
+func (m *MockPresenter) GetBlog(blog *domains.Blog) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "GetBlog", blog)
 }
@@ -99,7 +99,7 @@ func (mr *MockPresenterMockRecorder) GetBlog(blog interface{}) *gomock.Call {
 }
 
 // GetBlogs mocks base method.
-func (m *MockPresenter) GetBlogs(blogs domain.BlogCollection) {
+func (m *MockPresenter) GetBlogs(blogs domains.BlogCollection) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "GetBlogs", blogs)
 }
@@ -125,7 +125,7 @@ func (mr *MockPresenterMockRecorder) Present() *gomock.Call {
 }
 
 // Raise mocks base method.
-func (m *MockPresenter) Raise(errorKind domain.ErrorKinds, err error) {
+func (m *MockPresenter) Raise(errorKind domains.ErrorKinds, err error) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "Raise", errorKind, err)
 }
@@ -234,10 +234,10 @@ func (m *MockBlogRW) EXPECT() *MockBlogRWMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockBlogRW) Create(company domain.Blog) (*domain.Blog, error) {
+func (m *MockBlogRW) Create(company domains.Blog) (*domains.Blog, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", company)
-	ret0, _ := ret[0].(*domain.Blog)
+	ret0, _ := ret[0].(*domains.Blog)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -249,10 +249,10 @@ func (mr *MockBlogRWMockRecorder) Create(company interface{}) *gomock.Call {
 }
 
 // CreateTx mocks base method.
-func (m *MockBlogRW) CreateTx(company domain.Blog, tx *sql.Tx) (*domain.Blog, error) {
+func (m *MockBlogRW) CreateTx(company domains.Blog, tx *sql.Tx) (*domains.Blog, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateTx", company, tx)
-	ret0, _ := ret[0].(*domain.Blog)
+	ret0, _ := ret[0].(*domains.Blog)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -278,10 +278,10 @@ func (mr *MockBlogRWMockRecorder) Delete(id interface{}) *gomock.Call {
 }
 
 // GetAll mocks base method.
-func (m *MockBlogRW) GetAll() ([]*domain.Blog, error) {
+func (m *MockBlogRW) GetAll() ([]*domains.Blog, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAll")
-	ret0, _ := ret[0].([]*domain.Blog)
+	ret0, _ := ret[0].([]*domains.Blog)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -293,10 +293,10 @@ func (mr *MockBlogRWMockRecorder) GetAll() *gomock.Call {
 }
 
 // GetById mocks base method.
-func (m *MockBlogRW) GetById(id int) (*domain.Blog, error) {
+func (m *MockBlogRW) GetById(id int) (*domains.Blog, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetById", id)
-	ret0, _ := ret[0].(*domain.Blog)
+	ret0, _ := ret[0].(*domains.Blog)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -308,10 +308,10 @@ func (mr *MockBlogRWMockRecorder) GetById(id interface{}) *gomock.Call {
 }
 
 // Update mocks base method.
-func (m *MockBlogRW) Update(id int, company domain.Blog) (*domain.Blog, error) {
+func (m *MockBlogRW) Update(id int, company domains.Blog) (*domains.Blog, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Update", id, company)
-	ret0, _ := ret[0].(*domain.Blog)
+	ret0, _ := ret[0].(*domains.Blog)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

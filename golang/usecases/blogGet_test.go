@@ -7,11 +7,14 @@ import (
 
 	formatter "clean_architecture/golang/adapters/json.formatter"
 	presenter "clean_architecture/golang/adapters/json.presenter"
-	"clean_architecture/golang/usecases"
+
 	"github.com/gin-gonic/gin"
 
 	mock "clean_architecture/golang/adapters/uc.mock"
 	"clean_architecture/golang/testData"
+
+	uc "clean_architecture/golang/usecases"
+
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 )
@@ -30,7 +33,7 @@ func TestBlogGet_happyCase(t *testing.T) {
 	form := formatter.NewPresenter(pre)
 	useCase := uc.GetBlogUseCase{
 		OutputPort: form,
-		InputPort:  uc.GetBlogParams{Id: blog.ID},
+		InputPort:  uc.GetBlogParams{Id: blog.ID.Value()},
 	}
 
 	i.GetUCHandler().BlogGet(useCase)
@@ -76,7 +79,7 @@ func TestBlogGet_fails(t *testing.T) {
 			form := formatter.NewPresenter(pre)
 			useCase := uc.GetBlogUseCase{
 				OutputPort: form,
-				InputPort:  uc.GetBlogParams{Id: blog.ID},
+				InputPort:  uc.GetBlogParams{Id: blog.ID.Value()},
 			}
 
 			i.GetUCHandler().BlogGet(useCase)

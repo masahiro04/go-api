@@ -1,16 +1,34 @@
-package domain
+package domains
 
 import (
+	"clean_architecture/golang/domains/blog"
 	"time"
 )
 
 type Blog struct {
-	ID        int
-	Title     string `validate:"required,max=255" ja:"タイトル"`
-	Body      string `validate:"required,max=255" ja:"内容"`
+	ID        blog.ID
+	Title     blog.Title
+	Body      blog.Body
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt *time.Time
+	DeletedAt time.Time
+}
+
+func NewBlog(title blog.Title, body blog.Body) Blog {
+	return Blog{
+		Title: title,
+		Body:  body,
+	}
+}
+
+// repositoryやfactory経由の生成において使用する関数
+// 生成時のバリデーションをしないことに注意
+func BuildBlog(id blog.ID, title blog.Title, body blog.Body) Blog {
+	return Blog{
+		ID:    id,
+		Title: title,
+		Body:  body,
+	}
 }
 
 type BlogCollection []*Blog
@@ -24,22 +42,6 @@ const (
 func UpdateBlog(initial *Blog, opts ...func(fields *Blog)) {
 	for _, v := range opts {
 		v(initial)
-	}
-}
-
-func SetBlogTitle(input *string) func(fields *Blog) {
-	return func(initial *Blog) {
-		if input != nil {
-			initial.Title = *input
-		}
-	}
-}
-
-func SetBlogBody(input *string) func(fields *Blog) {
-	return func(initial *Blog) {
-		if input != nil {
-			initial.Body = *input
-		}
 	}
 }
 

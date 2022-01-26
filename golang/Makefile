@@ -29,8 +29,11 @@ migrate:
 	sql-migrate up $(MIGRATE_OPTIONS)
 	sql-migrate status $(MIGRATE_OPTIONS)
 
-test:
-	go test ./...
+dao_test:
+	go test ./adapters/dao.blogRW
+
+uc_test:
+	go test ./adapters/dao.blogRW
 
 cover:
 	go test -cover ./... -coverprofile=cover.out.tmp | grep coverage:

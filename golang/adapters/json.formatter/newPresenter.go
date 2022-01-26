@@ -2,7 +2,7 @@ package formatter
 
 import (
 	presenter "clean_architecture/golang/adapters/json.presenter"
-	"clean_architecture/golang/domain"
+	"clean_architecture/golang/domains"
 	"clean_architecture/golang/usecases"
 )
 
@@ -16,17 +16,17 @@ func NewPresenter(presenter *presenter.GinPresenter) uc.Presenter {
 	return &ResponsePresenter{Presenter: presenter}
 }
 
-func (presenter ResponsePresenter) Raise(errorKind domain.ErrorKinds, err error) {
+func (presenter ResponsePresenter) Raise(errorKind domains.ErrorKinds, err error) {
 	switch errorKind {
-	case domain.BadRequest:
+	case domains.BadRequest:
 		presenter.Presenter.BadRequest(err)
-	case domain.UnprocessableEntity:
+	case domains.UnprocessableEntity:
 		presenter.Presenter.UnprocessableEntity(err)
-	case domain.NotFound:
+	case domains.NotFound:
 		presenter.Presenter.NotFound(err)
-	case domain.InternalServerError:
+	case domains.InternalServerError:
 		presenter.Presenter.InternalServerError(err)
-	case domain.Unauthorized:
+	case domains.Unauthorized:
 		presenter.Presenter.Unauthorized(err)
 	default:
 		presenter.Presenter.BadRequest(err)

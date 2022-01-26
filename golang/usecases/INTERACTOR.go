@@ -1,9 +1,8 @@
 package uc
 
 import (
+	"clean_architecture/golang/domains"
 	"database/sql"
-
-	"clean_architecture/golang/domain"
 )
 
 // interactor : the struct that will have as properties all the IMPLEMENTED interfaces
@@ -22,11 +21,11 @@ type Logger interface {
 }
 
 type Presenter interface {
-	Raise(errorKind domain.ErrorKinds, err error)
+	Raise(errorKind domains.ErrorKinds, err error)
 	Present() error
-	GetBlog(blog *domain.Blog)
-	CreateBlog(blog *domain.Blog)
-	GetBlogs(blogs domain.BlogCollection)
+	GetBlog(blog *domains.Blog)
+	CreateBlog(blog *domains.Blog)
+	GetBlogs(blogs domains.BlogCollection)
 }
 
 type Validator interface {
@@ -38,10 +37,10 @@ type DBTransaction interface {
 }
 
 type BlogRW interface {
-	GetAll() ([]*domain.Blog, error)
-	GetById(id int) (*domain.Blog, error)
-	Create(company domain.Blog) (*domain.Blog, error)
-	CreateTx(company domain.Blog, tx *sql.Tx) (*domain.Blog, error)
-	Update(id int, company domain.Blog) (*domain.Blog, error)
+	GetAll() ([]*domains.Blog, error)
+	GetById(id int) (*domains.Blog, error)
+	Create(company domains.Blog) (*domains.Blog, error)
+	CreateTx(company domains.Blog, tx *sql.Tx) (*domains.Blog, error)
+	Update(id int, company domains.Blog) (*domains.Blog, error)
 	Delete(id int) error
 }

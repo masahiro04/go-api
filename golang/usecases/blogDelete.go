@@ -1,6 +1,8 @@
 package uc
 
-import "clean_architecture/golang/domain"
+import (
+	"clean_architecture/golang/domains"
+)
 
 type DeleteBlogUseCase struct {
 	OutputPort Presenter
@@ -13,7 +15,7 @@ type DeleteBlogParams struct {
 
 func (i interactor) BlogDelete(uc DeleteBlogUseCase) {
 	if err := i.blogRW.Delete(uc.InputPort.Id); err != nil {
-		uc.OutputPort.Raise(domain.BadRequest, err)
+		uc.OutputPort.Raise(domains.BadRequest, err)
 		return
 	}
 }

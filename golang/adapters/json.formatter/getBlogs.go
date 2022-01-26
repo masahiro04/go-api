@@ -1,7 +1,7 @@
 package formatter
 
 import (
-	"clean_architecture/golang/domain"
+	"clean_architecture/golang/domains"
 )
 
 type getGetBlogsResponse struct {
@@ -9,7 +9,7 @@ type getGetBlogsResponse struct {
 	Count int                   `json:"count"`
 }
 
-func (presenter ResponsePresenter) GetBlogs(blogs domain.BlogCollection) {
+func (presenter ResponsePresenter) GetBlogs(blogs domains.BlogCollection) {
 	// nilではなく空配列でレスポンスを返せるようにする
 	response := getGetBlogsResponse{
 		Blogs: []getBlogResponseItem{},

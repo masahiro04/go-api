@@ -1,7 +1,7 @@
 package formatter
 
 import (
-	"clean_architecture/golang/domain"
+	"clean_architecture/golang/domains"
 )
 
 type getBlogResponse struct {
@@ -9,24 +9,24 @@ type getBlogResponse struct {
 }
 
 type getBlogResponseItem struct {
-	Id        int    `json:"id"`
-	Title     string `json:"title"`
-	Body      string `json:"body"`
-	CreatedAt string `json:"createdAt"`
-	UpdatedAt string `json:"updatedAt"`
+	Id        interface{}    `json:"id"`
+	Title     interface{} `json:"title"`
+	Body      interface{} `json:"body"`
+	CreatedAt interface{} `json:"createdAt"`
+	UpdatedAt interface{} `json:"updatedAt"`
 }
 
-func (presenter ResponsePresenter) GetBlog(blog *domain.Blog) {
+func (presenter ResponsePresenter) GetBlog(blog *domains.Blog) {
 	response := getBlogResponse{Blog: BlogItem(blog)}
 	presenter.Presenter.StatusOK(response)
 }
 
-func (presenter ResponsePresenter) CreateBlog(blog *domain.Blog) {
+func (presenter ResponsePresenter) CreateBlog(blog *domains.Blog) {
 	response := getBlogResponse{Blog: BlogItem(blog)}
 	presenter.Presenter.Created(response)
 }
 
-func BlogItem(blog *domain.Blog) getBlogResponseItem {
+func BlogItem(blog *domains.Blog) getBlogResponseItem {
 	return getBlogResponseItem{
 		Id:        blog.ID,
 		Title:     blog.Title,

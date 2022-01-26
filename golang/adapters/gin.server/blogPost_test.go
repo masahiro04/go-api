@@ -7,6 +7,7 @@ import (
 	server "clean_architecture/golang/adapters/gin.server"
 	mock "clean_architecture/golang/adapters/uc.mock"
 	"clean_architecture/golang/testData"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
 	"gopkg.in/h2non/baloo.v3"
@@ -36,8 +37,8 @@ func TestBlogPost_happyCase(t *testing.T) {
 		BodyString(`
 		{
   			"blog": {
-    			"title": "` + blog.Title + `",
-    			"body": "` + blog.Body + `"
+    			"title": "` + blog.Title.Value() + `",
+    			"body": "` + blog.Body.Value() + `"
   			}
 		}`).
 		Expect(t).

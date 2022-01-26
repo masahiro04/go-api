@@ -10,6 +10,7 @@ import (
 	logger "clean_architecture/golang/adapters/logrus.logger"
 	mock "clean_architecture/golang/adapters/uc.mock"
 	"clean_architecture/golang/testData"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
 	"gopkg.in/h2non/baloo.v3"
@@ -35,12 +36,12 @@ func TestCompanyPatch_happyCase(t *testing.T) {
 	defer ts.Close()
 
 	if err := baloo.New(ts.URL).
-		Put(blogPatchPath + strconv.Itoa(blog.ID)).
+		Put(blogPatchPath + strconv.Itoa(blog.ID.Value())).
 		BodyString(`{
   			"blog": {
-    			"id": "` + strconv.Itoa(blog.ID) + `",
-    			"title": "` + blog.Title + `",
-    			"body": "` + blog.Body + `"
+    			"id": "` + strconv.Itoa(blog.ID.Value()) + `",
+    			"title": "` + blog.Title.Value() + `",
+    			"body": "` + blog.Body.Value() + `"
   			}
 		}`).
 		Expect(t).

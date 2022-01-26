@@ -69,7 +69,7 @@
 				
 				<option value="file6">clean_architecture/golang/adapters/gin.server/blogPost.go (62.5%)</option>
 				
-				<option value="file7">clean_architecture/golang/domains/blog.go (12.5%)</option>
+				<option value="file7">clean_architecture/golang/domains/blog.go (87.5%)</option>
 				
 				<option value="file8">clean_architecture/golang/domains/blog/body.go (100.0%)</option>
 				
@@ -569,27 +569,27 @@ func UpdateBlog(initial *Blog, opts ...func(fields *Blog)) <span class="cov0" ti
         }</span>
 }
 
-func (blogs BlogCollection) ApplyLimitAndOffset(limit, offset int) BlogCollection <span class="cov0" title="0">{
-        if limit &lt;= 0 </span><span class="cov0" title="0">{
+func (blogs BlogCollection) ApplyLimitAndOffset(limit, offset int) BlogCollection <span class="cov8" title="1">{
+        if limit &lt;= 0 </span><span class="cov8" title="1">{
                 return []*Blog{}
         }</span>
 
-        <span class="cov0" title="0">blogsSize := len(blogs)
+        <span class="cov8" title="1">blogsSize := len(blogs)
         min := offset
-        if min &lt; 0 </span><span class="cov0" title="0">{
+        if min &lt; 0 </span><span class="cov8" title="1">{
                 min = 0
         }</span>
 
-        <span class="cov0" title="0">if min &gt; blogsSize </span><span class="cov0" title="0">{
+        <span class="cov8" title="1">if min &gt; blogsSize </span><span class="cov8" title="1">{
                 return []*Blog{}
         }</span>
 
-        <span class="cov0" title="0">max := min + limit
-        if max &gt; blogsSize </span><span class="cov0" title="0">{
+        <span class="cov8" title="1">max := min + limit
+        if max &gt; blogsSize </span><span class="cov8" title="1">{
                 max = blogsSize
         }</span>
 
-        <span class="cov0" title="0">return blogs[min:max]</span>
+        <span class="cov8" title="1">return blogs[min:max]</span>
 }
 </pre>
 		

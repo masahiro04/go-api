@@ -87,8 +87,8 @@ func (rw rw) GetById(id int) (*domains.Blog, error) {
 func (rw rw) Create(newBlog domains.Blog) (*domains.Blog, error) {
 	var id int
 	err := rw.store.QueryRow(
-		`INSERT INTO blogs (title, body, created_at, updated_at) VALUES($1,$2,$3,$4) RETURNING id`,
-		newBlog.Title, newBlog.Body, time.Now(), time.Now()).Scan(&id)
+		CreateSql,
+		newBlog.Title().Value(), newBlog.Body().Value(), time.Now(), time.Now()).Scan(&id)
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -104,7 +104,7 @@ func (rw rw) Create(newBlog domains.Blog) (*domains.Blog, error) {
 func (rw rw) CreateTx(newBlog domains.Blog, tx *sql.Tx) (*domains.Blog, error) {
 	var id int
 	err := tx.QueryRow(
-		`INSERT INTO blogs (title, body, created_at, updated_at) VALUES($1,$2,$3,$4) RETURNING id`,
+		CreateSql,
 		newBlog.Title, newBlog.Body, time.Now(), time.Now()).Scan(&id)
 	if err != nil {
 		log.Println(err)

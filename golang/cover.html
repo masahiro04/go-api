@@ -55,7 +55,7 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">clean_architecture/golang/adapters/dao.blogRW/readWriter.go (43.3%)</option>
+				<option value="file0">clean_architecture/golang/adapters/dao.blogRW/readWriter.go (75.0%)</option>
 				
 				<option value="file1">clean_architecture/golang/adapters/gin.server/ROUTER.go (66.7%)</option>
 				
@@ -189,17 +189,17 @@ func (rw rw) GetById(id int) (*domains.Blog, error) <span class="cov8" title="1"
 }
 
 //
-func (rw rw) Create(newBlog domains.Blog) (*domains.Blog, error) <span class="cov0" title="0">{
+func (rw rw) Create(newBlog domains.Blog) (*domains.Blog, error) <span class="cov8" title="1">{
         var id int
         err := rw.store.QueryRow(
-                `INSERT INTO blogs (title, body, created_at, updated_at) VALUES($1,$2,$3,$4) RETURNING id`,
-                newBlog.Title, newBlog.Body, time.Now(), time.Now()).Scan(&amp;id)
-        if err != nil </span><span class="cov0" title="0">{
+                CreateSql,
+                newBlog.Title().Value(), newBlog.Body().Value(), time.Now(), time.Now()).Scan(&amp;id)
+        if err != nil </span><span class="cov8" title="1">{
                 log.Println(err)
                 return nil, err
         }</span>
 
-        <span class="cov0" title="0">_id, _ := blogModel.NewId(newBlog.ID().Value())
+        <span class="cov8" title="1">_id, _ := blogModel.NewId(newBlog.ID().Value())
         title, _ := blogModel.NewTitle(newBlog.Title().Value())
         body, _ := blogModel.NewBody(newBlog.Body().Value())
         blog := domains.BuildBlog(_id, title, body)
@@ -209,7 +209,7 @@ func (rw rw) Create(newBlog domains.Blog) (*domains.Blog, error) <span class="co
 func (rw rw) CreateTx(newBlog domains.Blog, tx *sql.Tx) (*domains.Blog, error) <span class="cov0" title="0">{
         var id int
         err := tx.QueryRow(
-                `INSERT INTO blogs (title, body, created_at, updated_at) VALUES($1,$2,$3,$4) RETURNING id`,
+                CreateSql,
                 newBlog.Title, newBlog.Body, time.Now(), time.Now()).Scan(&amp;id)
         if err != nil </span><span class="cov0" title="0">{
                 log.Println(err)
@@ -224,17 +224,17 @@ func (rw rw) CreateTx(newBlog domains.Blog, tx *sql.Tx) (*domains.Blog, error) <
 }
 
 //
-func (rw rw) Update(id int, blog domains.Blog) (*domains.Blog, error) <span class="cov0" title="0">{
+func (rw rw) Update(id int, blog domains.Blog) (*domains.Blog, error) <span class="cov8" title="1">{
         _, err := rw.store.Exec(
-                `UPDATE blogs SET title = $2, body = $3, updated_at = $4 WHERE id = $1`,
-                id, blog.Title, blog.Body, time.Now())
+                UpdateSql,
+                id, blog.Title().Value(), blog.Body().Value(), time.Now())
 
-        if err != nil </span><span class="cov0" title="0">{
+        if err != nil </span><span class="cov8" title="1">{
                 log.Println(err)
                 return nil, err
         }</span>
 
-        <span class="cov0" title="0">_id, _ := blogModel.NewId(id)
+        <span class="cov8" title="1">_id, _ := blogModel.NewId(id)
         title, _ := blogModel.NewTitle(blog.Title().Value())
         body, _ := blogModel.NewBody(blog.Body().Value())
         newBlog := domains.BuildBlog(_id, title, body)

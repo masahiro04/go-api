@@ -9,55 +9,6 @@ package blogRW_test
 // }
 
 //
-// func TestRw_happyCreate(t *testing.T) {
-// 	db, mock, err := sqlmock.New()
-// 	if err != nil {
-// 		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
-// 	}
-// 	defer db.Close()
-//
-// 	rw := blogRW.New(db)
-// 	blog := testData.Blog()
-// 	//id := 1
-// 	mock.ExpectQuery(regexp.QuoteMeta(
-// 		`INSERT INTO blogs (title, body, created_at, updated_at) VALUES($1,$2,$3,$4) RETURNING id`)).
-// 		WithArgs(blog.Title, blog.Body, AnyTime{}, AnyTime{}).
-// 		WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(blog.ID))
-//
-// 	if _, err = rw.Create(blog); err != nil {
-// 		t.Errorf("error was not expected while updating stats: %s", err)
-// 	}
-//
-// 	// 使用されたモックDBが期待通りの値を持っているかを検証
-// 	if err := mock.ExpectationsWereMet(); err != nil {
-// 		t.Errorf("there were unfulfilled expectations: %s", err)
-// 	}
-// }
-//
-// func TestRw_unHappyCreate(t *testing.T) {
-// 	db, mock, err := sqlmock.New()
-// 	if err != nil {
-// 		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
-// 	}
-// 	defer db.Close()
-//
-// 	rw := blogRW.New(db)
-// 	blog := testData.Blog()
-//
-// 	mock.ExpectQuery(regexp.QuoteMeta(
-// 		`INSERT INTO blogs (title, body, created_at, updated_at) VALUES($1,$2,$3,$4) RETURNING id`)).
-// 		WillReturnError(fmt.Errorf("some error"))
-//
-// 	if _, err = rw.Create(blog); err == nil {
-// 		t.Errorf("error was not expected while updating stats: %s", err)
-// 	}
-//
-// 	// err == nil -> つまり、エラーがあればpassするということ
-// 	if err := mock.ExpectationsWereMet(); err != nil {
-// 		t.Errorf("there were unfulfilled expectations: %s", err)
-// 	}
-// }
-//
 
 //
 // func TestRw_happyDelete(t *testing.T) {

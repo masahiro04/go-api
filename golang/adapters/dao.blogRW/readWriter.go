@@ -121,8 +121,8 @@ func (rw rw) CreateTx(newBlog domains.Blog, tx *sql.Tx) (*domains.Blog, error) {
 //
 func (rw rw) Update(id int, blog domains.Blog) (*domains.Blog, error) {
 	_, err := rw.store.Exec(
-		`UPDATE blogs SET title = $2, body = $3, updated_at = $4 WHERE id = $1`,
-		id, blog.Title, blog.Body, time.Now())
+		UpdateSql,
+		id, blog.Title().Value(), blog.Body().Value(), time.Now())
 
 	if err != nil {
 		log.Println(err)

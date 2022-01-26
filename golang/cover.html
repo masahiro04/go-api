@@ -57,15 +57,39 @@
 				
 				<option value="file0">clean_architecture/golang/adapters/dao.blogRW/readWriter.go (23.3%)</option>
 				
-				<option value="file1">clean_architecture/golang/domains/blog.go (100.0%)</option>
+				<option value="file1">clean_architecture/golang/adapters/gin.server/ROUTER.go (66.7%)</option>
 				
-				<option value="file2">clean_architecture/golang/domains/blog/body.go (100.0%)</option>
+				<option value="file2">clean_architecture/golang/adapters/gin.server/blogDelete.go (62.5%)</option>
 				
-				<option value="file3">clean_architecture/golang/domains/blog/id.go (100.0%)</option>
+				<option value="file3">clean_architecture/golang/adapters/gin.server/blogGet.go (62.5%)</option>
 				
-				<option value="file4">clean_architecture/golang/domains/blog/title.go (100.0%)</option>
+				<option value="file4">clean_architecture/golang/adapters/gin.server/blogGetAll.go (100.0%)</option>
 				
-				<option value="file5">clean_architecture/golang/domains/blogs.go (100.0%)</option>
+				<option value="file5">clean_architecture/golang/adapters/gin.server/blogPatch.go (53.8%)</option>
+				
+				<option value="file6">clean_architecture/golang/adapters/gin.server/blogPost.go (62.5%)</option>
+				
+				<option value="file7">clean_architecture/golang/domains/blog.go (100.0%)</option>
+				
+				<option value="file8">clean_architecture/golang/domains/blog/body.go (100.0%)</option>
+				
+				<option value="file9">clean_architecture/golang/domains/blog/id.go (100.0%)</option>
+				
+				<option value="file10">clean_architecture/golang/domains/blog/title.go (100.0%)</option>
+				
+				<option value="file11">clean_architecture/golang/domains/blogs.go (100.0%)</option>
+				
+				<option value="file12">clean_architecture/golang/usecases/HANDLER.go (55.6%)</option>
+				
+				<option value="file13">clean_architecture/golang/usecases/blogCreate.go (71.4%)</option>
+				
+				<option value="file14">clean_architecture/golang/usecases/blogDelete.go (100.0%)</option>
+				
+				<option value="file15">clean_architecture/golang/usecases/blogEdit.go (76.9%)</option>
+				
+				<option value="file16">clean_architecture/golang/usecases/blogGet.go (100.0%)</option>
+				
+				<option value="file17">clean_architecture/golang/usecases/blogGetAll.go (100.0%)</option>
 				
 				</select>
 			</div>
@@ -110,24 +134,16 @@ type BlogDto struct {
 
 func (rw rw) GetAll() (*domains.Blogs, error) <span class="cov8" title="1">{
         var blogs []domains.Blog
-        rows, err := rw.store.Query(`SELECT id, title, body, created_at, updated_at FROM blogs WHERE deleted_at IS NULL`)
+        rows, err := rw.store.Query(GetAllSql)
 
         if err != nil </span><span class="cov0" title="0">{
                 return nil, err
         }</span>
 
-        // この辺りの記事とても参考になる
-        // https://golang.shop/post/go-databasesql-09-unknown-columns-ja/
-        // https://golang.hotexamples.com/jp/examples/database.sql/Rows/Columns/golang-rows-columns-method-examples.html
-        // https://qiita.com/wanko/items/2e6b5dd4867adaa24ec6
-        // https://sourjp.github.io/posts/go-db/
-        // http://go-database-sql.org/retrieving.html
-
         <span class="cov8" title="1">for rows.Next() </span><span class="cov8" title="1">{
                 var blogDto BlogDto
 
                 if err = rows.Scan(
-                        // TODO(okubo): habase参考にscanする
                         &amp;blogDto.ID,
                         &amp;blogDto.Title,
                         &amp;blogDto.Body,
@@ -205,7 +221,6 @@ func (rw rw) CreateTx(newBlog domains.Blog, tx *sql.Tx) (*domains.Blog, error) <
         body, _ := blogModel.NewBody(newBlog.Body().Value())
         blog := domains.BuildBlog(_id, title, body)
         return &amp;blog, nil</span>
-        //return &amp;blog, nil
 }
 
 //
@@ -236,7 +251,272 @@ func (rw rw) Delete(id int) error <span class="cov0" title="0">{
 }
 </pre>
 		
-		<pre class="file" id="file1" style="display: none">package domains
+		<pre class="file" id="file1" style="display: none">package server
+
+import (
+        "clean_architecture/golang/usecases"
+        "fmt"
+        "github.com/gin-gonic/gin"
+        "github.com/gin-gonic/gin/render"
+)
+
+type RouterHandler struct {
+        ucHandler uc.Handler
+        Logger    uc.Logger
+}
+
+func NewRouter(i uc.Handler) RouterHandler <span class="cov8" title="1">{
+        return RouterHandler{
+                ucHandler: i,
+        }
+}</span>
+
+func NewRouterWithLogger(i uc.Handler, logger uc.Logger) RouterHandler <span class="cov0" title="0">{
+        return RouterHandler{
+                ucHandler: i,
+                Logger:    logger,
+        }
+}</span>
+
+func (rH RouterHandler) SetRoutes(r *gin.Engine) <span class="cov8" title="1">{
+        api := r.Group("/api")
+        api.Use(rH.errorCatcher())
+
+        rH.blogsRoutes(api)
+}</span>
+
+func (rH RouterHandler) blogsRoutes(api *gin.RouterGroup) <span class="cov8" title="1">{
+        blogs := api.Group("/blogs")
+        blogs.GET("", rH.blogsGetAll)
+        blogs.GET("/:id", rH.blogGet)
+        blogs.POST("", rH.blogPost)
+        blogs.PUT("/:id", rH.blogPatch)
+        blogs.PATCH("/:id", rH.blogPatch)
+        blogs.DELETE("/:id", rH.blogDelete)
+}</span>
+
+func (rH RouterHandler) errorCatcher() gin.HandlerFunc <span class="cov8" title="1">{
+        return func(c *gin.Context) </span><span class="cov8" title="1">{
+                c.Next()
+                if c.Writer.Status() &gt; 399 </span><span class="cov0" title="0">{
+                        var errorMessages []map[string]string
+                        for _, m := range c.Errors.Errors() </span><span class="cov0" title="0">{
+                                message := make(map[string]string, len(c.Errors.Errors()))
+                                message["message"] = m
+                                errorMessages = append(errorMessages, message)
+                        }</span>
+
+                        <span class="cov0" title="0">c.Render(
+                                c.Writer.Status(),
+                                render.JSON{
+                                        Data: gin.H{
+                                                "errors": errorMessages,
+                                        },
+                                },
+                        )</span>
+                }
+        }
+}
+
+// log is used to "partially apply" the title to the rH.logger.Log function
+// so we can see in the logs from which route the log comes from
+func (rH RouterHandler) log(title string) func(...interface{}) <span class="cov8" title="1">{
+        return func(logs ...interface{}) </span><span class="cov0" title="0">{
+                rH.Logger.Log(title, logs)
+        }</span>
+}
+
+func (RouterHandler) MethodAndPath(c *gin.Context) string <span class="cov8" title="1">{
+        return fmt.Sprintf("%s %s", c.Request.Method, c.Request.URL.Path)
+}</span>
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package server
+
+import (
+        "net/http"
+        "strconv"
+
+        formatter "clean_architecture/golang/adapters/json.formatter"
+        presenter "clean_architecture/golang/adapters/json.presenter"
+        "clean_architecture/golang/usecases"
+
+        "github.com/gin-gonic/gin"
+)
+
+func (rH RouterHandler) blogDelete(c *gin.Context) <span class="cov8" title="1">{
+        log := rH.log(rH.MethodAndPath(c))
+
+        id, err := strconv.Atoi(c.Param("id"))
+        if err != nil </span><span class="cov0" title="0">{
+                log(err)
+                c.Status(http.StatusBadRequest)
+                return
+        }</span>
+
+        <span class="cov8" title="1">useCase := uc.DeleteBlogUseCase{
+                OutputPort: formatter.NewPresenter(presenter.New(c)),
+                InputPort: uc.DeleteBlogParams{
+                        Id: id,
+                },
+        }
+        rH.ucHandler.BlogDelete(useCase)</span>
+}
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package server
+
+import (
+        "net/http"
+        "strconv"
+
+        presenter "clean_architecture/golang/adapters/json.presenter"
+        "clean_architecture/golang/usecases"
+
+        formatter "clean_architecture/golang/adapters/json.formatter"
+        "github.com/gin-gonic/gin"
+)
+
+func (rH RouterHandler) blogGet(c *gin.Context) <span class="cov8" title="1">{
+        log := rH.log(rH.MethodAndPath(c))
+
+        id, err := strconv.Atoi(c.Param("id"))
+        if err != nil </span><span class="cov0" title="0">{
+                log(err)
+                c.Status(http.StatusBadRequest)
+                return
+        }</span>
+
+        <span class="cov8" title="1">useCase := uc.GetBlogUseCase{
+                OutputPort: formatter.NewPresenter(presenter.New(c)),
+                InputPort:  uc.GetBlogParams{Id: id},
+        }
+        rH.ucHandler.BlogGet(useCase)</span>
+}
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package server
+
+import (
+        "strconv"
+
+        formatter "clean_architecture/golang/adapters/json.formatter"
+        presenter "clean_architecture/golang/adapters/json.presenter"
+        "clean_architecture/golang/usecases"
+
+        "github.com/gin-gonic/gin"
+)
+
+const (
+        defaultLimit  = 20
+        defaultOffset = 0
+)
+
+func (rH RouterHandler) blogsGetAll(c *gin.Context) <span class="cov8" title="1">{
+        limit, err := strconv.Atoi(c.Query("limit"))
+        if err != nil </span><span class="cov8" title="1">{
+                limit = defaultLimit
+        }</span>
+
+        <span class="cov8" title="1">offset, err := strconv.Atoi(c.Query("offset"))
+        if err != nil </span><span class="cov8" title="1">{
+                offset = defaultOffset
+        }</span>
+
+        <span class="cov8" title="1">useCase := uc.GetBlogsUseCase{
+                OutputPort: formatter.NewPresenter(presenter.New(c)),
+                InputPort:  uc.GetBlogsParams{Limit: limit, Offset: offset},
+        }
+
+        rH.ucHandler.BlogGetAll(useCase)</span>
+}
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">package server
+
+import (
+        "net/http"
+        "strconv"
+
+        formatter "clean_architecture/golang/adapters/json.formatter"
+        presenter "clean_architecture/golang/adapters/json.presenter"
+        "clean_architecture/golang/usecases"
+
+        "github.com/gin-gonic/gin"
+)
+
+func (rH RouterHandler) blogPatch(c *gin.Context) <span class="cov8" title="1">{
+        log := rH.log(rH.MethodAndPath(c))
+
+        req := &amp;BlogRequest{}
+        if err := c.BindJSON(req); err != nil </span><span class="cov0" title="0">{
+                log(err)
+                c.Status(http.StatusBadRequest)
+                return
+        }</span>
+
+        <span class="cov8" title="1">id, err := strconv.Atoi(c.Param("id"))
+        if err != nil </span><span class="cov0" title="0">{
+                log(err)
+                c.Status(http.StatusBadRequest)
+                return
+        }</span>
+
+        <span class="cov8" title="1">useCase := uc.EditBlogUseCase{
+                OutputPort: formatter.NewPresenter(presenter.New(c)),
+                InputPort: uc.EditBlogParams{
+                        Id:    id,
+                        Title: *req.Blog.Title,
+                        Body:  *req.Blog.Body,
+                },
+        }
+        rH.ucHandler.BlogEdit(useCase)</span>
+
+}
+</pre>
+		
+		<pre class="file" id="file6" style="display: none">package server
+
+import (
+        "net/http"
+
+        formatter "clean_architecture/golang/adapters/json.formatter"
+        presenter "clean_architecture/golang/adapters/json.presenter"
+        "clean_architecture/golang/usecases"
+
+        "github.com/gin-gonic/gin"
+)
+
+type BlogRequest struct {
+        Blog struct {
+                Title *string `json:"title" binding:"required"`
+                Body  *string `json:"body"`
+        } `json:"blog" binding:"required"`
+}
+
+func (rH RouterHandler) blogPost(c *gin.Context) <span class="cov8" title="1">{
+        log := rH.log(rH.MethodAndPath(c))
+        req := &amp;BlogRequest{}
+
+        if err := c.BindJSON(req); err != nil </span><span class="cov0" title="0">{
+                log(err)
+                c.Status(http.StatusBadRequest)
+                return
+        }</span>
+
+        <span class="cov8" title="1">useCase := uc.CreateBlogUseCase{
+                OutputPort: formatter.NewPresenter(presenter.New(c)),
+                InputPort: uc.CreateBlogParams{
+                        Title: *req.Blog.Title,
+                        Body:  *req.Blog.Body,
+                },
+        }
+
+        rH.ucHandler.BlogCreate(useCase)</span>
+}
+</pre>
+		
+		<pre class="file" id="file7" style="display: none">package domains
 
 import (
         "clean_architecture/golang/domains/blog"
@@ -298,7 +578,7 @@ func (b *Blog) UpdateBody(body blog.Body) *Blog <span class="cov8" title="1">{
 }</span>
 </pre>
 		
-		<pre class="file" id="file2" style="display: none">package blog
+		<pre class="file" id="file8" style="display: none">package blog
 
 type Body struct {
         // [Blogの説明を表現する値オブジェクト]
@@ -332,7 +612,7 @@ func (body Body) Value() string <span class="cov8" title="1">{
 }</span>
 </pre>
 		
-		<pre class="file" id="file3" style="display: none">package blog
+		<pre class="file" id="file9" style="display: none">package blog
 
 import "strconv"
 
@@ -353,11 +633,7 @@ func (id ID) Value() int <span class="cov8" title="1">{
 }</span>
 </pre>
 		
-		<pre class="file" id="file4" style="display: none">package blog
-
-import (
-        "fmt"
-)
+		<pre class="file" id="file10" style="display: none">package blog
 
 type Title struct {
         // [Blogの説明を表現する値オブジェクト]
@@ -368,8 +644,6 @@ type Title struct {
 }
 
 func NewTitle(value string) (Title, error) <span class="cov8" title="1">{
-        fmt.Println("newTitle")
-        fmt.Println(value)
         // TODO(okubo): validationがうまく起動しないので、修正する
 
         // err := validator.Validate(value)
@@ -393,7 +667,7 @@ func (title Title) Value() string <span class="cov8" title="1">{
 }</span>
 </pre>
 		
-		<pre class="file" id="file5" style="display: none">package domains
+		<pre class="file" id="file11" style="display: none">package domains
 
 type Blogs struct {
         // Blogの集合を表現
@@ -436,6 +710,247 @@ func (blogs *Blogs) ApplyLimitAndOffset(limit, offset int) []Blog <span class="c
         }</span>
 
         <span class="cov8" title="1">return blogs.Value()[min:max]</span>
+}
+</pre>
+		
+		<pre class="file" id="file12" style="display: none">package uc
+
+import (
+        "log"
+)
+
+type Handler interface {
+        BlogLogic
+}
+
+type BlogLogic interface {
+        BlogGetAll(uc GetBlogsUseCase)
+        BlogGet(uc GetBlogUseCase)
+        BlogCreate(uc CreateBlogUseCase)
+        BlogEdit(uc EditBlogUseCase)
+        BlogDelete(uc DeleteBlogUseCase)
+}
+
+type HandlerConstructor struct {
+        Logger        Logger
+        Presenter     Presenter
+        BlogRW        BlogRW
+        Validator     Validator
+        DBTransaction DBTransaction
+}
+
+func (c HandlerConstructor) New() Handler <span class="cov8" title="1">{
+        if c.Logger == nil </span><span class="cov0" title="0">{
+                log.Fatal("missing Logger")
+        }</span>
+        <span class="cov8" title="1">if c.BlogRW == nil </span><span class="cov0" title="0">{
+                log.Fatal("missing CompanyRW")
+        }</span>
+        <span class="cov8" title="1">if c.Validator == nil </span><span class="cov0" title="0">{
+                log.Fatal("missing Validator")
+        }</span>
+        <span class="cov8" title="1">if c.DBTransaction == nil </span><span class="cov0" title="0">{
+                log.Fatal("missing DBTransaction")
+        }</span>
+
+        <span class="cov8" title="1">return interactor{
+                logger:        c.Logger,
+                presenter:     c.Presenter,
+                blogRW:        c.BlogRW,
+                validator:     c.Validator,
+                dbTransaction: c.DBTransaction,
+        }</span>
+}
+</pre>
+		
+		<pre class="file" id="file13" style="display: none">package uc
+
+import (
+        "clean_architecture/golang/domains"
+        "clean_architecture/golang/domains/blog"
+)
+
+type CreateBlogUseCase struct {
+        OutputPort Presenter
+        InputPort  CreateBlogParams
+}
+
+type CreateBlogParams struct {
+        Title string
+        Body  string
+}
+
+func (i interactor) BlogCreate(uc CreateBlogUseCase) <span class="cov8" title="1">{
+        title, err := blog.NewTitle(uc.InputPort.Title)
+        if err != nil </span><span class="cov0" title="0">{
+                uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+                return
+        }</span>
+
+        <span class="cov8" title="1">body, err := blog.NewBody(uc.InputPort.Body)
+        if err != nil </span><span class="cov0" title="0">{
+                uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+                return
+        }</span>
+
+        <span class="cov8" title="1">newBlog := domains.NewBlog(title, body)
+
+        createdBlog, err := i.blogRW.Create(newBlog)
+        if err != nil </span><span class="cov8" title="1">{
+                uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+                return
+        }</span>
+
+        <span class="cov8" title="1">uc.OutputPort.CreateBlog(createdBlog)</span>
+}
+</pre>
+		
+		<pre class="file" id="file14" style="display: none">package uc
+
+import (
+        "clean_architecture/golang/domains"
+)
+
+type DeleteBlogUseCase struct {
+        OutputPort Presenter
+        InputPort  DeleteBlogParams
+}
+
+type DeleteBlogParams struct {
+        Id int
+}
+
+func (i interactor) BlogDelete(uc DeleteBlogUseCase) <span class="cov8" title="1">{
+        if err := i.blogRW.Delete(uc.InputPort.Id); err != nil </span><span class="cov8" title="1">{
+                uc.OutputPort.Raise(domains.BadRequest, err)
+                return
+        }</span>
+}
+</pre>
+		
+		<pre class="file" id="file15" style="display: none">package uc
+
+import (
+        "clean_architecture/golang/domains"
+        blog2 "clean_architecture/golang/domains/blog"
+)
+
+type EditBlogUseCase struct {
+        OutputPort Presenter
+        InputPort  EditBlogParams
+}
+
+type EditBlogParams struct {
+        Id    int
+        Title string
+        Body  string
+}
+
+// func (req EditBlogParams) getEditableFields() map[domains.BlogUpdatableProperty]*string {
+//         return map[domains.BlogUpdatableProperty]*string{
+//                 domains.BlogTitle: &amp;req.Title,
+//                 domains.BlogBody:  &amp;req.Body,
+//         }
+// }
+
+func (i interactor) BlogEdit(uc EditBlogUseCase) <span class="cov8" title="1">{
+        var blog *domains.Blog
+        var err error
+
+        blog, err = i.blogRW.GetById(uc.InputPort.Id)
+        if err != nil </span><span class="cov8" title="1">{
+                uc.OutputPort.Raise(domains.BadRequest, err)
+                return
+        }</span>
+        <span class="cov8" title="1">if blog == nil </span><span class="cov8" title="1">{
+                uc.OutputPort.Raise(domains.NotFound, errNotFound)
+                return
+        }</span>
+        <span class="cov8" title="1">id, _ := blog2.NewId(uc.InputPort.Id)
+        if blog.ID() != id </span><span class="cov0" title="0">{
+                uc.OutputPort.Raise(domains.UnprocessableEntity, errWrongCompany)
+                return
+        }</span>
+
+        <span class="cov8" title="1">title, err := blog2.UpdateTitle(&amp;uc.InputPort.Title)
+        if err != nil </span><span class="cov0" title="0">{
+                uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+                return
+        }</span>
+
+        <span class="cov8" title="1">body, err := blog2.UpdateBody(&amp;uc.InputPort.Body)
+        if err != nil </span><span class="cov0" title="0">{
+                uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+                return
+        }</span>
+
+        <span class="cov8" title="1">updatedBlog, err := i.blogRW.Update(uc.InputPort.Id, domains.BuildBlog(id, *title, *body))
+        if err != nil </span><span class="cov8" title="1">{
+                uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+                return
+        }</span>
+
+        <span class="cov8" title="1">uc.OutputPort.GetBlog(updatedBlog)</span>
+}
+</pre>
+		
+		<pre class="file" id="file16" style="display: none">package uc
+
+import (
+        "clean_architecture/golang/domains"
+)
+
+type GetBlogUseCase struct {
+        OutputPort Presenter
+        InputPort  GetBlogParams
+}
+
+type GetBlogParams struct {
+        Id int
+}
+
+func (i interactor) BlogGet(uc GetBlogUseCase) <span class="cov8" title="1">{
+        blog, err := i.blogRW.GetById(uc.InputPort.Id)
+        if err != nil </span><span class="cov8" title="1">{
+                uc.OutputPort.Raise(domains.BadRequest, err)
+                return
+        }</span>
+
+        <span class="cov8" title="1">if blog == nil </span><span class="cov8" title="1">{
+                uc.OutputPort.Raise(domains.NotFound, errNotFound)
+                return
+        }</span>
+
+        <span class="cov8" title="1">uc.OutputPort.GetBlog(blog)</span>
+}
+</pre>
+		
+		<pre class="file" id="file17" style="display: none">package uc
+
+import (
+        "clean_architecture/golang/domains"
+)
+
+type GetBlogsUseCase struct {
+        OutputPort Presenter
+        InputPort  GetBlogsParams
+}
+
+type GetBlogsParams struct {
+        Limit  int
+        Offset int
+}
+
+func (i interactor) BlogGetAll(uc GetBlogsUseCase) <span class="cov8" title="1">{
+        blogs, err := i.blogRW.GetAll()
+        if err != nil </span><span class="cov8" title="1">{
+                uc.OutputPort.Raise(domains.BadRequest, err)
+                return
+        }</span>
+
+        <span class="cov8" title="1">blogs.ApplyLimitAndOffset(uc.InputPort.Limit, uc.InputPort.Offset)
+
+        uc.OutputPort.GetBlogs(blogs)</span>
 }
 </pre>
 		

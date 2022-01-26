@@ -29,24 +29,16 @@ type BlogDto struct {
 
 func (rw rw) GetAll() (*domains.Blogs, error) {
 	var blogs []domains.Blog
-	rows, err := rw.store.Query(`SELECT id, title, body, created_at, updated_at FROM blogs WHERE deleted_at IS NULL`)
+	rows, err := rw.store.Query(GetAllSql)
 
 	if err != nil {
 		return nil, err
 	}
 
-	// この辺りの記事とても参考になる
-	// https://golang.shop/post/go-databasesql-09-unknown-columns-ja/
-	// https://golang.hotexamples.com/jp/examples/database.sql/Rows/Columns/golang-rows-columns-method-examples.html
-	// https://qiita.com/wanko/items/2e6b5dd4867adaa24ec6
-	// https://sourjp.github.io/posts/go-db/
-	// http://go-database-sql.org/retrieving.html
-
 	for rows.Next() {
 		var blogDto BlogDto
 
 		if err = rows.Scan(
-			// TODO(okubo): habase参考にscanする
 			&blogDto.ID,
 			&blogDto.Title,
 			&blogDto.Body,
@@ -124,7 +116,6 @@ func (rw rw) CreateTx(newBlog domains.Blog, tx *sql.Tx) (*domains.Blog, error) {
 	body, _ := blogModel.NewBody(newBlog.Body().Value())
 	blog := domains.BuildBlog(_id, title, body)
 	return &blog, nil
-	//return &blog, nil
 }
 
 //

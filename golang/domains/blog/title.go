@@ -1,9 +1,5 @@
 package blog
 
-import (
-	"fmt"
-)
-
 type Title struct {
 	// [Blogの説明を表現する値オブジェクト]
 	// バリデーションルールは以下
@@ -13,8 +9,6 @@ type Title struct {
 }
 
 func NewTitle(value string) (Title, error) {
-	fmt.Println("newTitle")
-	fmt.Println(value)
 	// TODO(okubo): validationがうまく起動しないので、修正する
 
 	// err := validator.Validate(value)

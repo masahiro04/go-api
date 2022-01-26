@@ -1,18 +1,16 @@
 package blogRW_test
 
 import (
-	"database/sql/driver"
 	"testing"
-	"time"
 )
 
 // AnyTimeはテストを通すための設定。公式を参考に実装
-type AnyTime struct{}
-
-func (a AnyTime) Match(v driver.Value) bool {
-	_, ok := v.(time.Time)
-	return ok
-}
+// type AnyTime struct{}
+//
+// func (a AnyTime) Match(v driver.Value) bool {
+// 	_, ok := v.(time.Time)
+// 	return ok
+// }
 
 func TestRw_happyGetAll(t *testing.T) {
 	// db, mock, err := sqlmock.New()
@@ -26,7 +24,7 @@ func TestRw_happyGetAll(t *testing.T) {
 	//
 	// // DBモック用意
 	// mock.ExpectQuery(regexp.QuoteMeta(
-	// 	`SELECT id, title, body, created_at, updated_at FROM blogs WHERE deleted_at IS NULL`)).
+	// 	regexp.QuoteMeta(blogRW.GetAllSql))).
 	// 	WithArgs().
 	// 	WillReturnRows(mock.NewRows([]string{
 	// 		"id",
@@ -48,9 +46,11 @@ func TestRw_happyGetAll(t *testing.T) {
 	// if err != nil {
 	// 	t.Errorf("error was not expected while updating stats: %s", err)
 	// }
+	//
 	// assert.NotEmpty(t, blogs)
 	// assert.NoError(t, err)
-	// assert.Len(t, blogs, 1)
+	// assert.Equal(t, blogs.Size(), 1)
+	//
 	// //// 使用されたモックDBが期待通りの値を持っているかを検証
 	// if err := mock.ExpectationsWereMet(); err != nil {
 	// 	t.Errorf("there were unfulfilled expectations: %s", err)

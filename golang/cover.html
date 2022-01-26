@@ -69,23 +69,25 @@
 				
 				<option value="file6">clean_architecture/golang/adapters/gin.server/blogPost.go (62.5%)</option>
 				
-				<option value="file7">clean_architecture/golang/domains/blog/body.go (100.0%)</option>
+				<option value="file7">clean_architecture/golang/domains/blog.go (12.5%)</option>
 				
-				<option value="file8">clean_architecture/golang/domains/blog/id.go (100.0%)</option>
+				<option value="file8">clean_architecture/golang/domains/blog/body.go (100.0%)</option>
 				
-				<option value="file9">clean_architecture/golang/domains/blog/title.go (100.0%)</option>
+				<option value="file9">clean_architecture/golang/domains/blog/id.go (100.0%)</option>
 				
-				<option value="file10">clean_architecture/golang/usecases/HANDLER.go (55.6%)</option>
+				<option value="file10">clean_architecture/golang/domains/blog/title.go (100.0%)</option>
 				
-				<option value="file11">clean_architecture/golang/usecases/blogCreate.go (71.4%)</option>
+				<option value="file11">clean_architecture/golang/usecases/HANDLER.go (55.6%)</option>
 				
-				<option value="file12">clean_architecture/golang/usecases/blogDelete.go (100.0%)</option>
+				<option value="file12">clean_architecture/golang/usecases/blogCreate.go (71.4%)</option>
 				
-				<option value="file13">clean_architecture/golang/usecases/blogEdit.go (74.1%)</option>
+				<option value="file13">clean_architecture/golang/usecases/blogDelete.go (100.0%)</option>
 				
-				<option value="file14">clean_architecture/golang/usecases/blogGet.go (100.0%)</option>
+				<option value="file14">clean_architecture/golang/usecases/blogEdit.go (74.1%)</option>
 				
-				<option value="file15">clean_architecture/golang/usecases/blogGetAll.go (100.0%)</option>
+				<option value="file15">clean_architecture/golang/usecases/blogGet.go (100.0%)</option>
+				
+				<option value="file16">clean_architecture/golang/usecases/blogGetAll.go (100.0%)</option>
 				
 				</select>
 			</div>
@@ -520,7 +522,78 @@ func (rH RouterHandler) blogPost(c *gin.Context) <span class="cov8" title="1">{
 }
 </pre>
 		
-		<pre class="file" id="file7" style="display: none">package blog
+		<pre class="file" id="file7" style="display: none">package domains
+
+import (
+        "clean_architecture/golang/domains/blog"
+        "time"
+)
+
+type Blog struct {
+        ID        blog.ID
+        Title     blog.Title
+        Body      blog.Body
+        CreatedAt time.Time
+        UpdatedAt time.Time
+        DeletedAt time.Time
+}
+
+func NewBlog(title blog.Title, body blog.Body) Blog <span class="cov8" title="1">{
+        return Blog{
+                Title: title,
+                Body:  body,
+        }
+}</span>
+
+// repositoryやfactory経由の生成において使用する関数
+// 生成時のバリデーションをしないことに注意
+func BuildBlog(id blog.ID, title blog.Title, body blog.Body) Blog <span class="cov8" title="1">{
+        return Blog{
+                ID:    id,
+                Title: title,
+                Body:  body,
+        }
+}</span>
+
+type BlogCollection []*Blog
+type BlogUpdatableProperty int
+
+const (
+        BlogTitle BlogUpdatableProperty = iota
+        BlogBody
+)
+
+func UpdateBlog(initial *Blog, opts ...func(fields *Blog)) <span class="cov0" title="0">{
+        for _, v := range opts </span><span class="cov0" title="0">{
+                v(initial)
+        }</span>
+}
+
+func (blogs BlogCollection) ApplyLimitAndOffset(limit, offset int) BlogCollection <span class="cov0" title="0">{
+        if limit &lt;= 0 </span><span class="cov0" title="0">{
+                return []*Blog{}
+        }</span>
+
+        <span class="cov0" title="0">blogsSize := len(blogs)
+        min := offset
+        if min &lt; 0 </span><span class="cov0" title="0">{
+                min = 0
+        }</span>
+
+        <span class="cov0" title="0">if min &gt; blogsSize </span><span class="cov0" title="0">{
+                return []*Blog{}
+        }</span>
+
+        <span class="cov0" title="0">max := min + limit
+        if max &gt; blogsSize </span><span class="cov0" title="0">{
+                max = blogsSize
+        }</span>
+
+        <span class="cov0" title="0">return blogs[min:max]</span>
+}
+</pre>
+		
+		<pre class="file" id="file8" style="display: none">package blog
 
 type Body struct {
         // [Blogの説明を表現する値オブジェクト]
@@ -554,7 +627,7 @@ func (body Body) Value() string <span class="cov8" title="1">{
 }</span>
 </pre>
 		
-		<pre class="file" id="file8" style="display: none">package blog
+		<pre class="file" id="file9" style="display: none">package blog
 
 import "strconv"
 
@@ -575,7 +648,7 @@ func (id ID) Value() int <span class="cov8" title="1">{
 }</span>
 </pre>
 		
-		<pre class="file" id="file9" style="display: none">package blog
+		<pre class="file" id="file10" style="display: none">package blog
 
 import (
         "fmt"
@@ -615,7 +688,7 @@ func (title Title) Value() string <span class="cov8" title="1">{
 }</span>
 </pre>
 		
-		<pre class="file" id="file10" style="display: none">package uc
+		<pre class="file" id="file11" style="display: none">package uc
 
 import (
         "log"
@@ -665,7 +738,7 @@ func (c HandlerConstructor) New() Handler <span class="cov8" title="1">{
 }
 </pre>
 		
-		<pre class="file" id="file11" style="display: none">package uc
+		<pre class="file" id="file12" style="display: none">package uc
 
 import (
         "clean_architecture/golang/domains"
@@ -707,7 +780,7 @@ func (i interactor) BlogCreate(uc CreateBlogUseCase) <span class="cov8" title="1
 }
 </pre>
 		
-		<pre class="file" id="file12" style="display: none">package uc
+		<pre class="file" id="file13" style="display: none">package uc
 
 import (
         "clean_architecture/golang/domains"
@@ -730,7 +803,7 @@ func (i interactor) BlogDelete(uc DeleteBlogUseCase) <span class="cov8" title="1
 }
 </pre>
 		
-		<pre class="file" id="file13" style="display: none">package uc
+		<pre class="file" id="file14" style="display: none">package uc
 
 import (
         "clean_architecture/golang/domains"
@@ -796,7 +869,7 @@ func (i interactor) BlogEdit(uc EditBlogUseCase) <span class="cov8" title="1">{
 }
 </pre>
 		
-		<pre class="file" id="file14" style="display: none">package uc
+		<pre class="file" id="file15" style="display: none">package uc
 
 import (
         "clean_architecture/golang/domains"
@@ -827,7 +900,7 @@ func (i interactor) BlogGet(uc GetBlogUseCase) <span class="cov8" title="1">{
 }
 </pre>
 		
-		<pre class="file" id="file15" style="display: none">package uc
+		<pre class="file" id="file16" style="display: none">package uc
 
 import (
         "clean_architecture/golang/domains"

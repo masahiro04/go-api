@@ -16,9 +16,6 @@ type CreateBlogParams struct {
 }
 
 func (i interactor) BlogCreate(uc CreateBlogUseCase) {
-	//var newBlog *domains.Blog
-	//var err error
-
 	title, err := blog.NewTitle(uc.InputPort.Title)
 	if err != nil {
 		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
@@ -32,18 +29,6 @@ func (i interactor) BlogCreate(uc CreateBlogUseCase) {
 	}
 
 	newBlog := domains.NewBlog(title, body)
-
-	//// TODO: newするタイミングでValidationを自動で発火させたい
-	//blog = &domains.Blog{
-	//	Title: uc.InputPort.Title,
-	//	Body:  uc.InputPort.Body,
-	//}
-
-	//err = i.validator.Validate(blog)
-	//if err != nil {
-	//	uc.OutputPort.Raise(domains.UnprocessableEntity, err)
-	//	return
-	//}
 
 	createdBlog, err := i.blogRW.Create(newBlog)
 	if err != nil {

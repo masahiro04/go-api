@@ -17,8 +17,8 @@ func TestNewBlogSuccess(t *testing.T) {
 	body, _ := blog.NewBody(bodyInput)
 	newBlog := domains.NewBlog(title, body)
 	t.Run("", func(t *testing.T) {
-		assert.Equal(t, newBlog.Title.Value(), titleInput)
-		assert.Equal(t, newBlog.Body.Value(), bodyInput)
+		assert.Equal(t, newBlog.Title(), title)
+		assert.Equal(t, newBlog.Body(), body)
 	})
 }
 func TestBuildBlogSuccess(t *testing.T) {
@@ -33,8 +33,8 @@ func TestBuildBlogSuccess(t *testing.T) {
 	newBlog := domains.BuildBlog(id, title, body)
 
 	t.Run("", func(t *testing.T) {
-		assert.Equal(t, newBlog.Title.Value(), titleInput)
-		assert.Equal(t, newBlog.Body.Value(), bodyInput)
+		assert.Equal(t, newBlog.Title(), title)
+		assert.Equal(t, newBlog.Body(), body)
 	})
 }
 

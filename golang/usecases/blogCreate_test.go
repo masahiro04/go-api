@@ -18,7 +18,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestBlogCreate_happyCase(t *testing.T) {
+func TestBlogCreateSuccess(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	blog := testData.Blog()
@@ -44,7 +44,7 @@ func TestBlogCreate_happyCase(t *testing.T) {
 	assert.NoError(t, form.Present())
 }
 
-func TestBlogCreate_fails(t *testing.T) {
+func TestBlogCreateFails(t *testing.T) {
 	blog := testData.Blog()
 
 	mutations := map[string]mock.Tester{

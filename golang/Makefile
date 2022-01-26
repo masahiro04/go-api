@@ -38,6 +38,9 @@ dao_test:
 uc_test:
 	go test ./usecases
 
+domain_test:
+	go test ./domains/blog
+
 cover:
 	go test -cover ./... -coverprofile=cover.out.tmp | grep coverage:
 	# 自動生成コードをカバレッジ対象から外し、カバレッジファイルを作成

@@ -9,7 +9,7 @@ type getBlogResponse struct {
 }
 
 type getBlogResponseItem struct {
-	Id        interface{}    `json:"id"`
+	Id        interface{} `json:"id"`
 	Title     interface{} `json:"title"`
 	Body      interface{} `json:"body"`
 	CreatedAt interface{} `json:"createdAt"`
@@ -28,9 +28,9 @@ func (presenter ResponsePresenter) CreateBlog(blog *domains.Blog) {
 
 func BlogItem(blog *domains.Blog) getBlogResponseItem {
 	return getBlogResponseItem{
-		Id:        blog.ID,
-		Title:     blog.Title,
-		Body:      blog.Body,
+		Id:        blog.ID.Value(),
+		Title:     blog.Title.Value(),
+		Body:      blog.Body.Value(),
 		CreatedAt: blog.CreatedAt.UTC().Format(dateLayout),
 		UpdatedAt: blog.UpdatedAt.UTC().Format(dateLayout),
 	}

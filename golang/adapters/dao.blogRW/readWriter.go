@@ -63,7 +63,7 @@ func (rw rw) GetAll() (*domains.Blogs, error) {
 func (rw rw) GetById(id int) (*domains.Blog, error) {
 	var blogDto BlogDto
 
-	result := rw.store.QueryRow(`SELECT id, title, body, created_at, updated_at FROM blogs WHERE id = $1 AND deleted_at IS NULL`, id)
+	result := rw.store.QueryRow(GetByIdSql, id)
 	err := result.Scan(
 		&blogDto.ID,
 		&blogDto.Title,

@@ -7,6 +7,7 @@ import (
 
 	server "clean_architecture/golang/adapters/gin.server"
 	mock "clean_architecture/golang/adapters/uc.mock"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
 	"gopkg.in/h2non/baloo.v3"
@@ -14,7 +15,7 @@ import (
 
 var blogGetAllPath = "/api/blogs"
 
-func TestCompanyGetAll_happyCase(t *testing.T) {
+func TestCompanyGetAllSuccess(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 

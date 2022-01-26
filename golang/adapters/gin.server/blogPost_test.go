@@ -15,7 +15,7 @@ import (
 
 var blogPostPath = "/api/blogs"
 
-func TestBlogPost_happyCase(t *testing.T) {
+func TestBlogPostSuccess(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 

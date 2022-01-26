@@ -18,7 +18,7 @@ import (
 
 var blogDeletePath = "/api/blogs/"
 
-func TestBlogDelete_happyCase(t *testing.T) {
+func TestBlogDeleteSuccess(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 

@@ -26,7 +26,7 @@ func TestBlogGet_happyCase(t *testing.T) {
 	blog := testData.Blog()
 
 	i := mock.NewMockedInteractor(mockCtrl)
-	i.BlogRW.EXPECT().GetById(blog.ID).Return(&blog, nil).Times(1)
+	i.BlogRW.EXPECT().GetById(blog.ID.Value()).Return(&blog, nil).Times(1)
 
 	ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
 	pre := presenter.New(ginContext)
@@ -52,16 +52,16 @@ func TestBlogGet_fails(t *testing.T) {
 			ShouldPass: true},
 		"error return on blogRW.GetById": {
 			Calls: func(i *mock.Interactor) {
-				i.BlogRW.EXPECT().GetById(blog.ID).Return(nil, errors.New(""))
+				i.BlogRW.EXPECT().GetById(blog.ID.Value()).Return(nil, errors.New(""))
 			}},
 		"nil nil return on blogRW.GetById": {
 			Calls: func(i *mock.Interactor) {
-				i.BlogRW.EXPECT().GetById(blog.ID).Return(nil, nil)
+				i.BlogRW.EXPECT().GetById(blog.ID.Value()).Return(nil, nil)
 			}},
 	}
 
 	validCalls := func(i *mock.Interactor) {
-		i.BlogRW.EXPECT().GetById(blog.ID).Return(&blog, nil).AnyTimes()
+		i.BlogRW.EXPECT().GetById(blog.ID.Value()).Return(&blog, nil).AnyTimes()
 	}
 
 	for testName, mutation := range mutations {

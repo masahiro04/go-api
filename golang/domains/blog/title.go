@@ -15,6 +15,7 @@ type Title struct {
 func NewTitle(value string) (Title, error) {
 	fmt.Println("newTitle")
 	fmt.Println(value)
+	// TODO(okubo): validationがうまく起動しないので、修正する
 
 	// err := validator.Validate(value)
 	// if err != nil {

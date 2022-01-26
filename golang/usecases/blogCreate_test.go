@@ -26,7 +26,6 @@ func TestBlogCreate_happyCase(t *testing.T) {
 	// Mock
 	i := mock.NewMockedInteractor(mockCtrl)
 	i.BlogRW.EXPECT().Create(gomock.Any()).Return(&blog, nil).Times(1)
-	i.Validator.EXPECT().Validate(gomock.Any()).Return(nil).Times(1)
 
 	// UseCase
 	ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
@@ -53,10 +52,10 @@ func TestBlogCreate_fails(t *testing.T) {
 			Calls: func(i *mock.Interactor) { // change nothing
 			},
 			ShouldPass: true},
-		"company not validated": {
-			Calls: func(i *mock.Interactor) {
-				i.Validator.EXPECT().Validate(gomock.Any()).Return(errors.New(""))
-			}},
+		// "company not validated": {
+		// 	Calls: func(i *mock.Interactor) {
+		// 		i.Validator.EXPECT().Validate(gomock.Any()).Return(errors.New(""))
+		// 	}},
 		"error return on uRW.GetByUuId": {
 			Calls: func(i *mock.Interactor) {
 				i.BlogRW.EXPECT().Create(gomock.Any()).Return(nil, errors.New("")).Times(1)

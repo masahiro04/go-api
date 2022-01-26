@@ -1,42 +1,54 @@
 package uc_test
 
 import (
+	formatter "clean_architecture/golang/adapters/json.formatter"
+	presenter "clean_architecture/golang/adapters/json.presenter"
+	mock "clean_architecture/golang/adapters/uc.mock"
+	"clean_architecture/golang/domains"
+	"clean_architecture/golang/testData"
+	uc "clean_architecture/golang/usecases"
+	"net/http/httptest"
 	"testing"
+
+	"github.com/gin-gonic/gin"
+	"github.com/golang/mock/gomock"
+	"github.com/stretchr/testify/assert"
 )
 
-// var blog1 = &domains.Blog{ID: 1, Title: "Blog1"}
-// var blog2 = &domains.Blog{ID: 2, Title: "Blog2"}
-// var blog3 = &domains.Blog{ID: 3, Title: "Blog3"}
-// var blog4 = &domains.Blog{ID: 4, Title: "Blog4"}
-// var expectedBlogs = domains.BlogCollection{testData.PointeredBlogs()}
+var blogs = testData.Blogs(5)
+var blog1 = &blogs[0]
+var blog2 = &blogs[1]
+var blog3 = &blogs[2]
+var blog4 = &blogs[3]
+var expectedBlogs = domains.BlogCollection{blog1, blog2, blog3, blog4}
 
 func TestBlogGetAll_happyCase(t *testing.T) {
-	// t.Run("most obvious", func(t *testing.T) {
-	// 	mockCtrl := gomock.NewController(t)
-	// 	defer mockCtrl.Finish()
-	//
-	// 	i := mock.NewMockedInteractor(mockCtrl)
-	// 	i.BlogRW.EXPECT().GetAll().Return(expectedBlogs, nil).Times(1)
-	//
-	// 	// UseCase
-	// 	ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
-	// 	pre := presenter.New(ginContext)
-	// 	form := formatter.NewPresenter(pre)
-	// 	useCase := uc.GetBlogsUseCase{
-	// 		OutputPort: form,
-	// 		InputPort:  uc.GetBlogsParams{Limit: 1, Offset: 1},
-	// 	}
-	//
-	// 	expectedBlogs = domains.BlogCollection(expectedBlogs).ApplyLimitAndOffset(useCase.InputPort.Limit, useCase.InputPort.Offset)
-	// 	count := len(expectedBlogs)
-	// 	assert.Equal(t, 1, count)
-	// 	assert.Equal(t, blog1.Title, "Blog1")
-	//
-	// 	i.GetUCHandler().BlogGetAll(useCase)
-	//
-	// 	assert.NoError(t, nil)
-	// 	assert.NoError(t, form.Present())
-	// })
+	t.Run("most obvious", func(t *testing.T) {
+		mockCtrl := gomock.NewController(t)
+		defer mockCtrl.Finish()
+
+		i := mock.NewMockedInteractor(mockCtrl)
+		i.BlogRW.EXPECT().GetAll().Return(expectedBlogs, nil).Times(1)
+
+		// UseCase
+		ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
+		pre := presenter.New(ginContext)
+		form := formatter.NewPresenter(pre)
+		useCase := uc.GetBlogsUseCase{
+			OutputPort: form,
+			InputPort:  uc.GetBlogsParams{Limit: 1, Offset: 1},
+		}
+
+		expectedBlogs = domains.BlogCollection(expectedBlogs).ApplyLimitAndOffset(useCase.InputPort.Limit, useCase.InputPort.Offset)
+		count := len(expectedBlogs)
+		assert.Equal(t, 1, count)
+		assert.Equal(t, blog1.Title.Value(), "タイトル1")
+
+		i.GetUCHandler().BlogGetAll(useCase)
+
+		assert.NoError(t, nil)
+		assert.NoError(t, form.Present())
+	})
 }
 
 // func TestBlogGetAll_fails(t *testing.T) {

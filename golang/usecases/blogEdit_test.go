@@ -19,16 +19,15 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCompanyEdit_happyCase(t *testing.T) {
+func TestBlogEdit_happyCase(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
 	blog := testData.Blog()
 
 	i := mock.NewMockedInteractor(mockCtrl)
-	i.BlogRW.EXPECT().GetById(blog.ID).Return(&blog, nil).Times(1)
-	i.BlogRW.EXPECT().Update(blog.ID, blog).Return(&blog, nil).Times(1)
-	i.Validator.EXPECT().Validate(gomock.Any()).Return(nil).Times(1)
+	i.BlogRW.EXPECT().GetById(blog.ID.Value()).Return(&blog, nil).Times(1)
+	i.BlogRW.EXPECT().Update(blog.ID.Value(), blog).Return(&blog, nil).Times(1)
 
 	ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
 	pre := presenter.New(ginContext)
@@ -49,7 +48,7 @@ func TestCompanyEdit_happyCase(t *testing.T) {
 	assert.NoError(t, form.Present())
 }
 
-func TestCompanyEdit_fails(t *testing.T) {
+func TestBlogEdit_fails(t *testing.T) {
 	blog := testData.Blog()
 
 	mutations := map[string]mock.Tester{
@@ -58,31 +57,27 @@ func TestCompanyEdit_fails(t *testing.T) {
 		}, ShouldPass: true},
 		"error return on CompanyRW.GetById": {
 			Calls: func(i *mock.Interactor) {
-				i.BlogRW.EXPECT().GetById(blog.ID).Return(nil, errors.New(""))
+				i.BlogRW.EXPECT().GetById(blog.ID.Value()).Return(nil, errors.New(""))
 			}},
 		"nil, nil return on CompanyRW.GetById": {
 			Calls: func(i *mock.Interactor) {
-				i.BlogRW.EXPECT().GetById(blog.ID).Return(nil, nil)
+				i.BlogRW.EXPECT().GetById(blog.ID.Value()).Return(nil, nil)
 			}},
 		// TODO エラーハンドリングしっかりしたあとに有効にする
 		// "uRW.GetByID returns wrong ID": {
 		// 	Calls: func(i *mock.Interactor) {
 		// 		i.BlogRW.EXPECT().GetById(blog.ID).Return(&domains.Blog{ID: 12}, nil)
 		// 	}},
-		"company not validated": {
-			Calls: func(i *mock.Interactor) {
-				i.Validator.EXPECT().Validate(gomock.Any()).Return(errors.New(""))
-			}},
 		"failed to save the user": {
 			Calls: func(i *mock.Interactor) {
-				i.BlogRW.EXPECT().Update(blog.ID, blog).Return(nil, errors.New(""))
+				i.BlogRW.EXPECT().Update(blog.ID.Value(), blog).Return(nil, errors.New(""))
 			}},
 	}
 
 	validCalls := func(i *mock.Interactor) {
 		i.Logger.EXPECT().Log(gomock.Any()).AnyTimes()
-		i.BlogRW.EXPECT().GetById(blog.ID).Return(&blog, nil).AnyTimes()
-		i.BlogRW.EXPECT().Update(blog.ID, blog).Return(&blog, nil).AnyTimes()
+		i.BlogRW.EXPECT().GetById(blog.ID.Value()).Return(&blog, nil).AnyTimes()
+		i.BlogRW.EXPECT().Update(blog.ID.Value(), blog).Return(&blog, nil).AnyTimes()
 		i.Validator.EXPECT().Validate(gomock.Any()).Return(nil).AnyTimes()
 	}
 

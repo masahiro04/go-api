@@ -9,6 +9,7 @@ type Body struct {
 }
 
 func NewBody(value string) (Body, error) {
+	// TODO(okubo): validationがうまく起動しないので、修正する
 	// fmt.Println("newBody")
 	// err := validator.Validate(value)
 	// if err != nil {

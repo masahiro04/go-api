@@ -53,12 +53,12 @@ func TestBlogDelete_fails(t *testing.T) {
 			ShouldPass: true},
 		"failed to save the company": {
 			Calls: func(i *mock.Interactor) {
-				i.BlogRW.EXPECT().Delete(blog.ID).Return(errors.New(""))
+				i.BlogRW.EXPECT().Delete(blog.ID.Value()).Return(errors.New(""))
 			}},
 	}
 
 	validCalls := func(i *mock.Interactor) {
-		i.BlogRW.EXPECT().Delete(blog.ID).Return(nil).AnyTimes()
+		i.BlogRW.EXPECT().Delete(blog.ID.Value()).Return(nil).AnyTimes()
 	}
 
 	for testName, mutation := range mutations {

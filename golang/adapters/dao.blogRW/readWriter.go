@@ -137,9 +137,7 @@ func (rw rw) Update(id int, blog domains.Blog) (*domains.Blog, error) {
 }
 
 func (rw rw) Delete(id int) error {
-	if _, err := rw.store.Exec(`
-			UPDATE blogs SET updated_at = $2, deleted_at = $3 WHERE id = $1
-			`, id, time.Now(), time.Now()); err != nil {
+	if _, err := rw.store.Exec(DeleteSql, id, time.Now(), time.Now()); err != nil {
 		return err
 	}
 	return nil

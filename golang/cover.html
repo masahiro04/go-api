@@ -55,7 +55,7 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">clean_architecture/golang/adapters/dao.blogRW/readWriter.go (75.0%)</option>
+				<option value="file0">clean_architecture/golang/adapters/dao.blogRW/readWriter.go (80.0%)</option>
 				
 				<option value="file1">clean_architecture/golang/adapters/gin.server/ROUTER.go (66.7%)</option>
 				
@@ -241,13 +241,11 @@ func (rw rw) Update(id int, blog domains.Blog) (*domains.Blog, error) <span clas
         return &amp;newBlog, nil</span>
 }
 
-func (rw rw) Delete(id int) error <span class="cov0" title="0">{
-        if _, err := rw.store.Exec(`
-                        UPDATE blogs SET updated_at = $2, deleted_at = $3 WHERE id = $1
-                        `, id, time.Now(), time.Now()); err != nil </span><span class="cov0" title="0">{
+func (rw rw) Delete(id int) error <span class="cov8" title="1">{
+        if _, err := rw.store.Exec(DeleteSql, id, time.Now(), time.Now()); err != nil </span><span class="cov8" title="1">{
                 return err
         }</span>
-        <span class="cov0" title="0">return nil</span>
+        <span class="cov8" title="1">return nil</span>
 }
 </pre>
 		

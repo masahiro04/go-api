@@ -7,38 +7,38 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNewBodySuccess(t *testing.T) {
+func TestNewTitleSuccess(t *testing.T) {
 	// NOTE(okubo): Body.valueとの比較したいけど、小文字はexportされないので、Value経由で比較
-	input := "body"
-	newBody, err := blog.NewBody(input)
+	input := "title"
+	newTitle, err := blog.NewTitle(input)
 	t.Run("hoge", func(t *testing.T) {
-		assert.Equal(t, newBody.Value(), input)
+		assert.Equal(t, newTitle.Value(), input)
 		assert.Equal(t, err, nil)
 	})
 }
 
-func TestNewBodyFail(t *testing.T) {
+func TestNewTitleFail(t *testing.T) {
 	// NOTE(okubo): 成功参考にerrをテスト
 }
 
-func TestUpdateBodySuccess(t *testing.T) {
+func TestUpdateTitleSuccess(t *testing.T) {
 	// NOTE(okubo): Body.valueとの比較したいけど、小文字はexportされないので、Value経由で比較
-	input := "body"
-	updatedBody, err := blog.UpdateBody(&input)
+	input := "title"
+	updatedTitle, err := blog.UpdateTitle(&input)
 	t.Run("hoge", func(t *testing.T) {
-		assert.Equal(t, updatedBody.Value(), input)
+		assert.Equal(t, updatedTitle.Value(), input)
 		assert.Equal(t, err, nil)
 	})
 }
 
-func TestUpdateBodyFail(t *testing.T) {
+func TestUpdateTitleFail(t *testing.T) {
 	// NOTE(okubo): 成功参考にerrをテスト
 }
 
-func TestValueSuccess(t *testing.T) {
-	input := "body"
-	body, _ := blog.NewBody(input)
+func TestTitleValueSuccess(t *testing.T) {
+	input := "title"
+	title, _ := blog.NewTitle(input)
 	t.Run("hoge", func(t *testing.T) {
-		assert.Equal(t, body.Value(), input)
+		assert.Equal(t, title.Value(), input)
 	})
 }

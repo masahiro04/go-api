@@ -25,7 +25,7 @@ type Presenter interface {
 	Present() error
 	GetBlog(blog *domains.Blog)
 	CreateBlog(blog *domains.Blog)
-	GetBlogs(blogs domains.BlogCollection)
+	GetBlogs(blogs *domains.Blogs)
 }
 
 type Validator interface {
@@ -37,7 +37,7 @@ type DBTransaction interface {
 }
 
 type BlogRW interface {
-	GetAll() ([]*domains.Blog, error)
+	GetAll() (*domains.Blogs, error)
 	GetById(id int) (*domains.Blog, error)
 	Create(company domains.Blog) (*domains.Blog, error)
 	CreateTx(company domains.Blog, tx *sql.Tx) (*domains.Blog, error)

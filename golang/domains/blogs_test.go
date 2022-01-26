@@ -11,30 +11,16 @@ import (
 func TestNewBlogsSuccess(t *testing.T) {
 	_blogs := testData.Blogs(5)
 
-	newBlogs := domains.NewBlogs(_blogs)
-
 	t.Run("", func(t *testing.T) {
-		assert.Equal(t, len(newBlogs.Value()), 4)
-	})
-}
-
-func TestBlogsValueSuccess(t *testing.T) {
-	_blogs := testData.Blogs(5)
-
-	newBlogs := domains.NewBlogs(_blogs)
-
-	t.Run("", func(t *testing.T) {
-		assert.Equal(t, newBlogs.Value(), _blogs)
+		assert.Equal(t, len(_blogs.Value()), 4)
 	})
 }
 
 func TestBlogsSizeSuccess(t *testing.T) {
 	_blogs := testData.Blogs(5)
 
-	newBlogs := domains.NewBlogs(_blogs)
-
 	t.Run("", func(t *testing.T) {
-		assert.Equal(t, newBlogs.Size(), 4)
+		assert.Equal(t, _blogs.Size(), 4)
 	})
 }
 
@@ -47,17 +33,16 @@ func TestBlogsEmptyBlogsSuccess(t *testing.T) {
 }
 
 func TestBlogsApplyLimitAndOffset(t *testing.T) {
-	var testBlogs = testData.Blogs(5)
-	var blogs = domains.NewBlogs(testBlogs)
+	var _blogs = testData.Blogs(5)
 
 	t.Run("complete", func(t *testing.T) {
-		assert.Equal(t, blogs.Value(), blogs.ApplyLimitAndOffset(100, 0))
-		assert.Equal(t, blogs.Value(), blogs.ApplyLimitAndOffset(4, 0))
-		assert.Equal(t, blogs.Value(), blogs.ApplyLimitAndOffset(4, -1))
+		assert.Equal(t, _blogs.Value(), _blogs.ApplyLimitAndOffset(100, 0))
+		assert.Equal(t, _blogs.Value(), _blogs.ApplyLimitAndOffset(4, 0))
+		assert.Equal(t, _blogs.Value(), _blogs.ApplyLimitAndOffset(4, -1))
 	})
 	t.Run("empty", func(t *testing.T) {
-		assert.Equal(t, domains.EmptyBlogs().Value(), blogs.ApplyLimitAndOffset(100, 10))
-		assert.Equal(t, domains.EmptyBlogs().Value(), blogs.ApplyLimitAndOffset(3, 4))
-		assert.Equal(t, domains.EmptyBlogs().Value(), blogs.ApplyLimitAndOffset(-1, 0))
+		assert.Equal(t, domains.EmptyBlogs().Value(), _blogs.ApplyLimitAndOffset(100, 10))
+		assert.Equal(t, domains.EmptyBlogs().Value(), _blogs.ApplyLimitAndOffset(3, 4))
+		assert.Equal(t, domains.EmptyBlogs().Value(), _blogs.ApplyLimitAndOffset(-1, 0))
 	})
 }

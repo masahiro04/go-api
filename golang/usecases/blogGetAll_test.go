@@ -4,7 +4,6 @@ import (
 	formatter "clean_architecture/golang/adapters/json.formatter"
 	presenter "clean_architecture/golang/adapters/json.presenter"
 	mock "clean_architecture/golang/adapters/uc.mock"
-	"clean_architecture/golang/domains"
 	"clean_architecture/golang/testData"
 	uc "clean_architecture/golang/usecases"
 	"errors"
@@ -16,20 +15,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var blogs = testData.Blogs(5)
-var blog1 = &blogs[0]
-var blog2 = &blogs[1]
-var blog3 = &blogs[2]
-var blog4 = &blogs[3]
-var expectedBlogs = domains.BlogCollection{blog1, blog2, blog3, blog4}
-
 func TestBlogGetAllSuccess(t *testing.T) {
+	var _blogs = testData.Blogs(5)
 	t.Run("most obvious", func(t *testing.T) {
 		mockCtrl := gomock.NewController(t)
 		defer mockCtrl.Finish()
 
 		i := mock.NewMockedInteractor(mockCtrl)
-		i.BlogRW.EXPECT().GetAll().Return(expectedBlogs, nil).Times(1)
+		i.BlogRW.EXPECT().GetAll().Return(_blogs, nil).Times(1)
 
 		// UseCase
 		ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
@@ -40,10 +33,10 @@ func TestBlogGetAllSuccess(t *testing.T) {
 			InputPort:  uc.GetBlogsParams{Limit: 1, Offset: 1},
 		}
 
-		expectedBlogs = domains.BlogCollection(expectedBlogs).ApplyLimitAndOffset(useCase.InputPort.Limit, useCase.InputPort.Offset)
-		count := len(expectedBlogs)
-		assert.Equal(t, 1, count)
-		assert.Equal(t, blog1.Title().Value(), "タイトル1")
+		expectedBlogs := _blogs.ApplyLimitAndOffset(useCase.InputPort.Limit, useCase.InputPort.Offset)
+
+		assert.Equal(t, 1, len(expectedBlogs))
+		assert.Equal(t, expectedBlogs[0].Title().Value(), "タイトル1")
 
 		i.GetUCHandler().BlogGetAll(useCase)
 
@@ -53,6 +46,7 @@ func TestBlogGetAllSuccess(t *testing.T) {
 }
 
 func TestBlogGetAllFails(t *testing.T) {
+	var _blogs = testData.Blogs(5)
 	mutations := map[string]mock.Tester{
 		"shouldPass": {
 			Calls: func(i *mock.Interactor) { // change nothing
@@ -65,7 +59,7 @@ func TestBlogGetAllFails(t *testing.T) {
 	}
 
 	validCalls := func(i *mock.Interactor) {
-		i.BlogRW.EXPECT().GetAll().Return(expectedBlogs, nil).AnyTimes()
+		i.BlogRW.EXPECT().GetAll().Return(&_blogs, nil).AnyTimes()
 	}
 
 	for testName, mutation := range mutations {
@@ -86,7 +80,7 @@ func TestBlogGetAllFails(t *testing.T) {
 				InputPort:  uc.GetBlogsParams{Limit: 1, Offset: 4},
 			}
 
-			expectedBlogs = domains.BlogCollection(expectedBlogs).ApplyLimitAndOffset(useCase.InputPort.Limit, useCase.InputPort.Offset)
+			expectedBlogs := _blogs.ApplyLimitAndOffset(useCase.InputPort.Limit, useCase.InputPort.Offset)
 			count := len(expectedBlogs)
 			assert.Equal(t, 0, count)
 

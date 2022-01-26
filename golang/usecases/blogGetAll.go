@@ -21,7 +21,7 @@ func (i interactor) BlogGetAll(uc GetBlogsUseCase) {
 		return
 	}
 
-	blogs = domains.BlogCollection(blogs).ApplyLimitAndOffset(uc.InputPort.Limit, uc.InputPort.Offset)
+	blogs.ApplyLimitAndOffset(uc.InputPort.Limit, uc.InputPort.Offset)
 
 	uc.OutputPort.GetBlogs(blogs)
 }

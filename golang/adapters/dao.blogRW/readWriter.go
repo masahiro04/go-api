@@ -27,8 +27,8 @@ type BlogDto struct {
 	UpdatedAt time.Time
 }
 
-func (rw rw) GetAll() ([]*domains.Blog, error) {
-	var blogs []*domains.Blog
+func (rw rw) GetAll() (*domains.Blogs, error) {
+	var blogs []domains.Blog
 	rows, err := rw.store.Query(`SELECT id, title, body, created_at, updated_at FROM blogs WHERE deleted_at IS NULL`)
 
 	if err != nil {
@@ -62,9 +62,10 @@ func (rw rw) GetAll() ([]*domains.Blog, error) {
 		body, _ := blogModel.NewBody(blogDto.Body)
 		newBlog := domains.BuildBlog(id, title, body)
 
-		blogs = append(blogs, &newBlog)
+		blogs = append(blogs, newBlog)
 	}
-	return blogs, nil
+	blogsData := domains.NewBlogs(blogs)
+	return &blogsData, nil
 }
 
 func (rw rw) GetById(id int) (*domains.Blog, error) {

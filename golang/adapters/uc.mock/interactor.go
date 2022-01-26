@@ -99,7 +99,7 @@ func (mr *MockPresenterMockRecorder) GetBlog(blog interface{}) *gomock.Call {
 }
 
 // GetBlogs mocks base method.
-func (m *MockPresenter) GetBlogs(blogs domains.BlogCollection) {
+func (m *MockPresenter) GetBlogs(blogs *domains.Blogs) {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "GetBlogs", blogs)
 }
@@ -278,10 +278,10 @@ func (mr *MockBlogRWMockRecorder) Delete(id interface{}) *gomock.Call {
 }
 
 // GetAll mocks base method.
-func (m *MockBlogRW) GetAll() ([]*domains.Blog, error) {
+func (m *MockBlogRW) GetAll() (*domains.Blogs, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAll")
-	ret0, _ := ret[0].([]*domains.Blog)
+	ret0, _ := ret[0].(*domains.Blogs)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

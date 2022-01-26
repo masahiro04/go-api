@@ -13,7 +13,7 @@ func Blog() domains.Blog {
 	return domains.BuildBlog(id, title, body)
 }
 
-func Blogs(length int) []domains.Blog {
+func Blogs(length int) domains.Blogs {
 	var blogs []domains.Blog
 	n := 1
 	for n < length {
@@ -23,5 +23,5 @@ func Blogs(length int) []domains.Blog {
 		blogs = append(blogs, domains.BuildBlog(id, title, body))
 		n++
 	}
-	return blogs
+	return domains.NewBlogs(blogs)
 }

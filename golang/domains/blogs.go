@@ -20,7 +20,7 @@ func (blogs Blogs) Size() int {
 func EmptyBlogs() Blogs {
 	return Blogs{[]Blog{}}
 }
-func (blogs Blogs) ApplyLimitAndOffset(limit, offset int) []Blog {
+func (blogs *Blogs) ApplyLimitAndOffset(limit, offset int) []Blog {
 	if limit <= 0 {
 		return []Blog{}
 	}

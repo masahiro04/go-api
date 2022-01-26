@@ -16,12 +16,12 @@ type EditBlogParams struct {
 	Body  string
 }
 
-func (req EditBlogParams) getEditableFields() map[domains.BlogUpdatableProperty]*string {
-	return map[domains.BlogUpdatableProperty]*string{
-		domains.BlogTitle: &req.Title,
-		domains.BlogBody:  &req.Body,
-	}
-}
+// func (req EditBlogParams) getEditableFields() map[domains.BlogUpdatableProperty]*string {
+// 	return map[domains.BlogUpdatableProperty]*string{
+// 		domains.BlogTitle: &req.Title,
+// 		domains.BlogBody:  &req.Body,
+// 	}
+// }
 
 func (i interactor) BlogEdit(uc EditBlogUseCase) {
 	var blog *domains.Blog

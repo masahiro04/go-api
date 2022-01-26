@@ -22,7 +22,7 @@ func TestBlogGetAllSuccess(t *testing.T) {
 		defer mockCtrl.Finish()
 
 		i := mock.NewMockedInteractor(mockCtrl)
-		i.BlogRW.EXPECT().GetAll().Return(_blogs, nil).Times(1)
+		i.BlogRW.EXPECT().GetAll().Return(&_blogs, nil).Times(1)
 
 		// UseCase
 		ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
@@ -36,7 +36,7 @@ func TestBlogGetAllSuccess(t *testing.T) {
 		expectedBlogs := _blogs.ApplyLimitAndOffset(useCase.InputPort.Limit, useCase.InputPort.Offset)
 
 		assert.Equal(t, 1, len(expectedBlogs))
-		assert.Equal(t, expectedBlogs[0].Title().Value(), "タイトル1")
+		assert.Equal(t, "タイトル2", expectedBlogs[0].Title().Value())
 
 		i.GetUCHandler().BlogGetAll(useCase)
 

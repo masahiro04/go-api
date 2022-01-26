@@ -26,14 +26,14 @@ func TestBlogGetSuccess(t *testing.T) {
 	blog := testData.Blog()
 
 	i := mock.NewMockedInteractor(mockCtrl)
-	i.BlogRW.EXPECT().GetById(blog.ID.Value()).Return(&blog, nil).Times(1)
+	i.BlogRW.EXPECT().GetById(blog.ID().Value()).Return(&blog, nil).Times(1)
 
 	ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
 	pre := presenter.New(ginContext)
 	form := formatter.NewPresenter(pre)
 	useCase := uc.GetBlogUseCase{
 		OutputPort: form,
-		InputPort:  uc.GetBlogParams{Id: blog.ID.Value()},
+		InputPort:  uc.GetBlogParams{Id: blog.ID().Value()},
 	}
 
 	i.GetUCHandler().BlogGet(useCase)
@@ -52,16 +52,16 @@ func TestBlogGetFails(t *testing.T) {
 			ShouldPass: true},
 		"error return on blogRW.GetById": {
 			Calls: func(i *mock.Interactor) {
-				i.BlogRW.EXPECT().GetById(blog.ID.Value()).Return(nil, errors.New(""))
+				i.BlogRW.EXPECT().GetById(blog.ID().Value()).Return(nil, errors.New(""))
 			}},
 		"nil nil return on blogRW.GetById": {
 			Calls: func(i *mock.Interactor) {
-				i.BlogRW.EXPECT().GetById(blog.ID.Value()).Return(nil, nil)
+				i.BlogRW.EXPECT().GetById(blog.ID().Value()).Return(nil, nil)
 			}},
 	}
 
 	validCalls := func(i *mock.Interactor) {
-		i.BlogRW.EXPECT().GetById(blog.ID.Value()).Return(&blog, nil).AnyTimes()
+		i.BlogRW.EXPECT().GetById(blog.ID().Value()).Return(&blog, nil).AnyTimes()
 	}
 
 	for testName, mutation := range mutations {
@@ -79,7 +79,7 @@ func TestBlogGetFails(t *testing.T) {
 			form := formatter.NewPresenter(pre)
 			useCase := uc.GetBlogUseCase{
 				OutputPort: form,
-				InputPort:  uc.GetBlogParams{Id: blog.ID.Value()},
+				InputPort:  uc.GetBlogParams{Id: blog.ID().Value()},
 			}
 
 			i.GetUCHandler().BlogGet(useCase)

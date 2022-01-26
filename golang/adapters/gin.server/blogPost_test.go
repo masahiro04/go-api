@@ -37,8 +37,8 @@ func TestBlogPostSuccess(t *testing.T) {
 		BodyString(`
 		{
   			"blog": {
-    			"title": "` + blog.Title.Value() + `",
-    			"body": "` + blog.Body.Value() + `"
+    			"title": "` + blog.Title().Value() + `",
+    			"body": "` + blog.Body().Value() + `"
   			}
 		}`).
 		Expect(t).

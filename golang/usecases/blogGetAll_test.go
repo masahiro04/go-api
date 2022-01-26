@@ -43,7 +43,7 @@ func TestBlogGetAllSuccess(t *testing.T) {
 		expectedBlogs = domains.BlogCollection(expectedBlogs).ApplyLimitAndOffset(useCase.InputPort.Limit, useCase.InputPort.Offset)
 		count := len(expectedBlogs)
 		assert.Equal(t, 1, count)
-		assert.Equal(t, blog1.Title.Value(), "タイトル1")
+		assert.Equal(t, blog1.Title().Value(), "タイトル1")
 
 		i.GetUCHandler().BlogGetAll(useCase)
 

@@ -43,7 +43,12 @@ func (b *Blog) Title() blog.Title {
 func (b *Blog) Body() blog.Body {
 	return b.body
 }
-
+func (b *Blog) CreatedAt() time.Time {
+	return b.createdAt
+}
+func (b *Blog) UpdatedAt() time.Time {
+	return b.updatedAt
+}
 func (b *Blog) UpdateTitle(title blog.Title) *Blog {
 	b.title = title
 	return b

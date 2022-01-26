@@ -28,10 +28,10 @@ func (presenter ResponsePresenter) CreateBlog(blog *domains.Blog) {
 
 func BlogItem(blog *domains.Blog) getBlogResponseItem {
 	return getBlogResponseItem{
-		Id:        blog.ID.Value(),
-		Title:     blog.Title.Value(),
-		Body:      blog.Body.Value(),
-		CreatedAt: blog.CreatedAt.UTC().Format(dateLayout),
-		UpdatedAt: blog.UpdatedAt.UTC().Format(dateLayout),
+		Id:        blog.ID().Value(),
+		Title:     blog.Title().Value(),
+		Body:      blog.Body().Value(),
+		CreatedAt: blog.CreatedAt().UTC().Format(dateLayout),
+		UpdatedAt: blog.UpdatedAt().UTC().Format(dateLayout),
 	}
 }

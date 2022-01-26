@@ -37,7 +37,7 @@ func (i interactor) BlogEdit(uc EditBlogUseCase) {
 		return
 	}
 	id, _ := blog2.NewId(uc.InputPort.Id)
-	if blog.ID != id {
+	if blog.ID() != id {
 		uc.OutputPort.Raise(domains.UnprocessableEntity, errWrongCompany)
 		return
 	}

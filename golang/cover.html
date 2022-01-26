@@ -71,9 +71,9 @@
 				
 				<option value="file7">clean_architecture/golang/domains/blog/body.go (100.0%)</option>
 				
-				<option value="file8">clean_architecture/golang/domains/blog/id.go (0.0%)</option>
+				<option value="file8">clean_architecture/golang/domains/blog/id.go (100.0%)</option>
 				
-				<option value="file9">clean_architecture/golang/domains/blog/title.go (0.0%)</option>
+				<option value="file9">clean_architecture/golang/domains/blog/title.go (100.0%)</option>
 				
 				<option value="file10">clean_architecture/golang/usecases/HANDLER.go (55.6%)</option>
 				
@@ -562,15 +562,15 @@ type ID struct {
         value int
 }
 
-func NewId(value int) (ID, error) <span class="cov0" title="0">{
+func NewId(value int) (ID, error) <span class="cov8" title="1">{
         return ID{value: value}, nil
 }</span>
 
-func (id ID) String() string <span class="cov0" title="0">{
+func (id ID) String() string <span class="cov8" title="1">{
         return strconv.Itoa(id.value)
 }</span>
 
-func (id ID) Value() int <span class="cov0" title="0">{
+func (id ID) Value() int <span class="cov8" title="1">{
         return id.value
 }</span>
 </pre>
@@ -589,7 +589,7 @@ type Title struct {
         value string `validate:"required,max=100" ja:"タイトル"`
 }
 
-func NewTitle(value string) (Title, error) <span class="cov0" title="0">{
+func NewTitle(value string) (Title, error) <span class="cov8" title="1">{
         fmt.Println("newTitle")
         fmt.Println(value)
         // TODO(okubo): validationがうまく起動しないので、修正する
@@ -601,7 +601,7 @@ func NewTitle(value string) (Title, error) <span class="cov0" title="0">{
         return Title{value: value}, nil
 }</span>
 
-func UpdateTitle(input *string) (*Title, error) <span class="cov0" title="0">{
+func UpdateTitle(input *string) (*Title, error) <span class="cov8" title="1">{
         // fmt.Println("updateTitle")
         // err := validator.Validate(input)
         // if err != nil {
@@ -610,7 +610,7 @@ func UpdateTitle(input *string) (*Title, error) <span class="cov0" title="0">{
         return &amp;Title{value: *input}, nil
 }</span>
 
-func (title Title) Value() string <span class="cov0" title="0">{
+func (title Title) Value() string <span class="cov8" title="1">{
         return title.value
 }</span>
 </pre>

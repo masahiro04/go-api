@@ -17,8 +17,8 @@ func TestNewBlogSuccess(t *testing.T) {
 	body, _ := blog.NewBody(bodyInput)
 	newBlog := domains.NewBlog(title, body)
 	t.Run("", func(t *testing.T) {
-		assert.Equal(t, newBlog.Title(), title)
-		assert.Equal(t, newBlog.Body(), body)
+		assert.Equal(t, newBlog.Title, title)
+		assert.Equal(t, newBlog.Body, body)
 	})
 }
 func TestBuildBlogSuccess(t *testing.T) {
@@ -33,49 +33,49 @@ func TestBuildBlogSuccess(t *testing.T) {
 	newBlog := domains.BuildBlog(id, title, body)
 
 	t.Run("", func(t *testing.T) {
-		assert.Equal(t, newBlog.Title(), title)
-		assert.Equal(t, newBlog.Body(), body)
+		assert.Equal(t, newBlog.Title, title)
+		assert.Equal(t, newBlog.Body, body)
 	})
 }
 
-func TestIDSuccess(t *testing.T) {
-	_blog := testData.Blog()
-	id, _ := blog.NewId(_blog.ID().Value())
-
-	t.Run("", func(t *testing.T) {
-		assert.Equal(t, _blog.ID(), id)
-	})
-}
-func TestTitleSuccess(t *testing.T) {
-	_blog := testData.Blog()
-	title, _ := blog.NewTitle(_blog.Title().Value())
-
-	t.Run("", func(t *testing.T) {
-		assert.Equal(t, _blog.Title(), title)
-	})
-}
-func TestBodySuccess(t *testing.T) {
-	_blog := testData.Blog()
-	body, _ := blog.NewBody(_blog.Body().Value())
-
-	t.Run("", func(t *testing.T) {
-		assert.Equal(t, _blog.Body(), body)
-	})
-}
-
-func TestCreatedAtSuccess(t *testing.T) {
-	_blog := testData.Blog()
-
-	t.Run("", func(t *testing.T) {
-		assert.Equal(t, _blog.CreatedAt(), _blog.CreatedAt())
-	})
-}
-
+// func TestIDSuccess(t *testing.T) {
+// 	_blog := testData.Blog()
+// 	id, _ := blog.NewId(_blog.ID().Value())
+//
+// 	t.Run("", func(t *testing.T) {
+// 		assert.Equal(t, _blog.ID(), id)
+// 	})
+// }
+// func TestTitleSuccess(t *testing.T) {
+// 	_blog := testData.Blog()
+// 	title, _ := blog.NewTitle(_blog.Title().Value())
+//
+// 	t.Run("", func(t *testing.T) {
+// 		assert.Equal(t, _blog.Title(), title)
+// 	})
+// }
+// func TestBodySuccess(t *testing.T) {
+// 	_blog := testData.Blog()
+// 	body, _ := blog.NewBody(_blog.Body().Value())
+//
+// 	t.Run("", func(t *testing.T) {
+// 		assert.Equal(t, _blog.Body(), body)
+// 	})
+// }
+//
+// func TestCreatedAtSuccess(t *testing.T) {
+// 	_blog := testData.Blog()
+//
+// 	t.Run("", func(t *testing.T) {
+// 		assert.Equal(t, _blog.CreatedAt(), _blog.CreatedAt())
+// 	})
+// }
+//
 func TestUpdatedAtSuccess(t *testing.T) {
 	_blog := testData.Blog()
 
 	t.Run("", func(t *testing.T) {
-		assert.Equal(t, _blog.UpdatedAt(), _blog.UpdatedAt())
+		assert.Equal(t, _blog.UpdatedAt, _blog.UpdatedAt)
 	})
 }
 
@@ -85,7 +85,7 @@ func TestUpdateTitleSuccess(t *testing.T) {
 	updatedTitle := _blog.UpdateTitle(input)
 
 	t.Run("", func(t *testing.T) {
-		assert.Equal(t, updatedTitle.Title(), input)
+		assert.Equal(t, updatedTitle.Title, input)
 	})
 }
 
@@ -95,7 +95,7 @@ func TestUpdateBodySuccess(t *testing.T) {
 	updatedBody := _blog.UpdateBody(input)
 
 	t.Run("", func(t *testing.T) {
-		assert.Equal(t, updatedBody.Body(), input)
+		assert.Equal(t, updatedBody.Body, input)
 	})
 }
 

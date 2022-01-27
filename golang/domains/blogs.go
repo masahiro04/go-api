@@ -2,23 +2,23 @@ package domains
 
 type Blogs struct {
 	// Blogの集合を表現
-	value []Blog
+	Value []Blog
 }
 
 func NewBlogs(value []Blog) Blogs {
-	return Blogs{value}
+	return Blogs{Value: value}
 }
 
-func (blogs Blogs) Value() []Blog {
-	return blogs.value
-}
+// func (blogs Blogs) Value() []Blog {
+// 	return blogs.value
+// }
 
 func (blogs Blogs) Size() int {
-	return len(blogs.value)
+	return len(blogs.Value)
 }
 
 func EmptyBlogs() Blogs {
-	return Blogs{[]Blog{}}
+	return Blogs{Value: []Blog{}}
 }
 func (blogs *Blogs) ApplyLimitAndOffset(limit, offset int) []Blog {
 	if limit <= 0 {
@@ -40,5 +40,5 @@ func (blogs *Blogs) ApplyLimitAndOffset(limit, offset int) []Blog {
 		max = blogsSize
 	}
 
-	return blogs.Value()[min:max]
+	return blogs.Value[min:max]
 }

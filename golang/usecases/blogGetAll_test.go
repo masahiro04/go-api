@@ -2,7 +2,7 @@ package uc_test
 
 import (
 	formatter "clean_architecture/golang/adapters/json.formatter"
-	presenter "clean_architecture/golang/adapters/presenter"
+	"clean_architecture/golang/adapters/presenters"
 	mock "clean_architecture/golang/adapters/uc.mock"
 	"clean_architecture/golang/testData"
 	uc "clean_architecture/golang/usecases"
@@ -26,7 +26,7 @@ func TestBlogGetAllSuccess(t *testing.T) {
 
 		// UseCase
 		ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
-		pre := presenter.New(ginContext)
+		pre := presenters.New(ginContext)
 		form := formatter.NewPresenter(pre)
 		useCase := uc.GetBlogsUseCase{
 			OutputPort: form,
@@ -73,7 +73,7 @@ func TestBlogGetAllFails(t *testing.T) {
 
 			// UseCase
 			ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
-			pre := presenter.New(ginContext)
+			pre := presenters.New(ginContext)
 			form := formatter.NewPresenter(pre)
 			useCase := uc.GetBlogsUseCase{
 				OutputPort: form,

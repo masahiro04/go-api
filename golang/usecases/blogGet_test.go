@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	formatter "clean_architecture/golang/adapters/json.formatter"
-	presenter "clean_architecture/golang/adapters/presenter"
+	"clean_architecture/golang/adapters/presenters"
 
 	"github.com/gin-gonic/gin"
 
@@ -29,7 +29,7 @@ func TestBlogGetSuccess(t *testing.T) {
 	i.BlogRW.EXPECT().GetById(blog.ID.Value).Return(&blog, nil).Times(1)
 
 	ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
-	pre := presenter.New(ginContext)
+	pre := presenters.New(ginContext)
 	form := formatter.NewPresenter(pre)
 	useCase := uc.GetBlogUseCase{
 		OutputPort: form,
@@ -75,7 +75,7 @@ func TestBlogGetFails(t *testing.T) {
 
 			// UseCase
 			ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
-			pre := presenter.New(ginContext)
+			pre := presenters.New(ginContext)
 			form := formatter.NewPresenter(pre)
 			useCase := uc.GetBlogUseCase{
 				OutputPort: form,

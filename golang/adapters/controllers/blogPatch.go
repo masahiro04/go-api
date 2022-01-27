@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	formatter "clean_architecture/golang/adapters/json.formatter"
-	presenter "clean_architecture/golang/adapters/presenter"
+	"clean_architecture/golang/adapters/presenters"
 	uc "clean_architecture/golang/usecases"
 
 	"github.com/gin-gonic/gin"
@@ -29,7 +29,7 @@ func (rH RouterHandler) blogPatch(c *gin.Context) {
 	}
 
 	useCase := uc.EditBlogUseCase{
-		OutputPort: formatter.NewPresenter(presenter.New(c)),
+		OutputPort: formatter.NewPresenter(presenters.New(c)),
 		InputPort: uc.EditBlogParams{
 			Id:    id,
 			Title: *req.Blog.Title,

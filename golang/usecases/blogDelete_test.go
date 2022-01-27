@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	formatter "clean_architecture/golang/adapters/json.formatter"
-	presenter "clean_architecture/golang/adapters/presenter"
+	"clean_architecture/golang/adapters/presenters"
 
 	"github.com/gin-gonic/gin"
 
@@ -28,7 +28,7 @@ func TestBlogDeleteSuccess(t *testing.T) {
 	i.BlogRW.EXPECT().Delete(blog.ID.Value).Return(nil).Times(1)
 
 	ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
-	pre := presenter.New(ginContext)
+	pre := presenters.New(ginContext)
 	form := formatter.NewPresenter(pre)
 	useCase := uc.DeleteBlogUseCase{
 		OutputPort: form,
@@ -70,7 +70,7 @@ func TestBlogDeleteFails(t *testing.T) {
 			validCalls(&i)
 
 			ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
-			pre := presenter.New(ginContext)
+			pre := presenters.New(ginContext)
 			form := formatter.NewPresenter(pre)
 			useCase := uc.DeleteBlogUseCase{
 				OutputPort: form,

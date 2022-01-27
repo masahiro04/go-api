@@ -1,7 +1,7 @@
 package formatter
 
 import (
-	presenter "clean_architecture/golang/adapters/presenter"
+	"clean_architecture/golang/adapters/presenters"
 	"clean_architecture/golang/domains"
 	uc "clean_architecture/golang/usecases"
 )
@@ -9,10 +9,10 @@ import (
 const dateLayout = "2006-01-02T15:04:05.999Z"
 
 type ResponsePresenter struct {
-	Presenter *presenter.GinPresenter
+	Presenter *presenters.GinPresenter
 }
 
-func NewPresenter(presenter *presenter.GinPresenter) uc.Presenter {
+func NewPresenter(presenter *presenters.GinPresenter) uc.Presenter {
 	return &ResponsePresenter{Presenter: presenter}
 }
 

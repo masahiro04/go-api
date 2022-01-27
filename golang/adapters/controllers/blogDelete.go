@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
-	formatter "clean_architecture/golang/adapters/json.formatter"
 	"clean_architecture/golang/adapters/presenters"
+	"clean_architecture/golang/adapters/presenters/json"
 	uc "clean_architecture/golang/usecases"
 
 	"github.com/gin-gonic/gin"
@@ -22,7 +22,7 @@ func (rH RouterHandler) blogDelete(c *gin.Context) {
 	}
 
 	useCase := uc.DeleteBlogUseCase{
-		OutputPort: formatter.NewPresenter(presenters.New(c)),
+		OutputPort: json.NewPresenter(presenters.New(c)),
 		InputPort: uc.DeleteBlogParams{
 			Id: id,
 		},

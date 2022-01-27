@@ -3,8 +3,8 @@ package controllers
 import (
 	"net/http"
 
-	formatter "clean_architecture/golang/adapters/json.formatter"
 	"clean_architecture/golang/adapters/presenters"
+	"clean_architecture/golang/adapters/presenters/json"
 	uc "clean_architecture/golang/usecases"
 
 	"github.com/gin-gonic/gin"
@@ -28,7 +28,7 @@ func (rH RouterHandler) blogPost(c *gin.Context) {
 	}
 
 	useCase := uc.CreateBlogUseCase{
-		OutputPort: formatter.NewPresenter(presenters.New(c)),
+		OutputPort: json.NewPresenter(presenters.New(c)),
 		InputPort: uc.CreateBlogParams{
 			Title: *req.Blog.Title,
 			Body:  *req.Blog.Body,

@@ -1,4 +1,4 @@
-package formatter
+package json
 
 import (
 	"clean_architecture/golang/domains"

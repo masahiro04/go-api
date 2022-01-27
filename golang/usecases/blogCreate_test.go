@@ -5,8 +5,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	formatter "clean_architecture/golang/adapters/json.formatter"
 	"clean_architecture/golang/adapters/presenters"
+	"clean_architecture/golang/adapters/presenters/json"
 
 	"github.com/gin-gonic/gin"
 
@@ -30,7 +30,7 @@ func TestBlogCreateSuccess(t *testing.T) {
 	// UseCase
 	ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
 	pre := presenters.New(ginContext)
-	form := formatter.NewPresenter(pre)
+	form := json.NewPresenter(pre)
 	useCase := uc.CreateBlogUseCase{
 		OutputPort: form,
 		InputPort: uc.CreateBlogParams{
@@ -79,7 +79,7 @@ func TestBlogCreateFails(t *testing.T) {
 			// UseCase
 			ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
 			pre := presenters.New(ginContext)
-			form := formatter.NewPresenter(pre)
+			form := json.NewPresenter(pre)
 			useCase := uc.CreateBlogUseCase{
 				OutputPort: form,
 				InputPort: uc.CreateBlogParams{

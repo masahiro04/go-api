@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	controllers "clean_architecture/golang/adapters/controllers"
-	logger "clean_architecture/golang/adapters/logrus.logger"
+	"clean_architecture/golang/adapters/loggers"
 	mock "clean_architecture/golang/adapters/uc.mock"
 	"clean_architecture/golang/testData"
 
@@ -29,7 +29,7 @@ func TestCompanyPatchSuccess(t *testing.T) {
 	gE := gin.Default()
 
 	router := controllers.NewRouter(ucHandler)
-	router.Logger = logger.SimpleLogger{}
+	router.Logger = loggers.SimpleLogger{}
 	router.SetRoutes(gE)
 
 	ts := httptest.NewServer(gE)

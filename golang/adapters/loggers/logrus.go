@@ -1,9 +1,10 @@
-package logger
+package loggers
 
 import (
 	"log"
 
 	uc "clean_architecture/golang/usecases"
+
 	"github.com/sirupsen/logrus"
 )
 

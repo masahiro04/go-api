@@ -10,12 +10,12 @@ import (
 	"clean_architecture/golang/adapters/controllers"
 	dbTransaction "clean_architecture/golang/adapters/dao.dbTransaction"
 	"clean_architecture/golang/adapters/dao/blogDao"
+	"clean_architecture/golang/adapters/loggers"
 
 	_ "github.com/lib/pq"
 
 	"fmt"
 
-	logger "clean_architecture/golang/adapters/logrus.logger"
 	validator "clean_architecture/golang/adapters/validator"
 
 	infra "clean_architecture/golang/infrastructure"
@@ -89,7 +89,7 @@ func run() {
 	}
 
 	// Loggar
-	routerLogger := logger.NewLogger("TEST",
+	routerLogger := loggers.NewLogger("TEST",
 		viper.GetString("log.level"),
 		viper.GetString("log.format"),
 	)

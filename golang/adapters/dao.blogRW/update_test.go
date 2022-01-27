@@ -21,11 +21,11 @@ func TestRw_happyUpdate(t *testing.T) {
 	blog := testData.Blog()
 
 	mock.ExpectExec(regexp.QuoteMeta(blogRW.UpdateSql)).
-		WithArgs(blog.ID().Value(), blog.Title().Value(), blog.Body().Value(), AnyTime{}).
+		WithArgs(blog.ID.Value, blog.Title.Value, blog.Body.Value, AnyTime{}).
 		WillReturnResult(sqlmock.NewResult(1, 5))
 
 	// モック化されたDBを用いてテスト対象関数を実行
-	if _, err = rw.Update(blog.ID().Value(), blog); err != nil {
+	if _, err = rw.Update(blog.ID.Value, blog); err != nil {
 		t.Errorf("error was not expected while updating stats: %s", err)
 	}
 
@@ -46,11 +46,11 @@ func TestRw_unHappyUpdate(t *testing.T) {
 	blog := testData.Blog()
 
 	mock.ExpectExec(regexp.QuoteMeta(blogRW.UpdateSql)).
-		WithArgs(blog.ID().Value(), blog.Title().Value(), blog.Body().Value(), AnyTime{}).
+		WithArgs(blog.ID.Value, blog.Title.Value, blog.Body.Value, AnyTime{}).
 		WillReturnError(fmt.Errorf("some error"))
 
 	// モック化されたDBを用いてテスト対象関数を実行
-	if _, err = rw.Update(blog.ID().Value(), blog); err == nil {
+	if _, err = rw.Update(blog.ID.Value, blog); err == nil {
 		t.Errorf("error was not expected while updating stats: %s", err)
 	}
 

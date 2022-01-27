@@ -16,7 +16,7 @@ func (presenter ResponsePresenter) GetBlogs(blogs *domains.Blogs) {
 		Count: blogs.Size(),
 	}
 
-	for _, blog := range blogs.Value() {
+	for _, blog := range blogs.Value {
 		response.Blogs = append(response.Blogs, BlogItem(&blog))
 	}
 

@@ -34,8 +34,8 @@ func TestBlogCreateSuccess(t *testing.T) {
 	useCase := uc.CreateBlogUseCase{
 		OutputPort: form,
 		InputPort: uc.CreateBlogParams{
-			Title: blog.Title().Value(),
-			Body:  blog.Body().Value(),
+			Title: blog.Title.Value,
+			Body:  blog.Body.Value,
 		},
 	}
 
@@ -83,8 +83,8 @@ func TestBlogCreateFails(t *testing.T) {
 			useCase := uc.CreateBlogUseCase{
 				OutputPort: form,
 				InputPort: uc.CreateBlogParams{
-					Title: blog.Title().Value(),
-					Body:  blog.Body().Value(),
+					Title: blog.Title.Value,
+					Body:  blog.Body.Value,
 				},
 			}
 

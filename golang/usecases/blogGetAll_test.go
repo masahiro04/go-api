@@ -36,7 +36,7 @@ func TestBlogGetAllSuccess(t *testing.T) {
 		expectedBlogs := _blogs.ApplyLimitAndOffset(useCase.InputPort.Limit, useCase.InputPort.Offset)
 
 		assert.Equal(t, 1, len(expectedBlogs))
-		assert.Equal(t, "タイトル2", expectedBlogs[0].Title().Value())
+		assert.Equal(t, "タイトル2", expectedBlogs[0].Title.Value)
 
 		i.GetUCHandler().BlogGetAll(useCase)
 

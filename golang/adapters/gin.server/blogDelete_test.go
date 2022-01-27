@@ -35,7 +35,7 @@ func TestBlogDeleteSuccess(t *testing.T) {
 	defer ts.Close()
 
 	if err := baloo.New(ts.URL).
-		Delete(blogDeletePath + strconv.Itoa(blog.ID().Value())).
+		Delete(blogDeletePath + strconv.Itoa(blog.ID.Value)).
 		Expect(t).
 		Status(http.StatusOK).
 		Done(); err != nil {

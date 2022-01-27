@@ -21,11 +21,11 @@ func TestRw_happyDelete(t *testing.T) {
 	blog := testData.Blog()
 
 	mock.ExpectExec(regexp.QuoteMeta(blogRW.DeleteSql)).
-		WithArgs(blog.ID().Value(), AnyTime{}, AnyTime{}).
+		WithArgs(blog.ID.Value, AnyTime{}, AnyTime{}).
 		WillReturnResult(sqlmock.NewResult(1, 1))
 
 	// モック化されたDBを用いてテスト対象関数を実行
-	if err = rw.Delete(blog.ID().Value()); err != nil {
+	if err = rw.Delete(blog.ID.Value); err != nil {
 		t.Errorf("error was not expected while updating stats: %s", err)
 	}
 
@@ -46,11 +46,11 @@ func TestRw_unHappyDelete(t *testing.T) {
 	blog := testData.Blog()
 
 	mock.ExpectExec(regexp.QuoteMeta(blogRW.DeleteSql)).
-		WithArgs(blog.ID().Value(), AnyTime{}, AnyTime{}).
+		WithArgs(blog.ID.Value, AnyTime{}, AnyTime{}).
 		WillReturnError(fmt.Errorf("some error"))
 
 	// モック化されたDBを用いてテスト対象関数を実行
-	if err = rw.Delete(blog.ID().Value()); err == nil {
+	if err = rw.Delete(blog.ID.Value); err == nil {
 		t.Errorf("error was not expected while updating stats: %s", err)
 	}
 

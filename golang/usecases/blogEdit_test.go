@@ -26,8 +26,8 @@ func TestBlogEditSuccess(t *testing.T) {
 	blog := testData.Blog()
 
 	i := mock.NewMockedInteractor(mockCtrl)
-	i.BlogRW.EXPECT().GetById(blog.ID().Value()).Return(&blog, nil).Times(1)
-	i.BlogRW.EXPECT().Update(blog.ID().Value(), blog).Return(&blog, nil).Times(1)
+	i.BlogRW.EXPECT().GetById(blog.ID.Value).Return(&blog, nil).Times(1)
+	i.BlogRW.EXPECT().Update(blog.ID.Value, blog).Return(&blog, nil).Times(1)
 
 	ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
 	pre := presenter.New(ginContext)
@@ -36,9 +36,9 @@ func TestBlogEditSuccess(t *testing.T) {
 	useCase := uc.EditBlogUseCase{
 		OutputPort: form,
 		InputPort: uc.EditBlogParams{
-			Id:    blog.ID().Value(),
-			Title: blog.Title().Value(),
-			Body:  blog.Body().Value(),
+			Id:    blog.ID.Value,
+			Title: blog.Title.Value,
+			Body:  blog.Body.Value,
 		},
 	}
 
@@ -57,11 +57,11 @@ func TestBlogEditFails(t *testing.T) {
 		}, ShouldPass: true},
 		"error return on CompanyRW.GetById": {
 			Calls: func(i *mock.Interactor) {
-				i.BlogRW.EXPECT().GetById(blog.ID().Value()).Return(nil, errors.New(""))
+				i.BlogRW.EXPECT().GetById(blog.ID.Value).Return(nil, errors.New(""))
 			}},
 		"nil, nil return on CompanyRW.GetById": {
 			Calls: func(i *mock.Interactor) {
-				i.BlogRW.EXPECT().GetById(blog.ID().Value()).Return(nil, nil)
+				i.BlogRW.EXPECT().GetById(blog.ID.Value).Return(nil, nil)
 			}},
 		// TODO エラーハンドリングしっかりしたあとに有効にする
 		// "uRW.GetByID returns wrong ID": {
@@ -70,14 +70,14 @@ func TestBlogEditFails(t *testing.T) {
 		// 	}},
 		"failed to save the user": {
 			Calls: func(i *mock.Interactor) {
-				i.BlogRW.EXPECT().Update(blog.ID().Value(), blog).Return(nil, errors.New(""))
+				i.BlogRW.EXPECT().Update(blog.ID.Value, blog).Return(nil, errors.New(""))
 			}},
 	}
 
 	validCalls := func(i *mock.Interactor) {
 		i.Logger.EXPECT().Log(gomock.Any()).AnyTimes()
-		i.BlogRW.EXPECT().GetById(blog.ID().Value()).Return(&blog, nil).AnyTimes()
-		i.BlogRW.EXPECT().Update(blog.ID().Value(), blog).Return(&blog, nil).AnyTimes()
+		i.BlogRW.EXPECT().GetById(blog.ID.Value).Return(&blog, nil).AnyTimes()
+		i.BlogRW.EXPECT().Update(blog.ID.Value, blog).Return(&blog, nil).AnyTimes()
 		i.Validator.EXPECT().Validate(gomock.Any()).Return(nil).AnyTimes()
 	}
 
@@ -96,9 +96,9 @@ func TestBlogEditFails(t *testing.T) {
 			useCase := uc.EditBlogUseCase{
 				OutputPort: form,
 				InputPort: uc.EditBlogParams{
-					Id:    blog.ID().Value(),
-					Title: blog.Title().Value(),
-					Body:  blog.Body().Value(),
+					Id:    blog.ID.Value,
+					Title: blog.Title.Value,
+					Body:  blog.Body.Value,
 				},
 			}
 

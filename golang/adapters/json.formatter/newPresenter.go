@@ -3,7 +3,7 @@ package formatter
 import (
 	presenter "clean_architecture/golang/adapters/json.presenter"
 	"clean_architecture/golang/domains"
-	"clean_architecture/golang/usecases"
+	uc "clean_architecture/golang/usecases"
 )
 
 const dateLayout = "2006-01-02T15:04:05.999Z"

@@ -71,7 +71,7 @@
 				
 				<option value="file7">clean_architecture/golang/domains/blog.go (100.0%)</option>
 				
-				<option value="file8">clean_architecture/golang/domains/blog/body.go (83.3%)</option>
+				<option value="file8">clean_architecture/golang/domains/blog/body.go (100.0%)</option>
 				
 				<option value="file9">clean_architecture/golang/domains/blog/id.go (100.0%)</option>
 				
@@ -193,15 +193,15 @@ func (rw rw) Create(newBlog domains.Blog) (*domains.Blog, error) <span class="co
         var id int
         err := rw.store.QueryRow(
                 CreateSql,
-                newBlog.Title().Value(), newBlog.Body().Value(), time.Now(), time.Now()).Scan(&amp;id)
+                newBlog.Title.Value, newBlog.Body.Value, time.Now(), time.Now()).Scan(&amp;id)
         if err != nil </span><span class="cov8" title="1">{
                 log.Println(err)
                 return nil, err
         }</span>
 
-        <span class="cov8" title="1">_id, _ := blogModel.NewId(newBlog.ID().Value())
-        title, _ := blogModel.NewTitle(newBlog.Title().Value())
-        body, _ := blogModel.NewBody(newBlog.Body().Value())
+        <span class="cov8" title="1">_id, _ := blogModel.NewId(newBlog.ID.Value)
+        title, _ := blogModel.NewTitle(newBlog.Title.Value)
+        body, _ := blogModel.NewBody(newBlog.Body.Value)
         blog := domains.BuildBlog(_id, title, body)
         return &amp;blog, nil</span>
 }
@@ -216,9 +216,9 @@ func (rw rw) CreateTx(newBlog domains.Blog, tx *sql.Tx) (*domains.Blog, error) <
                 return nil, err
         }</span>
 
-        <span class="cov0" title="0">_id, _ := blogModel.NewId(newBlog.ID().Value())
-        title, _ := blogModel.NewTitle(newBlog.Title().Value())
-        body, _ := blogModel.NewBody(newBlog.Body().Value())
+        <span class="cov0" title="0">_id, _ := blogModel.NewId(newBlog.ID.Value)
+        title, _ := blogModel.NewTitle(newBlog.Title.Value)
+        body, _ := blogModel.NewBody(newBlog.Body.Value)
         blog := domains.BuildBlog(_id, title, body)
         return &amp;blog, nil</span>
 }
@@ -227,7 +227,7 @@ func (rw rw) CreateTx(newBlog domains.Blog, tx *sql.Tx) (*domains.Blog, error) <
 func (rw rw) Update(id int, blog domains.Blog) (*domains.Blog, error) <span class="cov8" title="1">{
         _, err := rw.store.Exec(
                 UpdateSql,
-                id, blog.Title().Value(), blog.Body().Value(), time.Now())
+                id, blog.Title.Value, blog.Body.Value, time.Now())
 
         if err != nil </span><span class="cov8" title="1">{
                 log.Println(err)
@@ -235,8 +235,8 @@ func (rw rw) Update(id int, blog domains.Blog) (*domains.Blog, error) <span clas
         }</span>
 
         <span class="cov8" title="1">_id, _ := blogModel.NewId(id)
-        title, _ := blogModel.NewTitle(blog.Title().Value())
-        body, _ := blogModel.NewBody(blog.Body().Value())
+        title, _ := blogModel.NewTitle(blog.Title.Value)
+        body, _ := blogModel.NewBody(blog.Body.Value)
         newBlog := domains.BuildBlog(_id, title, body)
         return &amp;newBlog, nil</span>
 }
@@ -523,18 +523,18 @@ import (
 
 // TODO: privateに扱うために、小文字に変更する
 type Blog struct {
-        id        blog.ID
-        title     blog.Title
-        body      blog.Body
-        createdAt time.Time
-        updatedAt time.Time
-        deletedAt time.Time
+        ID        blog.ID
+        Title     blog.Title
+        Body      blog.Body
+        CreatedAt time.Time
+        UpdatedAt time.Time
+        DeletedAt time.Time
 }
 
 func NewBlog(title blog.Title, body blog.Body) Blog <span class="cov8" title="1">{
         return Blog{
-                title: title,
-                body:  body,
+                Title: title,
+                Body:  body,
         }
 }</span>
 
@@ -542,36 +542,36 @@ func NewBlog(title blog.Title, body blog.Body) Blog <span class="cov8" title="1"
 // 生成時のバリデーションをしないことに注意
 func BuildBlog(id blog.ID, title blog.Title, body blog.Body) Blog <span class="cov8" title="1">{
         return Blog{
-                id:    id,
-                title: title,
-                body:  body,
+                ID:    id,
+                Title: title,
+                Body:  body,
         }
 }</span>
 
-func (b *Blog) ID() blog.ID <span class="cov8" title="1">{
-        return b.id
-}</span>
-
-func (b *Blog) Title() blog.Title <span class="cov8" title="1">{
-        return b.title
-}</span>
-
-func (b *Blog) Body() blog.Body <span class="cov8" title="1">{
-        return b.body
-}</span>
-func (b *Blog) CreatedAt() time.Time <span class="cov8" title="1">{
-        return b.createdAt
-}</span>
-func (b *Blog) UpdatedAt() time.Time <span class="cov8" title="1">{
-        return b.updatedAt
-}</span>
+// func (b *Blog) ID() blog.ID {
+//         return b.id
+// }
+//
+// func (b *Blog) Title() blog.Title {
+//         return b.title
+// }
+//
+// func (b *Blog) Body() blog.Body {
+//         return b.body
+// }
+// func (b *Blog) CreatedAt() time.Time {
+//         return b.createdAt
+// }
+// func (b *Blog) UpdatedAt() time.Time {
+//         return b.updatedAt
+// }
 func (b *Blog) UpdateTitle(title blog.Title) *Blog <span class="cov8" title="1">{
-        b.title = title
+        b.Title = title
         return b
 }</span>
 
 func (b *Blog) UpdateBody(body blog.Body) *Blog <span class="cov8" title="1">{
-        b.body = body
+        b.Body = body
         return b
 }</span>
 </pre>
@@ -580,7 +580,6 @@ func (b *Blog) UpdateBody(body blog.Body) *Blog <span class="cov8" title="1">{
 
 import (
         "clean_architecture/golang/domains/validator"
-        "fmt"
 )
 
 type Body struct {
@@ -588,32 +587,31 @@ type Body struct {
         // バリデーションルールは以下
         // - 空ではないこと
         // - 100文字以下であること
-        value string `validate:"required,max=100" ja:"内容"`
+        Value string `validate:"required" ja:"内容"`
 }
 
 func NewBody(value string) (Body, error) <span class="cov8" title="1">{
-        body := Body{value: value}
-        fmt.Println("haaaaa")
+        body := Body{Value: value}
         err := validator.Validate(body)
-        if err != nil </span><span class="cov0" title="0">{
-                return Body{value: value}, err
+        if err != nil </span><span class="cov8" title="1">{
+                return body, err
         }</span>
         <span class="cov8" title="1">return body, nil</span>
 }
 
 func UpdateBody(input *string) (*Body, error) <span class="cov8" title="1">{
-        body := Body{value: *input}
+        body := Body{Value: *input}
         err := validator.Validate(&amp;body)
 
-        if err != nil </span><span class="cov0" title="0">{
-                return &amp;Body{value: *input}, err
+        if err != nil </span><span class="cov8" title="1">{
+                return &amp;body, err
         }</span>
         <span class="cov8" title="1">return &amp;body, nil</span>
 }
 
-func (body Body) Value() string <span class="cov8" title="1">{
-        return body.value
-}</span>
+// func (body Body) Value() string {
+//         return body.value
+// }
 </pre>
 		
 		<pre class="file" id="file9" style="display: none">package blog
@@ -621,77 +619,74 @@ func (body Body) Value() string <span class="cov8" title="1">{
 import "strconv"
 
 type ID struct {
-        value int
+        Value int
 }
 
 func NewId(value int) (ID, error) <span class="cov8" title="1">{
-        return ID{value: value}, nil
+        return ID{Value: value}, nil
 }</span>
 
 func (id ID) String() string <span class="cov8" title="1">{
-        return strconv.Itoa(id.value)
-}</span>
-
-func (id ID) Value() int <span class="cov8" title="1">{
-        return id.value
+        return strconv.Itoa(id.Value)
 }</span>
 </pre>
 		
 		<pre class="file" id="file10" style="display: none">package blog
+
+import "clean_architecture/golang/domains/validator"
 
 type Title struct {
         // [Blogの説明を表現する値オブジェクト]
         // バリデーションルールは以下
         // - 空ではないこと
         // - 100文字以下であること
-        value string `validate:"required,max=100" ja:"タイトル"`
+        Value string `validate:"required,max=100" ja:"タイトル"`
 }
 
 func NewTitle(value string) (Title, error) <span class="cov8" title="1">{
-        // TODO(okubo): validationがうまく起動しないので、修正する
-
-        // err := validator.Validate(value)
-        // if err != nil {
-        //         return Title{value: value}, err
-        // }
-        return Title{value: value}, nil
-}</span>
+        title := Title{Value: value}
+        err := validator.Validate(title)
+        if err != nil </span><span class="cov8" title="1">{
+                return title, err
+        }</span>
+        <span class="cov8" title="1">return title, nil</span>
+}
 
 func UpdateTitle(input *string) (*Title, error) <span class="cov8" title="1">{
-        // fmt.Println("updateTitle")
-        // err := validator.Validate(input)
-        // if err != nil {
-        //         return &amp;Title{value: *input}, err
-        // }
-        return &amp;Title{value: *input}, nil
-}</span>
+        title := Title{Value: *input}
+        err := validator.Validate(title)
+        if err != nil </span><span class="cov8" title="1">{
+                return &amp;title, err
+        }</span>
+        <span class="cov8" title="1">return &amp;title, nil</span>
+}
 
-func (title Title) Value() string <span class="cov8" title="1">{
-        return title.value
-}</span>
+// func (title Title) Value() string {
+//         return title.value
+// }
 </pre>
 		
 		<pre class="file" id="file11" style="display: none">package domains
 
 type Blogs struct {
         // Blogの集合を表現
-        value []Blog
+        Value []Blog
 }
 
 func NewBlogs(value []Blog) Blogs <span class="cov8" title="1">{
-        return Blogs{value}
+        return Blogs{Value: value}
 }</span>
 
-func (blogs Blogs) Value() []Blog <span class="cov8" title="1">{
-        return blogs.value
-}</span>
+// func (blogs Blogs) Value() []Blog {
+//         return blogs.value
+// }
 
 func (blogs Blogs) Size() int <span class="cov8" title="1">{
-        return len(blogs.value)
+        return len(blogs.Value)
 }</span>
 
 func EmptyBlogs() Blogs <span class="cov8" title="1">{
-        return Blogs{[]Blog{}}
+        return Blogs{Value: []Blog{}}
 }</span>
 func (blogs *Blogs) ApplyLimitAndOffset(limit, offset int) []Blog <span class="cov8" title="1">{
         if limit &lt;= 0 </span><span class="cov8" title="1">{
@@ -713,7 +708,7 @@ func (blogs *Blogs) ApplyLimitAndOffset(limit, offset int) []Blog <span class="c
                 max = blogsSize
         }</span>
 
-        <span class="cov8" title="1">return blogs.Value()[min:max]</span>
+        <span class="cov8" title="1">return blogs.Value[min:max]</span>
 }
 </pre>
 		
@@ -866,12 +861,14 @@ func (i interactor) BlogEdit(uc EditBlogUseCase) <span class="cov8" title="1">{
                 uc.OutputPort.Raise(domains.BadRequest, err)
                 return
         }</span>
+
         <span class="cov8" title="1">if blog == nil </span><span class="cov8" title="1">{
                 uc.OutputPort.Raise(domains.NotFound, errNotFound)
                 return
         }</span>
+
         <span class="cov8" title="1">id, _ := blog2.NewId(uc.InputPort.Id)
-        if blog.ID() != id </span><span class="cov0" title="0">{
+        if blog.ID != id </span><span class="cov0" title="0">{
                 uc.OutputPort.Raise(domains.UnprocessableEntity, errWrongCompany)
                 return
         }</span>

@@ -30,15 +30,15 @@ func TestRw_happyGetById(t *testing.T) {
 			"created_at",
 			"updated_at",
 		}).AddRow(
-			blog.ID().Value(),
-			blog.Title().Value(),
-			blog.Body().Value(),
-			blog.CreatedAt(),
-			blog.UpdatedAt(),
+			blog.ID.Value,
+			blog.Title.Value,
+			blog.Body.Value,
+			blog.CreatedAt,
+			blog.UpdatedAt,
 		))
 
 	// モック化されたDBを用いてテスト対象関数を実行
-	if _, err := rw.GetById(blog.ID().Value()); err != nil {
+	if _, err := rw.GetById(blog.ID.Value); err != nil {
 		t.Errorf("error was not expected while updating stats: %s", err)
 	}
 
@@ -64,7 +64,7 @@ func TestRw_unHappyGetById(t *testing.T) {
 		WillReturnError(fmt.Errorf("some error"))
 
 	// モック化されたDBを用いてテスト対象関数を実行
-	if _, err := rw.GetById(blog.ID().Value()); err == nil {
+	if _, err := rw.GetById(blog.ID.Value); err == nil {
 		t.Errorf("error was not expected while updating stats: %s", err)
 	}
 

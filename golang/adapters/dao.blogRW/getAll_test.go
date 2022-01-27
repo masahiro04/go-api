@@ -41,11 +41,11 @@ func TestRw_GetAll_Success(t *testing.T) {
 			"created_at",
 			"updated_at",
 		}).AddRow(
-			blog.ID().Value(),
-			blog.Title().Value(),
-			blog.Body().Value(),
-			blog.CreatedAt(),
-			blog.UpdatedAt(),
+			blog.ID.Value,
+			blog.Title.Value,
+			blog.Body.Value,
+			blog.CreatedAt,
+			blog.UpdatedAt,
 		))
 
 	// モック化されたDBを用いてテスト対象関数を実行
@@ -85,11 +85,11 @@ func TestRw_GetAll_Fail(t *testing.T) {
 			"created_at",
 			"updated_at",
 		}).AddRow(
-			blog.ID().Value(),
-			blog.Title().Value(),
-			blog.Body().Value(),
-			blog.CreatedAt(),
-			blog.UpdatedAt(),
+			blog.ID.Value,
+			blog.Title.Value,
+			blog.Body.Value,
+			blog.CreatedAt,
+			blog.UpdatedAt,
 		)).
 		WillReturnError(fmt.Errorf("some error"))
 

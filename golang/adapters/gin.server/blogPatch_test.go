@@ -36,12 +36,12 @@ func TestCompanyPatchSuccess(t *testing.T) {
 	defer ts.Close()
 
 	if err := baloo.New(ts.URL).
-		Put(blogPatchPath + strconv.Itoa(blog.ID().Value())).
+		Put(blogPatchPath + strconv.Itoa(blog.ID.Value)).
 		BodyString(`{
   			"blog": {
-    			"id": "` + strconv.Itoa(blog.ID().Value()) + `",
-    			"title": "` + blog.Title().Value() + `",
-    			"body": "` + blog.Body().Value() + `"
+    			"id": "` + strconv.Itoa(blog.ID.Value) + `",
+    			"title": "` + blog.Title.Value + `",
+    			"body": "` + blog.Body.Value + `"
   			}
 		}`).
 		Expect(t).

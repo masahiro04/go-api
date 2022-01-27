@@ -21,8 +21,8 @@ func TestRw_happyCreate(t *testing.T) {
 	blog := testData.Blog()
 	//id := 1
 	mock.ExpectQuery(regexp.QuoteMeta(blogRW.CreateSql)).
-		WithArgs(blog.Title().Value(), blog.Body().Value(), AnyTime{}, AnyTime{}).
-		WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(blog.ID().Value()))
+		WithArgs(blog.Title.Value, blog.Body.Value, AnyTime{}, AnyTime{}).
+		WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(blog.ID.Value))
 
 	if _, err = rw.Create(blog); err != nil {
 		t.Errorf("error was not expected while updating stats: %s", err)

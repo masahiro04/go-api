@@ -4,7 +4,7 @@ import (
 	"strconv"
 
 	formatter "clean_architecture/golang/adapters/json.formatter"
-	presenter "clean_architecture/golang/adapters/json.presenter"
+	presenter "clean_architecture/golang/adapters/presenter"
 	uc "clean_architecture/golang/usecases"
 
 	"github.com/gin-gonic/gin"

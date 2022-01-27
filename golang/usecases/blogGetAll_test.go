@@ -2,7 +2,7 @@ package uc_test
 
 import (
 	formatter "clean_architecture/golang/adapters/json.formatter"
-	presenter "clean_architecture/golang/adapters/json.presenter"
+	presenter "clean_architecture/golang/adapters/presenter"
 	mock "clean_architecture/golang/adapters/uc.mock"
 	"clean_architecture/golang/testData"
 	uc "clean_architecture/golang/usecases"

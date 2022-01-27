@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	presenter "clean_architecture/golang/adapters/json.presenter"
+	presenter "clean_architecture/golang/adapters/presenter"
 	uc "clean_architecture/golang/usecases"
 
 	formatter "clean_architecture/golang/adapters/json.formatter"

@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	formatter "clean_architecture/golang/adapters/json.formatter"
-	presenter "clean_architecture/golang/adapters/json.presenter"
+	presenter "clean_architecture/golang/adapters/presenter"
 
 	"github.com/gin-gonic/gin"
 

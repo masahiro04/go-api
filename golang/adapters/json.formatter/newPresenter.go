@@ -1,7 +1,7 @@
 package formatter
 
 import (
-	presenter "clean_architecture/golang/adapters/json.presenter"
+	presenter "clean_architecture/golang/adapters/presenter"
 	"clean_architecture/golang/domains"
 	uc "clean_architecture/golang/usecases"
 )

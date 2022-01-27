@@ -1,8 +1,9 @@
 package presenter
 
 import (
-	"github.com/hashicorp/go-multierror"
 	"net/http"
+
+	"github.com/hashicorp/go-multierror"
 
 	"github.com/gin-gonic/gin"
 )

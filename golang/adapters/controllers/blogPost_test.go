@@ -1,10 +1,10 @@
-package server_test
+package controllers_test
 
 import (
 	"net/http/httptest"
 	"testing"
 
-	server "clean_architecture/golang/adapters/gin.server"
+	controllers "clean_architecture/golang/adapters/controllers"
 	mock "clean_architecture/golang/adapters/uc.mock"
 	"clean_architecture/golang/testData"
 
@@ -28,7 +28,7 @@ func TestBlogPostSuccess(t *testing.T) {
 
 	// server
 	gE := gin.Default()
-	server.NewRouter(ucHandler).SetRoutes(gE)
+	controllers.NewRouter(ucHandler).SetRoutes(gE)
 	ts := httptest.NewServer(gE)
 	defer ts.Close()
 

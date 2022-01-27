@@ -1,8 +1,9 @@
-package server
+package controllers
 
 import (
-	"clean_architecture/golang/usecases"
+	uc "clean_architecture/golang/usecases"
 	"fmt"
+
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/render"
 )

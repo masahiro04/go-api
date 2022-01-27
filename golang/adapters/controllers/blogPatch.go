@@ -1,39 +1,41 @@
-package server
+package controllers
 
 import (
 	"net/http"
+	"strconv"
 
 	formatter "clean_architecture/golang/adapters/json.formatter"
 	presenter "clean_architecture/golang/adapters/json.presenter"
-	"clean_architecture/golang/usecases"
+	uc "clean_architecture/golang/usecases"
 
 	"github.com/gin-gonic/gin"
 )
 
-type BlogRequest struct {
-	Blog struct {
-		Title *string `json:"title" binding:"required"`
-		Body  *string `json:"body"`
-	} `json:"blog" binding:"required"`
-}
-
-func (rH RouterHandler) blogPost(c *gin.Context) {
+func (rH RouterHandler) blogPatch(c *gin.Context) {
 	log := rH.log(rH.MethodAndPath(c))
-	req := &BlogRequest{}
 
+	req := &BlogRequest{}
 	if err := c.BindJSON(req); err != nil {
 		log(err)
 		c.Status(http.StatusBadRequest)
 		return
 	}
 
-	useCase := uc.CreateBlogUseCase{
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		log(err)
+		c.Status(http.StatusBadRequest)
+		return
+	}
+
+	useCase := uc.EditBlogUseCase{
 		OutputPort: formatter.NewPresenter(presenter.New(c)),
-		InputPort: uc.CreateBlogParams{
+		InputPort: uc.EditBlogParams{
+			Id:    id,
 			Title: *req.Blog.Title,
 			Body:  *req.Blog.Body,
 		},
 	}
+	rH.ucHandler.BlogEdit(useCase)
 
-	rH.ucHandler.BlogCreate(useCase)
 }

@@ -1,13 +1,14 @@
-package server
+package controllers
 
 import (
 	"net/http"
 	"strconv"
 
 	presenter "clean_architecture/golang/adapters/json.presenter"
-	"clean_architecture/golang/usecases"
+	uc "clean_architecture/golang/usecases"
 
 	formatter "clean_architecture/golang/adapters/json.formatter"
+
 	"github.com/gin-gonic/gin"
 )
 

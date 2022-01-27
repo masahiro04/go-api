@@ -1,4 +1,4 @@
-package server_test
+package controllers_test
 
 import (
 	"net/http"
@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"testing"
 
-	server "clean_architecture/golang/adapters/gin.server"
+	controllers "clean_architecture/golang/adapters/controllers"
 	logger "clean_architecture/golang/adapters/logrus.logger"
 	mock "clean_architecture/golang/adapters/uc.mock"
 	"clean_architecture/golang/testData"
@@ -16,18 +16,19 @@ import (
 	"gopkg.in/h2non/baloo.v3"
 )
 
-var blogDeletePath = "/api/blogs/"
+var blogPatchPath = "/api/blogs/"
 
-func TestBlogDeleteSuccess(t *testing.T) {
+func TestCompanyPatchSuccess(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
 	blog := testData.Blog()
 	ucHandler := mock.NewMockHandler(mockCtrl)
-	ucHandler.EXPECT().BlogDelete(gomock.Any()).Times(1)
+	ucHandler.EXPECT().BlogEdit(gomock.Any()).Times(1)
+
 	gE := gin.Default()
 
-	router := server.NewRouter(ucHandler)
+	router := controllers.NewRouter(ucHandler)
 	router.Logger = logger.SimpleLogger{}
 	router.SetRoutes(gE)
 
@@ -35,9 +36,17 @@ func TestBlogDeleteSuccess(t *testing.T) {
 	defer ts.Close()
 
 	if err := baloo.New(ts.URL).
-		Delete(blogDeletePath + strconv.Itoa(blog.ID.Value)).
+		Put(blogPatchPath + strconv.Itoa(blog.ID.Value)).
+		BodyString(`{
+  			"blog": {
+    			"id": "` + strconv.Itoa(blog.ID.Value) + `",
+    			"title": "` + blog.Title.Value + `",
+    			"body": "` + blog.Body.Value + `"
+  			}
+		}`).
 		Expect(t).
 		Status(http.StatusOK).
+		//JSONSchema(testData.CompanySingleRespDefinition).
 		Done(); err != nil {
 		t.Error(err)
 	}

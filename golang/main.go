@@ -7,6 +7,7 @@ import (
 
 	"github.com/joho/godotenv"
 
+	"clean_architecture/golang/adapters/controllers"
 	dbTransaction "clean_architecture/golang/adapters/dao.dbTransaction"
 
 	_ "github.com/lib/pq"
@@ -14,7 +15,6 @@ import (
 	"fmt"
 
 	blogRW "clean_architecture/golang/adapters/dao.blogRW"
-	server "clean_architecture/golang/adapters/gin.server"
 	logger "clean_architecture/golang/adapters/logrus.logger"
 	validator "clean_architecture/golang/adapters/validator"
 
@@ -94,7 +94,7 @@ func run() {
 		viper.GetString("log.format"),
 	)
 
-	server.NewRouterWithLogger(
+	controllers.NewRouterWithLogger(
 		uc.HandlerConstructor{
 			Logger:        routerLogger,
 			BlogRW:        blogRW.New(db),

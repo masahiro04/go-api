@@ -13,7 +13,7 @@ func TestIdNewIDSuccess(t *testing.T) {
 	input := 1
 	newID, err := blog.NewId(input)
 	t.Run("hoge", func(t *testing.T) {
-		assert.Equal(t, newID.Value(), input)
+		assert.Equal(t, newID.Value, input)
 		assert.Equal(t, err, nil)
 	})
 }
@@ -32,6 +32,6 @@ func TestIDValueSuccess(t *testing.T) {
 	input := 1
 	newID, _ := blog.NewId(input)
 	t.Run("hoge", func(t *testing.T) {
-		assert.Equal(t, newID.Value(), input)
+		assert.Equal(t, newID.Value, input)
 	})
 }

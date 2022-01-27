@@ -13,6 +13,8 @@ import (
 )
 
 func Validate(target interface{}) error {
+	fmt.Println("target")
+	fmt.Println(target)
 	translator := ja.New()
 	uni := ut.New(translator, translator)
 	trans, found := uni.GetTranslator("ja")
@@ -39,20 +41,19 @@ func Validate(target interface{}) error {
 	}
 
 	err = validate.Struct(target)
+	fmt.Println("errの場所")
+	fmt.Println(err)
 	if err == nil {
 		return nil
 	}
 
-	fmt.Println("sentinel5")
-	// TODO(okubo): ここでエラー起きているので、詳細積める
+	fmt.Println("sentinel1")
 	var result error
-	fmt.Println("sentinel5.5")
-	fmt.Println(err)
 	for _, e := range err.(gpValidator.ValidationErrors) {
-		fmt.Println("errors.New(e.Translate(trans))")
-		fmt.Println(errors.New(e.Translate(trans)))
 		result = multierror.Append(result, errors.New(e.Translate(trans)))
 	}
+	fmt.Println("sentinel2")
+	fmt.Println(result)
 
 	return result
 }

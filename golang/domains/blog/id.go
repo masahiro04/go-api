@@ -3,17 +3,13 @@ package blog
 import "strconv"
 
 type ID struct {
-	value int
+	Value int
 }
 
 func NewId(value int) (ID, error) {
-	return ID{value: value}, nil
+	return ID{Value: value}, nil
 }
 
 func (id ID) String() string {
-	return strconv.Itoa(id.value)
-}
-
-func (id ID) Value() int {
-	return id.value
+	return strconv.Itoa(id.Value)
 }

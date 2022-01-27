@@ -8,37 +8,45 @@ import (
 )
 
 func TestNewTitleSuccess(t *testing.T) {
-	// NOTE(okubo): Body.valueとの比較したいけど、小文字はexportされないので、Value経由で比較
 	input := "title"
 	newTitle, err := blog.NewTitle(input)
 	t.Run("hoge", func(t *testing.T) {
-		assert.Equal(t, newTitle.Value(), input)
+		assert.Equal(t, newTitle.Value, input)
 		assert.Equal(t, err, nil)
 	})
 }
 
 func TestNewTitleFail(t *testing.T) {
-	// NOTE(okubo): 成功参考にerrをテスト
+	input := ""
+	newTitle, err := blog.NewTitle(input)
+	t.Run("hoge", func(t *testing.T) {
+		assert.Equal(t, newTitle.Value, input)
+		assert.NotNil(t, err)
+	})
 }
 
 func TestUpdateTitleSuccess(t *testing.T) {
-	// NOTE(okubo): Body.valueとの比較したいけど、小文字はexportされないので、Value経由で比較
 	input := "title"
 	updatedTitle, err := blog.UpdateTitle(&input)
 	t.Run("hoge", func(t *testing.T) {
-		assert.Equal(t, updatedTitle.Value(), input)
+		assert.Equal(t, updatedTitle.Value, input)
 		assert.Equal(t, err, nil)
 	})
 }
 
 func TestUpdateTitleFail(t *testing.T) {
-	// NOTE(okubo): 成功参考にerrをテスト
+	input := ""
+	updatedTitle, err := blog.UpdateTitle(&input)
+	t.Run("hoge", func(t *testing.T) {
+		assert.Equal(t, updatedTitle.Value, input)
+		assert.NotNil(t, err)
+	})
 }
 
 func TestTitleValueSuccess(t *testing.T) {
 	input := "title"
 	title, _ := blog.NewTitle(input)
 	t.Run("hoge", func(t *testing.T) {
-		assert.Equal(t, title.Value(), input)
+		assert.Equal(t, title.Value, input)
 	})
 }

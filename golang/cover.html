@@ -71,7 +71,7 @@
 				
 				<option value="file7">clean_architecture/golang/domains/blog.go (100.0%)</option>
 				
-				<option value="file8">clean_architecture/golang/domains/blog/body.go (100.0%)</option>
+				<option value="file8">clean_architecture/golang/domains/blog/body.go (83.3%)</option>
 				
 				<option value="file9">clean_architecture/golang/domains/blog/id.go (100.0%)</option>
 				
@@ -578,6 +578,11 @@ func (b *Blog) UpdateBody(body blog.Body) *Blog <span class="cov8" title="1">{
 		
 		<pre class="file" id="file8" style="display: none">package blog
 
+import (
+        "clean_architecture/golang/domains/validator"
+        "fmt"
+)
+
 type Body struct {
         // [Blogの説明を表現する値オブジェクト]
         // バリデーションルールは以下
@@ -587,23 +592,24 @@ type Body struct {
 }
 
 func NewBody(value string) (Body, error) <span class="cov8" title="1">{
-        // TODO(okubo): validationがうまく起動しないので、修正する
-        // fmt.Println("newBody")
-        // err := validator.Validate(value)
-        // if err != nil {
-        //         return Body{value: value}, err
-        // }
-        return Body{value: value}, nil
-}</span>
+        body := Body{value: value}
+        fmt.Println("haaaaa")
+        err := validator.Validate(body)
+        if err != nil </span><span class="cov0" title="0">{
+                return Body{value: value}, err
+        }</span>
+        <span class="cov8" title="1">return body, nil</span>
+}
 
 func UpdateBody(input *string) (*Body, error) <span class="cov8" title="1">{
-        // fmt.Println("updateBody")
-        // err := validator.Validate(&amp;input)
-        // if err != nil {
-        //         return &amp;Body{value: *input}, err
-        // }
-        return &amp;Body{value: *input}, nil
-}</span>
+        body := Body{value: *input}
+        err := validator.Validate(&amp;body)
+
+        if err != nil </span><span class="cov0" title="0">{
+                return &amp;Body{value: *input}, err
+        }</span>
+        <span class="cov8" title="1">return &amp;body, nil</span>
+}
 
 func (body Body) Value() string <span class="cov8" title="1">{
         return body.value

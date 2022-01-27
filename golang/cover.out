@@ -24,9 +24,13 @@ clean_architecture/golang/domains/blogs.go:39.21,41.3 1 1
 clean_architecture/golang/domains/blog/title.go:11.44,19.2 1 1
 clean_architecture/golang/domains/blog/title.go:21.49,28.2 1 1
 clean_architecture/golang/domains/blog/title.go:30.35,32.2 1 1
-clean_architecture/golang/domains/blog/body.go:11.42,19.2 1 1
-clean_architecture/golang/domains/blog/body.go:21.47,28.2 1 1
-clean_architecture/golang/domains/blog/body.go:30.33,32.2 1 1
+clean_architecture/golang/domains/blog/body.go:16.42,20.16 4 1
+clean_architecture/golang/domains/blog/body.go:23.2,23.18 1 1
+clean_architecture/golang/domains/blog/body.go:20.16,22.3 1 0
+clean_architecture/golang/domains/blog/body.go:26.47,30.16 3 1
+clean_architecture/golang/domains/blog/body.go:33.2,33.19 1 1
+clean_architecture/golang/domains/blog/body.go:30.16,32.3 1 0
+clean_architecture/golang/domains/blog/body.go:36.33,38.2 1 1
 clean_architecture/golang/domains/blog/id.go:9.35,11.2 1 1
 clean_architecture/golang/domains/blog/id.go:13.30,15.2 1 1
 clean_architecture/golang/domains/blog/id.go:17.26,19.2 1 1

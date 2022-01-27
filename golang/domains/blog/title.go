@@ -1,32 +1,33 @@
 package blog
 
+import "clean_architecture/golang/domains/validator"
+
 type Title struct {
 	// [Blogの説明を表現する値オブジェクト]
 	// バリデーションルールは以下
 	// - 空ではないこと
 	// - 100文字以下であること
-	value string `validate:"required,max=100" ja:"タイトル"`
+	Value string `validate:"required,max=100" ja:"タイトル"`
 }
 
 func NewTitle(value string) (Title, error) {
-	// TODO(okubo): validationがうまく起動しないので、修正する
-
-	// err := validator.Validate(value)
-	// if err != nil {
-	// 	return Title{value: value}, err
-	// }
-	return Title{value: value}, nil
+	title := Title{Value: value}
+	err := validator.Validate(title)
+	if err != nil {
+		return title, err
+	}
+	return title, nil
 }
 
 func UpdateTitle(input *string) (*Title, error) {
-	// fmt.Println("updateTitle")
-	// err := validator.Validate(input)
-	// if err != nil {
-	// 	return &Title{value: *input}, err
-	// }
-	return &Title{value: *input}, nil
+	title := Title{Value: *input}
+	err := validator.Validate(title)
+	if err != nil {
+		return &title, err
+	}
+	return &title, nil
 }
 
-func (title Title) Value() string {
-	return title.value
-}
+// func (title Title) Value() string {
+// 	return title.value
+// }

@@ -1,7 +1,7 @@
-package blogRW_test
+package blogDao_test
 
 import (
-	blogRW "clean_architecture/golang/adapters/dao.blogRW"
+	"clean_architecture/golang/adapters/dao/blogDao"
 	"clean_architecture/golang/testData"
 	"fmt"
 	"regexp"
@@ -10,22 +10,35 @@ import (
 	"github.com/DATA-DOG/go-sqlmock"
 )
 
-func TestRw_happyDelete(t *testing.T) {
+func TestRw_happyGetById(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
 		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
 	}
 	defer db.Close()
 
-	rw := blogRW.New(db)
+	rw := blogDao.New(db)
 	blog := testData.Blog()
 
-	mock.ExpectExec(regexp.QuoteMeta(blogRW.DeleteSql)).
-		WithArgs(blog.ID.Value, AnyTime{}, AnyTime{}).
-		WillReturnResult(sqlmock.NewResult(1, 1))
+	// DBモック用意
+	mock.ExpectQuery(regexp.QuoteMeta(blogDao.GetByIdSql)).
+		WithArgs().
+		WillReturnRows(mock.NewRows([]string{
+			"id",
+			"title",
+			"body",
+			"created_at",
+			"updated_at",
+		}).AddRow(
+			blog.ID.Value,
+			blog.Title.Value,
+			blog.Body.Value,
+			blog.CreatedAt,
+			blog.UpdatedAt,
+		))
 
 	// モック化されたDBを用いてテスト対象関数を実行
-	if err = rw.Delete(blog.ID.Value); err != nil {
+	if _, err := rw.GetById(blog.ID.Value); err != nil {
 		t.Errorf("error was not expected while updating stats: %s", err)
 	}
 
@@ -35,22 +48,23 @@ func TestRw_happyDelete(t *testing.T) {
 	}
 }
 
-func TestRw_unHappyDelete(t *testing.T) {
+func TestRw_unHappyGetById(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
 		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
 	}
 	defer db.Close()
 
-	rw := blogRW.New(db)
+	rw := blogDao.New(db)
 	blog := testData.Blog()
 
-	mock.ExpectExec(regexp.QuoteMeta(blogRW.DeleteSql)).
-		WithArgs(blog.ID.Value, AnyTime{}, AnyTime{}).
+	// DBモック用意
+	mock.ExpectQuery(regexp.QuoteMeta(blogDao.GetByIdSql)).
+		WithArgs().
 		WillReturnError(fmt.Errorf("some error"))
 
 	// モック化されたDBを用いてテスト対象関数を実行
-	if err = rw.Delete(blog.ID.Value); err == nil {
+	if _, err := rw.GetById(blog.ID.Value); err == nil {
 		t.Errorf("error was not expected while updating stats: %s", err)
 	}
 

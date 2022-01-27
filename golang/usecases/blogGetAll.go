@@ -15,7 +15,7 @@ type GetBlogsParams struct {
 }
 
 func (i interactor) BlogGetAll(uc GetBlogsUseCase) {
-	blogs, err := i.blogRW.GetAll()
+	blogs, err := i.blogDao.GetAll()
 	if err != nil {
 		uc.OutputPort.Raise(domains.BadRequest, err)
 		return

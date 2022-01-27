@@ -14,7 +14,7 @@ type DeleteBlogParams struct {
 }
 
 func (i interactor) BlogDelete(uc DeleteBlogUseCase) {
-	if err := i.blogRW.Delete(uc.InputPort.Id); err != nil {
+	if err := i.blogDao.Delete(uc.InputPort.Id); err != nil {
 		uc.OutputPort.Raise(domains.BadRequest, err)
 		return
 	}

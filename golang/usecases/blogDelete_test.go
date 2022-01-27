@@ -25,7 +25,7 @@ func TestBlogDeleteSuccess(t *testing.T) {
 	blog := testData.Blog()
 
 	i := mock.NewMockedInteractor(mockCtrl)
-	i.BlogRW.EXPECT().Delete(blog.ID.Value).Return(nil).Times(1)
+	i.BlogDao.EXPECT().Delete(blog.ID.Value).Return(nil).Times(1)
 
 	ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
 	pre := presenters.New(ginContext)
@@ -53,12 +53,12 @@ func TestBlogDeleteFails(t *testing.T) {
 			ShouldPass: true},
 		"failed to save the company": {
 			Calls: func(i *mock.Interactor) {
-				i.BlogRW.EXPECT().Delete(blog.ID.Value).Return(errors.New(""))
+				i.BlogDao.EXPECT().Delete(blog.ID.Value).Return(errors.New(""))
 			}},
 	}
 
 	validCalls := func(i *mock.Interactor) {
-		i.BlogRW.EXPECT().Delete(blog.ID.Value).Return(nil).AnyTimes()
+		i.BlogDao.EXPECT().Delete(blog.ID.Value).Return(nil).AnyTimes()
 	}
 
 	for testName, mutation := range mutations {

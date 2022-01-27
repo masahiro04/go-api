@@ -30,7 +30,7 @@ func (i interactor) BlogCreate(uc CreateBlogUseCase) {
 
 	newBlog := domains.NewBlog(title, body)
 
-	createdBlog, err := i.blogRW.Create(newBlog)
+	createdBlog, err := i.blogDao.Create(newBlog)
 	if err != nil {
 		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
 		return

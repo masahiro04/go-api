@@ -6,7 +6,8 @@ package mock
 import (
 	"log"
 
-	"clean_architecture/golang/usecases"
+	uc "clean_architecture/golang/usecases"
+
 	"github.com/golang/mock/gomock"
 )
 
@@ -14,7 +15,7 @@ import (
 type Interactor struct {
 	Logger        *MockLogger
 	Presenter     *MockPresenter
-	BlogRW        *MockBlogRW
+	BlogDao       *MockBlogDao
 	Validator     *MockValidator
 	DBTransaction *MockDBTransaction
 }
@@ -35,7 +36,7 @@ func NewMockedInteractor(mockCtrl *gomock.Controller) Interactor {
 	return Interactor{
 		Logger:        NewMockLogger(mockCtrl),
 		Presenter:     NewMockPresenter(mockCtrl),
-		BlogRW:        NewMockBlogRW(mockCtrl),
+		BlogDao:       NewMockBlogDao(mockCtrl),
 		Validator:     NewMockValidator(mockCtrl),
 		DBTransaction: NewMockDBTransaction(mockCtrl),
 	}
@@ -46,7 +47,7 @@ func (i Interactor) GetUCHandler() uc.Handler {
 	return uc.HandlerConstructor{
 		Logger:        i.Logger,
 		Presenter:     i.Presenter,
-		BlogRW:        i.BlogRW,
+		BlogDao:       i.BlogDao,
 		Validator:     i.Validator,
 		DBTransaction: i.DBTransaction,
 	}.New()

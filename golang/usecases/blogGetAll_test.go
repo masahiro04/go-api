@@ -22,7 +22,7 @@ func TestBlogGetAllSuccess(t *testing.T) {
 		defer mockCtrl.Finish()
 
 		i := mock.NewMockedInteractor(mockCtrl)
-		i.BlogRW.EXPECT().GetAll().Return(&_blogs, nil).Times(1)
+		i.BlogDao.EXPECT().GetAll().Return(&_blogs, nil).Times(1)
 
 		// UseCase
 		ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
@@ -54,12 +54,12 @@ func TestBlogGetAllFails(t *testing.T) {
 			ShouldPass: true},
 		"error return on uRW.GetFiltered": {
 			Calls: func(i *mock.Interactor) {
-				i.BlogRW.EXPECT().GetAll().Return(nil, errors.New(""))
+				i.BlogDao.EXPECT().GetAll().Return(nil, errors.New(""))
 			}},
 	}
 
 	validCalls := func(i *mock.Interactor) {
-		i.BlogRW.EXPECT().GetAll().Return(&_blogs, nil).AnyTimes()
+		i.BlogDao.EXPECT().GetAll().Return(&_blogs, nil).AnyTimes()
 	}
 
 	for testName, mutation := range mutations {

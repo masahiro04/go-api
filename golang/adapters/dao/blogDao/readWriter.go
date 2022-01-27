@@ -1,4 +1,4 @@
-package blogRW
+package blogDao
 
 import (
 	"clean_architecture/golang/domains"

@@ -26,8 +26,8 @@ func TestBlogEditSuccess(t *testing.T) {
 	blog := testData.Blog()
 
 	i := mock.NewMockedInteractor(mockCtrl)
-	i.BlogRW.EXPECT().GetById(blog.ID.Value).Return(&blog, nil).Times(1)
-	i.BlogRW.EXPECT().Update(blog.ID.Value, blog).Return(&blog, nil).Times(1)
+	i.BlogDao.EXPECT().GetById(blog.ID.Value).Return(&blog, nil).Times(1)
+	i.BlogDao.EXPECT().Update(blog.ID.Value, blog).Return(&blog, nil).Times(1)
 
 	ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
 	pre := presenters.New(ginContext)
@@ -57,27 +57,27 @@ func TestBlogEditFails(t *testing.T) {
 		}, ShouldPass: true},
 		"error return on CompanyRW.GetById": {
 			Calls: func(i *mock.Interactor) {
-				i.BlogRW.EXPECT().GetById(blog.ID.Value).Return(nil, errors.New(""))
+				i.BlogDao.EXPECT().GetById(blog.ID.Value).Return(nil, errors.New(""))
 			}},
 		"nil, nil return on CompanyRW.GetById": {
 			Calls: func(i *mock.Interactor) {
-				i.BlogRW.EXPECT().GetById(blog.ID.Value).Return(nil, nil)
+				i.BlogDao.EXPECT().GetById(blog.ID.Value).Return(nil, nil)
 			}},
 		// TODO エラーハンドリングしっかりしたあとに有効にする
 		// "uRW.GetByID returns wrong ID": {
 		// 	Calls: func(i *mock.Interactor) {
-		// 		i.BlogRW.EXPECT().GetById(blog.ID).Return(&domains.Blog{ID: 12}, nil)
+		// 		i.BlogDao.EXPECT().GetById(blog.ID).Return(&domains.Blog{ID: 12}, nil)
 		// 	}},
 		"failed to save the user": {
 			Calls: func(i *mock.Interactor) {
-				i.BlogRW.EXPECT().Update(blog.ID.Value, blog).Return(nil, errors.New(""))
+				i.BlogDao.EXPECT().Update(blog.ID.Value, blog).Return(nil, errors.New(""))
 			}},
 	}
 
 	validCalls := func(i *mock.Interactor) {
 		i.Logger.EXPECT().Log(gomock.Any()).AnyTimes()
-		i.BlogRW.EXPECT().GetById(blog.ID.Value).Return(&blog, nil).AnyTimes()
-		i.BlogRW.EXPECT().Update(blog.ID.Value, blog).Return(&blog, nil).AnyTimes()
+		i.BlogDao.EXPECT().GetById(blog.ID.Value).Return(&blog, nil).AnyTimes()
+		i.BlogDao.EXPECT().Update(blog.ID.Value, blog).Return(&blog, nil).AnyTimes()
 		i.Validator.EXPECT().Validate(gomock.Any()).Return(nil).AnyTimes()
 	}
 

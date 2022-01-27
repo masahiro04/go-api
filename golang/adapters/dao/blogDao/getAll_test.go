@@ -1,7 +1,7 @@
-package blogRW_test
+package blogDao_test
 
 import (
-	blogRW "clean_architecture/golang/adapters/dao.blogRW"
+	"clean_architecture/golang/adapters/dao/blogDao"
 	"clean_architecture/golang/testData"
 	"database/sql/driver"
 	"fmt"
@@ -28,11 +28,11 @@ func TestRw_GetAll_Success(t *testing.T) {
 	}
 	defer db.Close()
 
-	rw := blogRW.New(db)
+	rw := blogDao.New(db)
 	blog := testData.Blog()
 
 	// DBモック用意
-	mock.ExpectQuery(regexp.QuoteMeta(blogRW.GetAllSql)).
+	mock.ExpectQuery(regexp.QuoteMeta(blogDao.GetAllSql)).
 		WithArgs().
 		WillReturnRows(mock.NewRows([]string{
 			"id",
@@ -72,11 +72,11 @@ func TestRw_GetAll_Fail(t *testing.T) {
 	}
 	defer db.Close()
 
-	rw := blogRW.New(db)
+	rw := blogDao.New(db)
 	blog := testData.Blog()
 
 	// DBモック用意
-	mock.ExpectQuery(regexp.QuoteMeta(blogRW.GetAllSql)).
+	mock.ExpectQuery(regexp.QuoteMeta(blogDao.GetAllSql)).
 		WithArgs().
 		WillReturnRows(mock.NewRows([]string{
 			"id",

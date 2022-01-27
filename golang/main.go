@@ -9,12 +9,12 @@ import (
 
 	"clean_architecture/golang/adapters/controllers"
 	dbTransaction "clean_architecture/golang/adapters/dao.dbTransaction"
+	"clean_architecture/golang/adapters/dao/blogDao"
 
 	_ "github.com/lib/pq"
 
 	"fmt"
 
-	blogRW "clean_architecture/golang/adapters/dao.blogRW"
 	logger "clean_architecture/golang/adapters/logrus.logger"
 	validator "clean_architecture/golang/adapters/validator"
 
@@ -97,7 +97,7 @@ func run() {
 	controllers.NewRouterWithLogger(
 		uc.HandlerConstructor{
 			Logger:        routerLogger,
-			BlogRW:        blogRW.New(db),
+			BlogDao:       blogDao.New(db),
 			Validator:     validator.New(),
 			DBTransaction: dbTransaction.New(db),
 		}.New(),

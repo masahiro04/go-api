@@ -25,7 +25,7 @@ func TestBlogCreateSuccess(t *testing.T) {
 
 	// Mock
 	i := mock.NewMockedInteractor(mockCtrl)
-	i.BlogRW.EXPECT().Create(gomock.Any()).Return(&blog, nil).Times(1)
+	i.BlogDao.EXPECT().Create(gomock.Any()).Return(&blog, nil).Times(1)
 
 	// UseCase
 	ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
@@ -58,12 +58,12 @@ func TestBlogCreateFails(t *testing.T) {
 		// 	}},
 		"error return on uRW.GetByUuId": {
 			Calls: func(i *mock.Interactor) {
-				i.BlogRW.EXPECT().Create(gomock.Any()).Return(nil, errors.New("")).Times(1)
+				i.BlogDao.EXPECT().Create(gomock.Any()).Return(nil, errors.New("")).Times(1)
 			}},
 	}
 
 	validCalls := func(i *mock.Interactor) {
-		i.BlogRW.EXPECT().Create(gomock.Any()).Return(&blog, nil).AnyTimes()
+		i.BlogDao.EXPECT().Create(gomock.Any()).Return(&blog, nil).AnyTimes()
 		i.Validator.EXPECT().Validate(gomock.Any()).Return(nil).AnyTimes()
 	}
 

@@ -19,7 +19,7 @@ type BlogLogic interface {
 type HandlerConstructor struct {
 	Logger        Logger
 	Presenter     Presenter
-	BlogRW        BlogRW
+	BlogDao       BlogDao
 	Validator     Validator
 	DBTransaction DBTransaction
 }
@@ -28,7 +28,7 @@ func (c HandlerConstructor) New() Handler {
 	if c.Logger == nil {
 		log.Fatal("missing Logger")
 	}
-	if c.BlogRW == nil {
+	if c.BlogDao == nil {
 		log.Fatal("missing CompanyRW")
 	}
 	if c.Validator == nil {
@@ -41,7 +41,7 @@ func (c HandlerConstructor) New() Handler {
 	return interactor{
 		logger:        c.Logger,
 		presenter:     c.Presenter,
-		blogRW:        c.BlogRW,
+		blogDao:       c.BlogDao,
 		validator:     c.Validator,
 		dbTransaction: c.DBTransaction,
 	}

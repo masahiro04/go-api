@@ -210,31 +210,31 @@ func (mr *MockDBTransactionMockRecorder) WithTx(runner interface{}) *gomock.Call
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WithTx", reflect.TypeOf((*MockDBTransaction)(nil).WithTx), runner)
 }
 
-// MockBlogRW is a mock of BlogRW interface.
-type MockBlogRW struct {
+// MockBlogDao is a mock of BlogDao interface.
+type MockBlogDao struct {
 	ctrl     *gomock.Controller
-	recorder *MockBlogRWMockRecorder
+	recorder *MockBlogDaoMockRecorder
 }
 
-// MockBlogRWMockRecorder is the mock recorder for MockBlogRW.
-type MockBlogRWMockRecorder struct {
-	mock *MockBlogRW
+// MockBlogDaoMockRecorder is the mock recorder for MockBlogDao.
+type MockBlogDaoMockRecorder struct {
+	mock *MockBlogDao
 }
 
-// NewMockBlogRW creates a new mock instance.
-func NewMockBlogRW(ctrl *gomock.Controller) *MockBlogRW {
-	mock := &MockBlogRW{ctrl: ctrl}
-	mock.recorder = &MockBlogRWMockRecorder{mock}
+// NewMockBlogDao creates a new mock instance.
+func NewMockBlogDao(ctrl *gomock.Controller) *MockBlogDao {
+	mock := &MockBlogDao{ctrl: ctrl}
+	mock.recorder = &MockBlogDaoMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockBlogRW) EXPECT() *MockBlogRWMockRecorder {
+func (m *MockBlogDao) EXPECT() *MockBlogDaoMockRecorder {
 	return m.recorder
 }
 
 // Create mocks base method.
-func (m *MockBlogRW) Create(company domains.Blog) (*domains.Blog, error) {
+func (m *MockBlogDao) Create(company domains.Blog) (*domains.Blog, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", company)
 	ret0, _ := ret[0].(*domains.Blog)
@@ -243,13 +243,13 @@ func (m *MockBlogRW) Create(company domains.Blog) (*domains.Blog, error) {
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockBlogRWMockRecorder) Create(company interface{}) *gomock.Call {
+func (mr *MockBlogDaoMockRecorder) Create(company interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockBlogRW)(nil).Create), company)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockBlogDao)(nil).Create), company)
 }
 
 // CreateTx mocks base method.
-func (m *MockBlogRW) CreateTx(company domains.Blog, tx *sql.Tx) (*domains.Blog, error) {
+func (m *MockBlogDao) CreateTx(company domains.Blog, tx *sql.Tx) (*domains.Blog, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateTx", company, tx)
 	ret0, _ := ret[0].(*domains.Blog)
@@ -258,13 +258,13 @@ func (m *MockBlogRW) CreateTx(company domains.Blog, tx *sql.Tx) (*domains.Blog, 
 }
 
 // CreateTx indicates an expected call of CreateTx.
-func (mr *MockBlogRWMockRecorder) CreateTx(company, tx interface{}) *gomock.Call {
+func (mr *MockBlogDaoMockRecorder) CreateTx(company, tx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTx", reflect.TypeOf((*MockBlogRW)(nil).CreateTx), company, tx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTx", reflect.TypeOf((*MockBlogDao)(nil).CreateTx), company, tx)
 }
 
 // Delete mocks base method.
-func (m *MockBlogRW) Delete(id int) error {
+func (m *MockBlogDao) Delete(id int) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delete", id)
 	ret0, _ := ret[0].(error)
@@ -272,13 +272,13 @@ func (m *MockBlogRW) Delete(id int) error {
 }
 
 // Delete indicates an expected call of Delete.
-func (mr *MockBlogRWMockRecorder) Delete(id interface{}) *gomock.Call {
+func (mr *MockBlogDaoMockRecorder) Delete(id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockBlogRW)(nil).Delete), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockBlogDao)(nil).Delete), id)
 }
 
 // GetAll mocks base method.
-func (m *MockBlogRW) GetAll() (*domains.Blogs, error) {
+func (m *MockBlogDao) GetAll() (*domains.Blogs, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAll")
 	ret0, _ := ret[0].(*domains.Blogs)
@@ -287,13 +287,13 @@ func (m *MockBlogRW) GetAll() (*domains.Blogs, error) {
 }
 
 // GetAll indicates an expected call of GetAll.
-func (mr *MockBlogRWMockRecorder) GetAll() *gomock.Call {
+func (mr *MockBlogDaoMockRecorder) GetAll() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAll", reflect.TypeOf((*MockBlogRW)(nil).GetAll))
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAll", reflect.TypeOf((*MockBlogDao)(nil).GetAll))
 }
 
 // GetById mocks base method.
-func (m *MockBlogRW) GetById(id int) (*domains.Blog, error) {
+func (m *MockBlogDao) GetById(id int) (*domains.Blog, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetById", id)
 	ret0, _ := ret[0].(*domains.Blog)
@@ -302,13 +302,13 @@ func (m *MockBlogRW) GetById(id int) (*domains.Blog, error) {
 }
 
 // GetById indicates an expected call of GetById.
-func (mr *MockBlogRWMockRecorder) GetById(id interface{}) *gomock.Call {
+func (mr *MockBlogDaoMockRecorder) GetById(id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetById", reflect.TypeOf((*MockBlogRW)(nil).GetById), id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetById", reflect.TypeOf((*MockBlogDao)(nil).GetById), id)
 }
 
 // Update mocks base method.
-func (m *MockBlogRW) Update(id int, company domains.Blog) (*domains.Blog, error) {
+func (m *MockBlogDao) Update(id int, company domains.Blog) (*domains.Blog, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Update", id, company)
 	ret0, _ := ret[0].(*domains.Blog)
@@ -317,7 +317,7 @@ func (m *MockBlogRW) Update(id int, company domains.Blog) (*domains.Blog, error)
 }
 
 // Update indicates an expected call of Update.
-func (mr *MockBlogRWMockRecorder) Update(id, company interface{}) *gomock.Call {
+func (mr *MockBlogDaoMockRecorder) Update(id, company interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockBlogRW)(nil).Update), id, company)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockBlogDao)(nil).Update), id, company)
 }

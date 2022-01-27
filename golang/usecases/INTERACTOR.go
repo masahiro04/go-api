@@ -10,7 +10,7 @@ import (
 type interactor struct {
 	logger        Logger
 	presenter     Presenter
-	blogRW        BlogRW
+	blogDao       BlogDao
 	validator     Validator
 	dbTransaction DBTransaction
 }
@@ -36,7 +36,7 @@ type DBTransaction interface {
 	WithTx(runner func(tx *sql.Tx) error) error
 }
 
-type BlogRW interface {
+type BlogDao interface {
 	GetAll() (*domains.Blogs, error)
 	GetById(id int) (*domains.Blog, error)
 	Create(company domains.Blog) (*domains.Blog, error)

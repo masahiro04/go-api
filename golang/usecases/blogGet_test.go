@@ -26,7 +26,7 @@ func TestBlogGetSuccess(t *testing.T) {
 	blog := testData.Blog()
 
 	i := mock.NewMockedInteractor(mockCtrl)
-	i.BlogRW.EXPECT().GetById(blog.ID.Value).Return(&blog, nil).Times(1)
+	i.BlogDao.EXPECT().GetById(blog.ID.Value).Return(&blog, nil).Times(1)
 
 	ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
 	pre := presenters.New(ginContext)
@@ -50,18 +50,18 @@ func TestBlogGetFails(t *testing.T) {
 			Calls: func(i *mock.Interactor) { // change nothing
 			},
 			ShouldPass: true},
-		"error return on blogRW.GetById": {
+		"error return on BlogDao.GetById": {
 			Calls: func(i *mock.Interactor) {
-				i.BlogRW.EXPECT().GetById(blog.ID.Value).Return(nil, errors.New(""))
+				i.BlogDao.EXPECT().GetById(blog.ID.Value).Return(nil, errors.New(""))
 			}},
-		"nil nil return on blogRW.GetById": {
+		"nil nil return on BlogDao.GetById": {
 			Calls: func(i *mock.Interactor) {
-				i.BlogRW.EXPECT().GetById(blog.ID.Value).Return(nil, nil)
+				i.BlogDao.EXPECT().GetById(blog.ID.Value).Return(nil, nil)
 			}},
 	}
 
 	validCalls := func(i *mock.Interactor) {
-		i.BlogRW.EXPECT().GetById(blog.ID.Value).Return(&blog, nil).AnyTimes()
+		i.BlogDao.EXPECT().GetById(blog.ID.Value).Return(&blog, nil).AnyTimes()
 	}
 
 	for testName, mutation := range mutations {

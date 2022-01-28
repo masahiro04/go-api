@@ -2,7 +2,6 @@ package uc_test
 
 import (
 	"errors"
-	"fmt"
 	"net/http/httptest"
 	"testing"
 
@@ -91,22 +90,10 @@ func TestBlogEditFails(t *testing.T) {
 				useCase.InputPort.Id = blog.ID.Value
 				useCase.InputPort.Title = blog.Title.Value
 				useCase.InputPort.Body = blog.Body.Value
-				fmt.Println("-------hogehoge")
-				fmt.Println(useCase.InputPort)
 
 				i.BlogDao.EXPECT().GetById(blog.ID.Value).Return(&blog, nil).AnyTimes()
 				i.BlogDao.EXPECT().Update(gomock.Any(), gomock.Any()).Return(nil, errors.New("")).AnyTimes()
-				// i.Presenter.EXPECT().Present().Return(errors.New(""))
 			}},
-		// TODO エラーハンドリングしっかりしたあとに有効にする
-		// "uRW.GetByID returns wrong ID": {
-		// 	Calls: func(i *mock.Interactor) {
-		// 		i.BlogDao.EXPECT().GetById(blog.ID).Return(&domains.Blog{ID: 12}, nil)
-		// 	}},
-		// "failed to save the user": {
-		// 	Calls: func(i *mock.Interactor) {
-		// 		i.BlogDao.EXPECT().Update(blog.ID.Value, blog).Return(nil, errors.New(""))
-		// 	}},
 	}
 
 	// validCalls := func(i *mock.Interactor) {

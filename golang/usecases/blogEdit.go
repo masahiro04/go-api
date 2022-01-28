@@ -3,7 +3,6 @@ package uc
 import (
 	"clean_architecture/golang/domains"
 	blog2 "clean_architecture/golang/domains/blog"
-	"fmt"
 )
 
 type EditBlogUseCase struct {
@@ -16,13 +15,6 @@ type EditBlogParams struct {
 	Title string
 	Body  string
 }
-
-// func (req EditBlogParams) getEditableFields() map[domains.BlogUpdatableProperty]*string {
-// 	return map[domains.BlogUpdatableProperty]*string{
-// 		domains.BlogTitle: &req.Title,
-// 		domains.BlogBody:  &req.Body,
-// 	}
-// }
 
 func (i interactor) BlogEdit(uc EditBlogUseCase) {
 	var blog *domains.Blog
@@ -39,12 +31,8 @@ func (i interactor) BlogEdit(uc EditBlogUseCase) {
 		return
 	}
 
-	id, _ := blog2.NewId(uc.InputPort.Id)
 	// NOTE(okubo): input portで検索している -> どう考えてもerrは起きない
-	// if blog.ID != id {
-	// 	uc.OutputPort.Raise(domains.UnprocessableEntity, errWrongCompany)
-	// 	return
-	// }
+	id, _ := blog2.NewId(uc.InputPort.Id)
 
 	title, err := blog2.UpdateTitle(&uc.InputPort.Title)
 	if err != nil {
@@ -57,13 +45,9 @@ func (i interactor) BlogEdit(uc EditBlogUseCase) {
 		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
 		return
 	}
-	fmt.Println("---------")
-	fmt.Println(uc.InputPort)
+
 	updatedBlog, err := i.blogDao.Update(uc.InputPort.Id, domains.BuildBlog(id, *title, *body))
-	fmt.Println(err)
-	fmt.Println("---------")
 	if err != nil {
-		fmt.Println("error occurrred")
 		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
 		return
 	}

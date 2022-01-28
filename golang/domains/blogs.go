@@ -9,10 +9,6 @@ func NewBlogs(value []Blog) Blogs {
 	return Blogs{Value: value}
 }
 
-// func (blogs Blogs) Value() []Blog {
-// 	return blogs.value
-// }
-
 func (blogs Blogs) Size() int {
 	return len(blogs.Value)
 }

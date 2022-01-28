@@ -2,6 +2,7 @@ package uc_test
 
 import (
 	"errors"
+	"fmt"
 	"net/http/httptest"
 	"testing"
 
@@ -51,35 +52,69 @@ func TestBlogEditSuccess(t *testing.T) {
 func TestBlogEditFails(t *testing.T) {
 	blog := testData.Blog()
 
+	ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
+	pre := presenters.New(ginContext)
+	form := json.NewPresenter(pre)
+
+	useCase := uc.EditBlogUseCase{
+		OutputPort: form,
+		InputPort: uc.EditBlogParams{
+			Id:    blog.ID.Value,
+			Title: blog.Title.Value,
+			Body:  blog.Body.Value,
+		},
+	}
 	mutations := map[string]mock.Tester{
-		"shouldPass": {Calls: func(i *mock.Interactor) {
-			// change nothing
-		}, ShouldPass: true},
-		"error return on CompanyRW.GetById": {
+		"error return on BlogDao.GetById": {
 			Calls: func(i *mock.Interactor) {
 				i.BlogDao.EXPECT().GetById(blog.ID.Value).Return(nil, errors.New(""))
 			}},
-		"nil, nil return on CompanyRW.GetById": {
+		"nil, nil return on BlogDao.GetById": {
 			Calls: func(i *mock.Interactor) {
 				i.BlogDao.EXPECT().GetById(blog.ID.Value).Return(nil, nil)
+			}},
+
+		"error returns when blog.title is blank": {
+			Calls: func(i *mock.Interactor) {
+				useCase.InputPort.Title = ""
+				i.BlogDao.EXPECT().GetById(blog.ID.Value).Return(&blog, nil).AnyTimes()
+			}},
+		"error returns when blog.body is blank": {
+			Calls: func(i *mock.Interactor) {
+				useCase.InputPort.Id = blog.ID.Value
+				useCase.InputPort.Title = blog.Title.Value
+				useCase.InputPort.Body = ""
+				i.BlogDao.EXPECT().GetById(blog.ID.Value).Return(&blog, nil).AnyTimes()
+			}},
+		"error returns when blog cannot update": {
+			Calls: func(i *mock.Interactor) {
+				useCase.InputPort.Id = blog.ID.Value
+				useCase.InputPort.Title = blog.Title.Value
+				useCase.InputPort.Body = blog.Body.Value
+				fmt.Println("-------hogehoge")
+				fmt.Println(useCase.InputPort)
+
+				i.BlogDao.EXPECT().GetById(blog.ID.Value).Return(&blog, nil).AnyTimes()
+				i.BlogDao.EXPECT().Update(gomock.Any(), gomock.Any()).Return(nil, errors.New("")).AnyTimes()
+				// i.Presenter.EXPECT().Present().Return(errors.New(""))
 			}},
 		// TODO エラーハンドリングしっかりしたあとに有効にする
 		// "uRW.GetByID returns wrong ID": {
 		// 	Calls: func(i *mock.Interactor) {
 		// 		i.BlogDao.EXPECT().GetById(blog.ID).Return(&domains.Blog{ID: 12}, nil)
 		// 	}},
-		"failed to save the user": {
-			Calls: func(i *mock.Interactor) {
-				i.BlogDao.EXPECT().Update(blog.ID.Value, blog).Return(nil, errors.New(""))
-			}},
+		// "failed to save the user": {
+		// 	Calls: func(i *mock.Interactor) {
+		// 		i.BlogDao.EXPECT().Update(blog.ID.Value, blog).Return(nil, errors.New(""))
+		// 	}},
 	}
 
-	validCalls := func(i *mock.Interactor) {
-		i.Logger.EXPECT().Log(gomock.Any()).AnyTimes()
-		i.BlogDao.EXPECT().GetById(blog.ID.Value).Return(&blog, nil).AnyTimes()
-		i.BlogDao.EXPECT().Update(blog.ID.Value, blog).Return(&blog, nil).AnyTimes()
-		i.Validator.EXPECT().Validate(gomock.Any()).Return(nil).AnyTimes()
-	}
+	// validCalls := func(i *mock.Interactor) {
+	// 	i.Logger.EXPECT().Log(gomock.Any()).AnyTimes()
+	// 	i.BlogDao.EXPECT().GetById(blog.ID.Value).Return(&blog, nil).AnyTimes()
+	// 	i.BlogDao.EXPECT().Update(blog.ID.Value, blog).Return(&blog, nil).AnyTimes()
+	// 	i.Validator.EXPECT().Validate(gomock.Any()).Return(nil).AnyTimes()
+	// }
 
 	for testName, mutation := range mutations {
 		t.Run(testName, func(t *testing.T) {
@@ -87,20 +122,7 @@ func TestBlogEditFails(t *testing.T) {
 			defer mockCtrl.Finish()
 			i := mock.NewMockedInteractor(mockCtrl)
 			mutation.Calls(&i)
-			validCalls(&i)
-
-			ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
-			pre := presenters.New(ginContext)
-			form := json.NewPresenter(pre)
-
-			useCase := uc.EditBlogUseCase{
-				OutputPort: form,
-				InputPort: uc.EditBlogParams{
-					Id:    blog.ID.Value,
-					Title: blog.Title.Value,
-					Body:  blog.Body.Value,
-				},
-			}
+			// validCalls(&i)
 
 			i.GetUCHandler().BlogEdit(useCase)
 

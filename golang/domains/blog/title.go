@@ -27,7 +27,3 @@ func UpdateTitle(input *string) (*Title, error) {
 	}
 	return &title, nil
 }
-
-// func (title Title) Value() string {
-// 	return title.value
-// }

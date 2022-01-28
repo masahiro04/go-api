@@ -3,6 +3,7 @@ package uc
 import (
 	"clean_architecture/golang/domains"
 	blog2 "clean_architecture/golang/domains/blog"
+	"fmt"
 )
 
 type EditBlogUseCase struct {
@@ -39,10 +40,11 @@ func (i interactor) BlogEdit(uc EditBlogUseCase) {
 	}
 
 	id, _ := blog2.NewId(uc.InputPort.Id)
-	if blog.ID != id {
-		uc.OutputPort.Raise(domains.UnprocessableEntity, errWrongCompany)
-		return
-	}
+	// NOTE(okubo): input portで検索している -> どう考えてもerrは起きない
+	// if blog.ID != id {
+	// 	uc.OutputPort.Raise(domains.UnprocessableEntity, errWrongCompany)
+	// 	return
+	// }
 
 	title, err := blog2.UpdateTitle(&uc.InputPort.Title)
 	if err != nil {
@@ -55,9 +57,13 @@ func (i interactor) BlogEdit(uc EditBlogUseCase) {
 		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
 		return
 	}
-
+	fmt.Println("---------")
+	fmt.Println(uc.InputPort)
 	updatedBlog, err := i.blogDao.Update(uc.InputPort.Id, domains.BuildBlog(id, *title, *body))
+	fmt.Println(err)
+	fmt.Println("---------")
 	if err != nil {
+		fmt.Println("error occurrred")
 		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
 		return
 	}

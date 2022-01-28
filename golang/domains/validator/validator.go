@@ -2,7 +2,6 @@ package validator
 
 import (
 	"errors"
-	"fmt"
 	"reflect"
 
 	"github.com/go-playground/locales/ja"
@@ -13,8 +12,6 @@ import (
 )
 
 func Validate(target interface{}) error {
-	fmt.Println("target")
-	fmt.Println(target)
 	translator := ja.New()
 	uni := ut.New(translator, translator)
 	trans, found := uni.GetTranslator("ja")
@@ -41,19 +38,13 @@ func Validate(target interface{}) error {
 	}
 
 	err = validate.Struct(target)
-	fmt.Println("errの場所")
-	fmt.Println(err)
 	if err == nil {
 		return nil
 	}
 
-	fmt.Println("sentinel1")
 	var result error
 	for _, e := range err.(gpValidator.ValidationErrors) {
 		result = multierror.Append(result, errors.New(e.Translate(trans)))
 	}
-	fmt.Println("sentinel2")
-	fmt.Println(result)
-
 	return result
 }

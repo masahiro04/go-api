@@ -30,7 +30,3 @@ func UpdateBody(input *string) (*Body, error) {
 	}
 	return &body, nil
 }
-
-// func (body Body) Value() string {
-// 	return body.value
-// }

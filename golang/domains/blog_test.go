@@ -38,39 +38,6 @@ func TestBuildBlogSuccess(t *testing.T) {
 	})
 }
 
-// func TestIDSuccess(t *testing.T) {
-// 	_blog := testData.Blog()
-// 	id, _ := blog.NewId(_blog.ID().Value())
-//
-// 	t.Run("", func(t *testing.T) {
-// 		assert.Equal(t, _blog.ID(), id)
-// 	})
-// }
-// func TestTitleSuccess(t *testing.T) {
-// 	_blog := testData.Blog()
-// 	title, _ := blog.NewTitle(_blog.Title().Value())
-//
-// 	t.Run("", func(t *testing.T) {
-// 		assert.Equal(t, _blog.Title(), title)
-// 	})
-// }
-// func TestBodySuccess(t *testing.T) {
-// 	_blog := testData.Blog()
-// 	body, _ := blog.NewBody(_blog.Body().Value())
-//
-// 	t.Run("", func(t *testing.T) {
-// 		assert.Equal(t, _blog.Body(), body)
-// 	})
-// }
-//
-// func TestCreatedAtSuccess(t *testing.T) {
-// 	_blog := testData.Blog()
-//
-// 	t.Run("", func(t *testing.T) {
-// 		assert.Equal(t, _blog.CreatedAt(), _blog.CreatedAt())
-// 	})
-// }
-//
 func TestUpdatedAtSuccess(t *testing.T) {
 	_blog := testData.Blog()
 
@@ -98,23 +65,3 @@ func TestUpdateBodySuccess(t *testing.T) {
 		assert.Equal(t, updatedBody.Body, input)
 	})
 }
-
-// func TestBlogCollection_ApplyLimitAndOffset(t *testing.T) {
-// 	var testBlogs = testData.Blogs(5)
-// 	var blog1 = &testBlogs[0]
-// 	var blog2 = &testBlogs[1]
-// 	var blog3 = &testBlogs[2]
-// 	var blog4 = &testBlogs[3]
-// 	var blogs = domains.BlogCollection{blog1, blog2, blog3, blog4}
-//
-// 	t.Run("complete", func(t *testing.T) {
-// 		assert.Equal(t, blogs, blogs.ApplyLimitAndOffset(100, 0))
-// 		assert.Equal(t, blogs, blogs.ApplyLimitAndOffset(4, 0))
-// 		assert.Equal(t, blogs, blogs.ApplyLimitAndOffset(4, -1))
-// 	})
-// 	t.Run("empty", func(t *testing.T) {
-// 		assert.Equal(t, domains.BlogCollection{}, blogs.ApplyLimitAndOffset(100, 10))
-// 		assert.Equal(t, domains.BlogCollection{}, blogs.ApplyLimitAndOffset(3, 4))
-// 		assert.Equal(t, domains.BlogCollection{}, blogs.ApplyLimitAndOffset(-1, 0))
-// 	})
-// }

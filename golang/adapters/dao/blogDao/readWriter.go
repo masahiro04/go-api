@@ -94,7 +94,7 @@ func (rw rw) Create(newBlog domains.Blog) (*domains.Blog, error) {
 		return nil, err
 	}
 
-	_id, _ := blogModel.NewId(newBlog.ID.Value)
+	_id, _ := blogModel.NewId(id)
 	title, _ := blogModel.NewTitle(newBlog.Title.Value)
 	body, _ := blogModel.NewBody(newBlog.Body.Value)
 	blog := domains.BuildBlog(_id, title, body, newBlog.CreatedAt, newBlog.UpdatedAt)

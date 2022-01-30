@@ -45,7 +45,7 @@ export const Index: NextPage = () => {
               編集
             </button>
           </a>
-        </Link>{" "}
+        </Link>
         <button
           type="button"
           onClick={handleDelete}

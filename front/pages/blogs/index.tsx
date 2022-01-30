@@ -19,6 +19,16 @@ export const Index: NextPage = () => {
   return (
     <Layout>
       <div className="px-6 pb-8 mx-auto sm:px-10 sm:pb-14 sm:max-w-screen-md lg:max-w-screen-lg lg:grid-cols-3 lg:gap-y-12 lg:gap-x-8 lg:pt-6">
+        <Link href={`/blogs/new`}>
+          <a>
+            <button
+              type="button"
+              className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              新規作成
+            </button>
+          </a>
+        </Link>
         <ul role="list" className="divide-y divide-gray-200">
           {blogs.map((blog) => (
             <li

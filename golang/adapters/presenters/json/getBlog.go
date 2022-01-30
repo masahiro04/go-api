@@ -5,7 +5,7 @@ import (
 )
 
 type getBlogResponse struct {
-	Blog getBlogResponseItem `json:"blog"`
+	Blog getBlogResponseItem `json:"response"`
 }
 
 type getBlogResponseItem struct {

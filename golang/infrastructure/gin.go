@@ -49,18 +49,21 @@ func NewServer(port int, mode GinServerMode) GinServer {
 func SetCors(engine *gin.Engine) {
 	engine.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"http://localhost:3000"},
-		AllowMethods: []string{"GET", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		AllowMethods: []string{"GET", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"},
 		AllowHeaders: []string{
 			"Origin",
 			"Access-Control-Allow-Credentials",
 			"Access-Control-Allow-Headers",
+			"Access-Control-Allow-Origin",
 			"Content-Type",
 			"Content-Length",
 			"Accept-Encoding",
 			"Authorization",
 		},
-		MaxAge: 50 * time.Second,
+		AllowCredentials: true,
+		MaxAge:           50 * time.Second,
 	}))
+
 }
 
 // Start the server

@@ -805,7 +805,6 @@ func (i interactor) BlogDelete(uc DeleteBlogUseCase) <span class="cov8" title="1
 import (
         "clean_architecture/golang/domains"
         blog2 "clean_architecture/golang/domains/blog"
-        "fmt"
 )
 
 type EditBlogUseCase struct {
@@ -818,13 +817,6 @@ type EditBlogParams struct {
         Title string
         Body  string
 }
-
-// func (req EditBlogParams) getEditableFields() map[domains.BlogUpdatableProperty]*string {
-//         return map[domains.BlogUpdatableProperty]*string{
-//                 domains.BlogTitle: &amp;req.Title,
-//                 domains.BlogBody:  &amp;req.Body,
-//         }
-// }
 
 func (i interactor) BlogEdit(uc EditBlogUseCase) <span class="cov8" title="1">{
         var blog *domains.Blog
@@ -841,12 +833,8 @@ func (i interactor) BlogEdit(uc EditBlogUseCase) <span class="cov8" title="1">{
                 return
         }</span>
 
-        <span class="cov8" title="1">id, _ := blog2.NewId(uc.InputPort.Id)
         // NOTE(okubo): input portで検索している -&gt; どう考えてもerrは起きない
-        // if blog.ID != id {
-        //         uc.OutputPort.Raise(domains.UnprocessableEntity, errWrongCompany)
-        //         return
-        // }
+        <span class="cov8" title="1">id, _ := blog2.NewId(uc.InputPort.Id)
 
         title, err := blog2.UpdateTitle(&amp;uc.InputPort.Title)
         if err != nil </span><span class="cov8" title="1">{
@@ -859,13 +847,9 @@ func (i interactor) BlogEdit(uc EditBlogUseCase) <span class="cov8" title="1">{
                 uc.OutputPort.Raise(domains.UnprocessableEntity, err)
                 return
         }</span>
-        <span class="cov8" title="1">fmt.Println("---------")
-        fmt.Println(uc.InputPort)
-        updatedBlog, err := i.blogDao.Update(uc.InputPort.Id, domains.BuildBlog(id, *title, *body))
-        fmt.Println(err)
-        fmt.Println("---------")
+
+        <span class="cov8" title="1">updatedBlog, err := i.blogDao.Update(uc.InputPort.Id, domains.BuildBlog(id, *title, *body))
         if err != nil </span><span class="cov8" title="1">{
-                fmt.Println("error occurrred")
                 uc.OutputPort.Raise(domains.UnprocessableEntity, err)
                 return
         }</span>

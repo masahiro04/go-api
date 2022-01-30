@@ -52,7 +52,7 @@ func (rw rw) GetAll() (*domains.Blogs, error) {
 		id, _ := blogModel.NewId(blogDto.ID)
 		title, _ := blogModel.NewTitle(blogDto.Title)
 		body, _ := blogModel.NewBody(blogDto.Body)
-		newBlog := domains.BuildBlog(id, title, body)
+		newBlog := domains.BuildBlog(id, title, body, blogDto.CreatedAt, blogDto.UpdatedAt)
 
 		blogs = append(blogs, newBlog)
 	}
@@ -79,7 +79,7 @@ func (rw rw) GetById(id int) (*domains.Blog, error) {
 	_id, _ := blogModel.NewId(blogDto.ID)
 	title, _ := blogModel.NewTitle(blogDto.Title)
 	body, _ := blogModel.NewBody(blogDto.Body)
-	newBlog := domains.BuildBlog(_id, title, body)
+	newBlog := domains.BuildBlog(_id, title, body, blogDto.CreatedAt, blogDto.UpdatedAt)
 	return &newBlog, nil
 }
 
@@ -97,7 +97,7 @@ func (rw rw) Create(newBlog domains.Blog) (*domains.Blog, error) {
 	_id, _ := blogModel.NewId(newBlog.ID.Value)
 	title, _ := blogModel.NewTitle(newBlog.Title.Value)
 	body, _ := blogModel.NewBody(newBlog.Body.Value)
-	blog := domains.BuildBlog(_id, title, body)
+	blog := domains.BuildBlog(_id, title, body, newBlog.CreatedAt, newBlog.UpdatedAt)
 	return &blog, nil
 }
 
@@ -114,7 +114,7 @@ func (rw rw) CreateTx(newBlog domains.Blog, tx *sql.Tx) (*domains.Blog, error) {
 	_id, _ := blogModel.NewId(newBlog.ID.Value)
 	title, _ := blogModel.NewTitle(newBlog.Title.Value)
 	body, _ := blogModel.NewBody(newBlog.Body.Value)
-	blog := domains.BuildBlog(_id, title, body)
+	blog := domains.BuildBlog(_id, title, body, newBlog.CreatedAt, newBlog.UpdatedAt)
 	return &blog, nil
 }
 
@@ -132,7 +132,7 @@ func (rw rw) Update(id int, blog domains.Blog) (*domains.Blog, error) {
 	_id, _ := blogModel.NewId(id)
 	title, _ := blogModel.NewTitle(blog.Title.Value)
 	body, _ := blogModel.NewBody(blog.Body.Value)
-	newBlog := domains.BuildBlog(_id, title, body)
+	newBlog := domains.BuildBlog(_id, title, body, blog.CreatedAt, blog.UpdatedAt)
 	return &newBlog, nil
 }
 

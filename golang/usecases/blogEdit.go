@@ -46,7 +46,9 @@ func (i interactor) BlogEdit(uc EditBlogUseCase) {
 		return
 	}
 
-	updatedBlog, err := i.blogDao.Update(uc.InputPort.Id, domains.BuildBlog(id, *title, *body))
+	updatedBlog, err := i.blogDao.Update(
+		uc.InputPort.Id, domains.BuildBlog(id, *title, *body, blog.CreatedAt, blog.UpdatedAt),
+	)
 	if err != nil {
 		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
 		return

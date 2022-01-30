@@ -24,11 +24,12 @@ func NewBlog(title blog.Title, body blog.Body) Blog {
 
 // repositoryやfactory経由の生成において使用する関数
 // 生成時のバリデーションをしないことに注意
-func BuildBlog(id blog.ID, title blog.Title, body blog.Body) Blog {
+func BuildBlog(id blog.ID, title blog.Title, body blog.Body, createdAt time.Time, updatedAt time.Time) Blog {
 	return Blog{
-		ID:    id,
-		Title: title,
-		Body:  body,
+		ID:        id,
+		Title:     title,
+		Body:      body,
+		CreatedAt: createdAt,
 	}
 }
 

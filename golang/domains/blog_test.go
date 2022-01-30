@@ -5,6 +5,7 @@ import (
 	"clean_architecture/golang/domains/blog"
 	"clean_architecture/golang/testData"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -30,7 +31,7 @@ func TestBuildBlogSuccess(t *testing.T) {
 	title, _ := blog.NewTitle(titleInput)
 	body, _ := blog.NewBody(bodyInput)
 
-	newBlog := domains.BuildBlog(id, title, body)
+	newBlog := domains.BuildBlog(id, title, body, time.Time{}, time.Time{})
 
 	t.Run("", func(t *testing.T) {
 		assert.Equal(t, newBlog.Title, title)

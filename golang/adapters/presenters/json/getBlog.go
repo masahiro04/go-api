@@ -2,6 +2,7 @@ package json
 
 import (
 	"clean_architecture/golang/domains"
+	"fmt"
 )
 
 type getBlogResponse struct {
@@ -27,6 +28,8 @@ func (presenter ResponsePresenter) CreateBlog(blog *domains.Blog) {
 }
 
 func BlogItem(blog *domains.Blog) getBlogResponseItem {
+	fmt.Println(blog.CreatedAt)
+	fmt.Println("blog.CreatedAt")
 	return getBlogResponseItem{
 		Id:        blog.ID.Value,
 		Title:     blog.Title.Value,

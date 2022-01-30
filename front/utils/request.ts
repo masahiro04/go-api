@@ -41,5 +41,5 @@ export const post = <T = unknown>(url: string, body: {}, cred = true): Promise<T
 export const put = <T  = unknown>(url: string, body: {}, cred = true): Promise<T> =>
   instance(cred).put<T>(url, body).then(responseBody);
 
-export const destroy = <T = unknown>(url: string, cred = true): Promise<T> =>
+export const axiosDestroy = <T = unknown>(url: string, cred = true): Promise<T> =>
   instance(cred).delete<T>(url).then(responseBody);

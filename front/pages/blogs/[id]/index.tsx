@@ -6,6 +6,7 @@ import { findOne } from "../../../utils/blogs";
 import { Blog } from "../../../types/blog";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import {destroy} from "../../../utils/blogs";
 
 export const Index: NextPage = () => {
   const [blog, setBlog] = useState<Blog>({
@@ -27,6 +28,11 @@ export const Index: NextPage = () => {
     })();
   }, [router.isReady]);
 
+  const handleDelete = async () => {
+    await destroy(blog.id);
+    router.push(`/blogs`);
+  }
+
   return (
     <Layout>
       <div className="px-6 pb-8 mx-auto sm:px-10 sm:pb-14 sm:max-w-screen-md lg:max-w-screen-lg lg:grid-cols-3 lg:gap-y-12 lg:gap-x-8 lg:pt-6">
@@ -42,6 +48,7 @@ export const Index: NextPage = () => {
         </Link>{" "}
         <button
           type="button"
+          onClick={handleDelete}
           className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
         >
           削除

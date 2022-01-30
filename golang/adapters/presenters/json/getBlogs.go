@@ -5,7 +5,7 @@ import (
 )
 
 type getGetBlogsResponse struct {
-	Blogs []getBlogResponseItem `json:"blogs"`
+	Blogs []getBlogResponseItem `json:"response"`
 	Count int                   `json:"count"`
 }
 

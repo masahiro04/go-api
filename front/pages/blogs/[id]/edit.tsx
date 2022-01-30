@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import type { NextPage } from "next";
 import { Layout } from "../../../components/Layout";
-import { findAll, findOne, update } from "../../../utils/blogs";
+import { findOne, update } from "../../../utils/blogs";
 import { Blog, BlogForm } from "../../../types/blog";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import {title} from "process";
 
 export const Edit: NextPage = () => {
   const [blog, setBlog] = useState<BlogForm>({ title: '', body: '' });

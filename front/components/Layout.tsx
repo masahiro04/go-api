@@ -5,6 +5,7 @@ import styles from "../styles/Home.module.css";
 import { Popover, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { Header } from "../components/Header"
+import {Footer} from "./Footer";
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
@@ -12,7 +13,9 @@ function classNames(...classes: any) {
 export const Layout: React.FC = ({ children }) => {
   return (
     <>
-      { children }
+      <Header />
+      {children}
+      <Footer />
     </>
   );
 };

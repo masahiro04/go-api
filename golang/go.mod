@@ -3,6 +3,7 @@ module clean_architecture/golang
 go 1.15
 
 require (
+	firebase.google.com/go v3.13.0+incompatible // indirect
 	github.com/DATA-DOG/go-sqlmock v1.5.0
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.7.4

@@ -79,17 +79,27 @@
 				
 				<option value="file11">clean_architecture/golang/domains/blogs.go (100.0%)</option>
 				
-				<option value="file12">clean_architecture/golang/usecases/HANDLER.go (55.6%)</option>
+				<option value="file12">clean_architecture/golang/domains/user.go (100.0%)</option>
 				
-				<option value="file13">clean_architecture/golang/usecases/blogCreate.go (71.4%)</option>
+				<option value="file13">clean_architecture/golang/domains/user/email.go (100.0%)</option>
 				
-				<option value="file14">clean_architecture/golang/usecases/blogDelete.go (100.0%)</option>
+				<option value="file14">clean_architecture/golang/domains/user/id.go (100.0%)</option>
 				
-				<option value="file15">clean_architecture/golang/usecases/blogEdit.go (100.0%)</option>
+				<option value="file15">clean_architecture/golang/domains/user/name.go (100.0%)</option>
 				
-				<option value="file16">clean_architecture/golang/usecases/blogGet.go (100.0%)</option>
+				<option value="file16">clean_architecture/golang/domains/user/password.go (100.0%)</option>
 				
-				<option value="file17">clean_architecture/golang/usecases/blogGetAll.go (100.0%)</option>
+				<option value="file17">clean_architecture/golang/usecases/HANDLER.go (55.6%)</option>
+				
+				<option value="file18">clean_architecture/golang/usecases/blogCreate.go (71.4%)</option>
+				
+				<option value="file19">clean_architecture/golang/usecases/blogDelete.go (100.0%)</option>
+				
+				<option value="file20">clean_architecture/golang/usecases/blogEdit.go (100.0%)</option>
+				
+				<option value="file21">clean_architecture/golang/usecases/blogGet.go (100.0%)</option>
+				
+				<option value="file22">clean_architecture/golang/usecases/blogGetAll.go (100.0%)</option>
 				
 				</select>
 			</div>
@@ -424,7 +434,7 @@ func (rw rw) GetAll() (*domains.Blogs, error) <span class="cov8" title="1">{
                 <span class="cov8" title="1">id, _ := blogModel.NewId(blogDto.ID)
                 title, _ := blogModel.NewTitle(blogDto.Title)
                 body, _ := blogModel.NewBody(blogDto.Body)
-                newBlog := domains.BuildBlog(id, title, body)
+                newBlog := domains.BuildBlog(id, title, body, blogDto.CreatedAt, blogDto.UpdatedAt)
 
                 blogs = append(blogs, newBlog)</span>
         }
@@ -451,7 +461,7 @@ func (rw rw) GetById(id int) (*domains.Blog, error) <span class="cov8" title="1"
         <span class="cov8" title="1">_id, _ := blogModel.NewId(blogDto.ID)
         title, _ := blogModel.NewTitle(blogDto.Title)
         body, _ := blogModel.NewBody(blogDto.Body)
-        newBlog := domains.BuildBlog(_id, title, body)
+        newBlog := domains.BuildBlog(_id, title, body, blogDto.CreatedAt, blogDto.UpdatedAt)
         return &amp;newBlog, nil</span>
 }
 
@@ -466,10 +476,10 @@ func (rw rw) Create(newBlog domains.Blog) (*domains.Blog, error) <span class="co
                 return nil, err
         }</span>
 
-        <span class="cov8" title="1">_id, _ := blogModel.NewId(newBlog.ID.Value)
+        <span class="cov8" title="1">_id, _ := blogModel.NewId(id)
         title, _ := blogModel.NewTitle(newBlog.Title.Value)
         body, _ := blogModel.NewBody(newBlog.Body.Value)
-        blog := domains.BuildBlog(_id, title, body)
+        blog := domains.BuildBlog(_id, title, body, newBlog.CreatedAt, newBlog.UpdatedAt)
         return &amp;blog, nil</span>
 }
 
@@ -486,7 +496,7 @@ func (rw rw) CreateTx(newBlog domains.Blog, tx *sql.Tx) (*domains.Blog, error) <
         <span class="cov0" title="0">_id, _ := blogModel.NewId(newBlog.ID.Value)
         title, _ := blogModel.NewTitle(newBlog.Title.Value)
         body, _ := blogModel.NewBody(newBlog.Body.Value)
-        blog := domains.BuildBlog(_id, title, body)
+        blog := domains.BuildBlog(_id, title, body, newBlog.CreatedAt, newBlog.UpdatedAt)
         return &amp;blog, nil</span>
 }
 
@@ -504,7 +514,7 @@ func (rw rw) Update(id int, blog domains.Blog) (*domains.Blog, error) <span clas
         <span class="cov8" title="1">_id, _ := blogModel.NewId(id)
         title, _ := blogModel.NewTitle(blog.Title.Value)
         body, _ := blogModel.NewBody(blog.Body.Value)
-        newBlog := domains.BuildBlog(_id, title, body)
+        newBlog := domains.BuildBlog(_id, title, body, blog.CreatedAt, blog.UpdatedAt)
         return &amp;newBlog, nil</span>
 }
 
@@ -542,11 +552,12 @@ func NewBlog(title blog.Title, body blog.Body) Blog <span class="cov8" title="1"
 
 // repositoryやfactory経由の生成において使用する関数
 // 生成時のバリデーションをしないことに注意
-func BuildBlog(id blog.ID, title blog.Title, body blog.Body) Blog <span class="cov8" title="1">{
+func BuildBlog(id blog.ID, title blog.Title, body blog.Body, createdAt time.Time, updatedAt time.Time) Blog <span class="cov8" title="1">{
         return Blog{
-                ID:    id,
-                Title: title,
-                Body:  body,
+                ID:        id,
+                Title:     title,
+                Body:      body,
+                CreatedAt: createdAt,
         }
 }</span>
 
@@ -685,7 +696,180 @@ func (blogs *Blogs) ApplyLimitAndOffset(limit, offset int) []Blog <span class="c
 }
 </pre>
 		
-		<pre class="file" id="file12" style="display: none">package uc
+		<pre class="file" id="file12" style="display: none">package domains
+
+import (
+        "clean_architecture/golang/domains/user"
+        "time"
+)
+
+// TODO: privateに扱うために、小文字に変更する
+type User struct {
+        ID        user.ID
+        Name      user.Name
+        Email     user.Email
+        Password  user.Password
+        CreatedAt time.Time
+        UpdatedAt time.Time
+        DeletedAt time.Time
+}
+
+func NewUser(name user.Name, email user.Email, password user.Password) User <span class="cov8" title="1">{
+        return User{
+                Name:     name,
+                Email:    email,
+                Password: password,
+        }
+}</span>
+
+// repositoryやfactory経由の生成において使用する関数
+// 生成時のバリデーションをしないことに注意
+func BuildUser(id user.ID, name user.Name, email user.Email, createdAt time.Time, updatedAt time.Time) User <span class="cov8" title="1">{
+        return User{
+                ID:        id,
+                Name:      name,
+                Email:     email,
+                CreatedAt: createdAt,
+                UpdatedAt: updatedAt,
+        }
+}</span>
+
+func (u *User) UpdateName(name user.Name) *User <span class="cov8" title="1">{
+        u.Name = name
+        return u
+}</span>
+
+func (u *User) UpdateEmail(email user.Email) *User <span class="cov8" title="1">{
+        u.Email = email
+        return u
+}</span>
+
+func (u *User) UpdatePassword(password user.Password) *User <span class="cov8" title="1">{
+        u.Password = password
+        return u
+}</span>
+</pre>
+		
+		<pre class="file" id="file13" style="display: none">package user
+
+import (
+        "clean_architecture/golang/domains/validator"
+)
+
+type Email struct {
+        // [Blogの説明を表現する値オブジェクト]
+        // バリデーションルールは以下
+        // - 空ではないこと
+        // - 100文字以下であること
+        Value string `validate:"required,email" ja:"メールアドレス"`
+}
+
+func NewEmail(value string) (Email, error) <span class="cov8" title="1">{
+        email := Email{Value: value}
+        err := validator.Validate(email)
+        if err != nil </span><span class="cov8" title="1">{
+                return email, err
+        }</span>
+        <span class="cov8" title="1">return email, nil</span>
+}
+
+func UpdateEmail(input *string) (*Email, error) <span class="cov8" title="1">{
+        email := Email{Value: *input}
+        err := validator.Validate(&amp;email)
+
+        if err != nil </span><span class="cov8" title="1">{
+                return &amp;email, err
+        }</span>
+        <span class="cov8" title="1">return &amp;email, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file14" style="display: none">package user
+
+import "strconv"
+
+type ID struct {
+        Value int
+}
+
+func NewId(value int) (ID, error) <span class="cov8" title="1">{
+        return ID{Value: value}, nil
+}</span>
+
+func (id ID) String() string <span class="cov8" title="1">{
+        return strconv.Itoa(id.Value)
+}</span>
+</pre>
+		
+		<pre class="file" id="file15" style="display: none">package user
+
+import (
+        "clean_architecture/golang/domains/validator"
+)
+
+type Name struct {
+        // [Blogの説明を表現する値オブジェクト]
+        // バリデーションルールは以下
+        // - 空ではないこと
+        // - 100文字以下であること
+        Value string `validate:"required" ja:"名前"`
+}
+
+func NewName(value string) (Name, error) <span class="cov8" title="1">{
+        name := Name{Value: value}
+        err := validator.Validate(name)
+        if err != nil </span><span class="cov8" title="1">{
+                return name, err
+        }</span>
+        <span class="cov8" title="1">return name, nil</span>
+}
+
+func UpdateName(input *string) (*Name, error) <span class="cov8" title="1">{
+        name := Name{Value: *input}
+        err := validator.Validate(&amp;name)
+
+        if err != nil </span><span class="cov8" title="1">{
+                return &amp;name, err
+        }</span>
+        <span class="cov8" title="1">return &amp;name, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file16" style="display: none">package user
+
+import (
+        "clean_architecture/golang/domains/validator"
+)
+
+type Password struct {
+        // [Blogの説明を表現する値オブジェクト]
+        // バリデーションルールは以下
+        // - 空ではないこと
+        // - 100文字以下であること
+        Value string `validate:"required,gte=6" ja:"パスワード"`
+}
+
+func NewPassword(value string) (Password, error) <span class="cov8" title="1">{
+        password := Password{Value: value}
+        err := validator.Validate(password)
+        if err != nil </span><span class="cov8" title="1">{
+                return password, err
+        }</span>
+        <span class="cov8" title="1">return password, nil</span>
+}
+
+func UpdatePassword(input *string) (*Password, error) <span class="cov8" title="1">{
+        password := Password{Value: *input}
+        err := validator.Validate(&amp;password)
+
+        if err != nil </span><span class="cov8" title="1">{
+                return &amp;password, err
+        }</span>
+        <span class="cov8" title="1">return &amp;password, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file17" style="display: none">package uc
 
 import (
         "log"
@@ -735,7 +919,7 @@ func (c HandlerConstructor) New() Handler <span class="cov8" title="1">{
 }
 </pre>
 		
-		<pre class="file" id="file13" style="display: none">package uc
+		<pre class="file" id="file18" style="display: none">package uc
 
 import (
         "clean_architecture/golang/domains"
@@ -777,7 +961,7 @@ func (i interactor) BlogCreate(uc CreateBlogUseCase) <span class="cov8" title="1
 }
 </pre>
 		
-		<pre class="file" id="file14" style="display: none">package uc
+		<pre class="file" id="file19" style="display: none">package uc
 
 import (
         "clean_architecture/golang/domains"
@@ -800,7 +984,7 @@ func (i interactor) BlogDelete(uc DeleteBlogUseCase) <span class="cov8" title="1
 }
 </pre>
 		
-		<pre class="file" id="file15" style="display: none">package uc
+		<pre class="file" id="file20" style="display: none">package uc
 
 import (
         "clean_architecture/golang/domains"
@@ -848,7 +1032,9 @@ func (i interactor) BlogEdit(uc EditBlogUseCase) <span class="cov8" title="1">{
                 return
         }</span>
 
-        <span class="cov8" title="1">updatedBlog, err := i.blogDao.Update(uc.InputPort.Id, domains.BuildBlog(id, *title, *body))
+        <span class="cov8" title="1">updatedBlog, err := i.blogDao.Update(
+                uc.InputPort.Id, domains.BuildBlog(id, *title, *body, blog.CreatedAt, blog.UpdatedAt),
+        )
         if err != nil </span><span class="cov8" title="1">{
                 uc.OutputPort.Raise(domains.UnprocessableEntity, err)
                 return
@@ -858,7 +1044,7 @@ func (i interactor) BlogEdit(uc EditBlogUseCase) <span class="cov8" title="1">{
 }
 </pre>
 		
-		<pre class="file" id="file16" style="display: none">package uc
+		<pre class="file" id="file21" style="display: none">package uc
 
 import (
         "clean_architecture/golang/domains"
@@ -889,7 +1075,7 @@ func (i interactor) BlogGet(uc GetBlogUseCase) <span class="cov8" title="1">{
 }
 </pre>
 		
-		<pre class="file" id="file17" style="display: none">package uc
+		<pre class="file" id="file22" style="display: none">package uc
 
 import (
         "clean_architecture/golang/domains"

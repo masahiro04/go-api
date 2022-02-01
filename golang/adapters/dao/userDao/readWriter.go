@@ -83,40 +83,40 @@ func (rw rw) GetById(id int) (*domains.User, error) {
 	return &newUser, nil
 }
 
-//
-// func (rw rw) Create(newBlog domains.Blog) (*domains.Blog, error) {
-// 	var id int
-// 	err := rw.store.QueryRow(
-// 		CreateSql,
-// 		newBlog.Title.Value, newBlog.Body.Value, time.Now(), time.Now()).Scan(&id)
-// 	if err != nil {
-// 		log.Println(err)
-// 		return nil, err
-// 	}
-//
-// 	_id, _ := blogModel.NewId(id)
-// 	title, _ := blogModel.NewTitle(newBlog.Title.Value)
-// 	body, _ := blogModel.NewBody(newBlog.Body.Value)
-// 	blog := domains.BuildBlog(_id, title, body, newBlog.CreatedAt, newBlog.UpdatedAt)
-// 	return &blog, nil
-// }
-//
-// func (rw rw) CreateTx(newBlog domains.Blog, tx *sql.Tx) (*domains.Blog, error) {
-// 	var id int
-// 	err := tx.QueryRow(
-// 		CreateSql,
-// 		newBlog.Title, newBlog.Body, time.Now(), time.Now()).Scan(&id)
-// 	if err != nil {
-// 		log.Println(err)
-// 		return nil, err
-// 	}
-//
-// 	_id, _ := blogModel.NewId(newBlog.ID.Value)
-// 	title, _ := blogModel.NewTitle(newBlog.Title.Value)
-// 	body, _ := blogModel.NewBody(newBlog.Body.Value)
-// 	blog := domains.BuildBlog(_id, title, body, newBlog.CreatedAt, newBlog.UpdatedAt)
-// 	return &blog, nil
-// }
+func (rw rw) Create(newUser domains.User) (*domains.User, error) {
+	var id int
+	err := rw.store.QueryRow(
+		CreateSql,
+		newUser.Name.Value, newUser.Email.Value, time.Now(), time.Now()).Scan(&id)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	_id, _ := userModel.NewId(id)
+	name, _ := userModel.NewName(newUser.Name.Value)
+	email, _ := userModel.NewEmail(newUser.Email.Value)
+	user := domains.BuildUser(_id, name, email, newUser.CreatedAt, newUser.UpdatedAt)
+	return &user, nil
+}
+
+func (rw rw) CreateTx(newUser domains.User, tx *sql.Tx) (*domains.User, error) {
+	var id int
+	err := tx.QueryRow(
+		CreateSql,
+		newUser.Name, newUser.Email, time.Now(), time.Now()).Scan(&id)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	_id, _ := userModel.NewId(newUser.ID.Value)
+	name, _ := userModel.NewName(newUser.Name.Value)
+	email, _ := userModel.NewEmail(newUser.Email.Value)
+	user := domains.BuildUser(_id, name, email, newUser.CreatedAt, newUser.UpdatedAt)
+	return &user, nil
+}
+
 //
 // //
 // func (rw rw) Update(id int, blog domains.Blog) (*domains.Blog, error) {

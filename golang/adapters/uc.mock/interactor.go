@@ -110,6 +110,18 @@ func (mr *MockPresenterMockRecorder) GetBlogs(blogs interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlogs", reflect.TypeOf((*MockPresenter)(nil).GetBlogs), blogs)
 }
 
+// GetUser mocks base method.
+func (m *MockPresenter) GetUser(user *domains.User) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "GetUser", user)
+}
+
+// GetUser indicates an expected call of GetUser.
+func (mr *MockPresenterMockRecorder) GetUser(user interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUser", reflect.TypeOf((*MockPresenter)(nil).GetUser), user)
+}
+
 // GetUsers mocks base method.
 func (m *MockPresenter) GetUsers(users *domains.Users) {
 	m.ctrl.T.Helper()

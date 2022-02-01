@@ -27,7 +27,9 @@ type Presenter interface {
 	GetBlog(blog *domains.Blog)
 	CreateBlog(blog *domains.Blog)
 	GetBlogs(blogs *domains.Blogs)
+
 	GetUsers(users *domains.Users)
+	GetUser(user *domains.User)
 }
 
 type Validator interface {

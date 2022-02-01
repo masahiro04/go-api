@@ -94,6 +94,18 @@ func (mr *MockHandlerMockRecorder) BlogGetAll(uc interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlogGetAll", reflect.TypeOf((*MockHandler)(nil).BlogGetAll), uc)
 }
 
+// UserGetAll mocks base method.
+func (m *MockHandler) UserGetAll(uc uc.GetUsersUseCase) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "UserGetAll", uc)
+}
+
+// UserGetAll indicates an expected call of UserGetAll.
+func (mr *MockHandlerMockRecorder) UserGetAll(uc interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UserGetAll", reflect.TypeOf((*MockHandler)(nil).UserGetAll), uc)
+}
+
 // MockBlogLogic is a mock of BlogLogic interface.
 type MockBlogLogic struct {
 	ctrl     *gomock.Controller
@@ -175,4 +187,39 @@ func (m *MockBlogLogic) BlogGetAll(uc uc.GetBlogsUseCase) {
 func (mr *MockBlogLogicMockRecorder) BlogGetAll(uc interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlogGetAll", reflect.TypeOf((*MockBlogLogic)(nil).BlogGetAll), uc)
+}
+
+// MockUserLogic is a mock of UserLogic interface.
+type MockUserLogic struct {
+	ctrl     *gomock.Controller
+	recorder *MockUserLogicMockRecorder
+}
+
+// MockUserLogicMockRecorder is the mock recorder for MockUserLogic.
+type MockUserLogicMockRecorder struct {
+	mock *MockUserLogic
+}
+
+// NewMockUserLogic creates a new mock instance.
+func NewMockUserLogic(ctrl *gomock.Controller) *MockUserLogic {
+	mock := &MockUserLogic{ctrl: ctrl}
+	mock.recorder = &MockUserLogicMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockUserLogic) EXPECT() *MockUserLogicMockRecorder {
+	return m.recorder
+}
+
+// UserGetAll mocks base method.
+func (m *MockUserLogic) UserGetAll(uc uc.GetUsersUseCase) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "UserGetAll", uc)
+}
+
+// UserGetAll indicates an expected call of UserGetAll.
+func (mr *MockUserLogicMockRecorder) UserGetAll(uc interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UserGetAll", reflect.TypeOf((*MockUserLogic)(nil).UserGetAll), uc)
 }

@@ -10,6 +10,7 @@ import (
 	"clean_architecture/golang/adapters/controllers"
 	dbTransaction "clean_architecture/golang/adapters/dao.dbTransaction"
 	"clean_architecture/golang/adapters/dao/blogDao"
+	"clean_architecture/golang/adapters/dao/userDao"
 	"clean_architecture/golang/adapters/loggers"
 
 	_ "github.com/lib/pq"
@@ -98,6 +99,7 @@ func run() {
 		uc.HandlerConstructor{
 			Logger:        routerLogger,
 			BlogDao:       blogDao.New(db),
+			UserDao:       userDao.New(db),
 			Validator:     validator.New(),
 			DBTransaction: dbTransaction.New(db),
 		}.New(),

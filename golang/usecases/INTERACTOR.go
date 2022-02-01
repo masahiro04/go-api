@@ -11,6 +11,7 @@ type interactor struct {
 	logger        Logger
 	presenter     Presenter
 	blogDao       BlogDao
+	userDao       UserDao
 	validator     Validator
 	dbTransaction DBTransaction
 }
@@ -26,6 +27,7 @@ type Presenter interface {
 	GetBlog(blog *domains.Blog)
 	CreateBlog(blog *domains.Blog)
 	GetBlogs(blogs *domains.Blogs)
+	GetUsers(users *domains.Users)
 }
 
 type Validator interface {
@@ -39,8 +41,17 @@ type DBTransaction interface {
 type BlogDao interface {
 	GetAll() (*domains.Blogs, error)
 	GetById(id int) (*domains.Blog, error)
-	Create(company domains.Blog) (*domains.Blog, error)
+	Create(blog domains.Blog) (*domains.Blog, error)
 	CreateTx(company domains.Blog, tx *sql.Tx) (*domains.Blog, error)
 	Update(id int, company domains.Blog) (*domains.Blog, error)
+	Delete(id int) error
+}
+
+type UserDao interface {
+	GetAll() (*domains.Users, error)
+	GetById(id int) (*domains.User, error)
+	Create(user domains.User) (*domains.User, error)
+	CreateTx(user domains.User, tx *sql.Tx) (*domains.User, error)
+	Update(id int, user domains.User) (*domains.User, error)
 	Delete(id int) error
 }

@@ -110,6 +110,18 @@ func (mr *MockPresenterMockRecorder) GetBlogs(blogs interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlogs", reflect.TypeOf((*MockPresenter)(nil).GetBlogs), blogs)
 }
 
+// GetUsers mocks base method.
+func (m *MockPresenter) GetUsers(users *domains.Users) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "GetUsers", users)
+}
+
+// GetUsers indicates an expected call of GetUsers.
+func (mr *MockPresenterMockRecorder) GetUsers(users interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUsers", reflect.TypeOf((*MockPresenter)(nil).GetUsers), users)
+}
+
 // Present mocks base method.
 func (m *MockPresenter) Present() error {
 	m.ctrl.T.Helper()
@@ -234,18 +246,18 @@ func (m *MockBlogDao) EXPECT() *MockBlogDaoMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockBlogDao) Create(company domains.Blog) (*domains.Blog, error) {
+func (m *MockBlogDao) Create(blog domains.Blog) (*domains.Blog, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", company)
+	ret := m.ctrl.Call(m, "Create", blog)
 	ret0, _ := ret[0].(*domains.Blog)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockBlogDaoMockRecorder) Create(company interface{}) *gomock.Call {
+func (mr *MockBlogDaoMockRecorder) Create(blog interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockBlogDao)(nil).Create), company)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockBlogDao)(nil).Create), blog)
 }
 
 // CreateTx mocks base method.
@@ -320,4 +332,116 @@ func (m *MockBlogDao) Update(id int, company domains.Blog) (*domains.Blog, error
 func (mr *MockBlogDaoMockRecorder) Update(id, company interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockBlogDao)(nil).Update), id, company)
+}
+
+// MockUserDao is a mock of UserDao interface.
+type MockUserDao struct {
+	ctrl     *gomock.Controller
+	recorder *MockUserDaoMockRecorder
+}
+
+// MockUserDaoMockRecorder is the mock recorder for MockUserDao.
+type MockUserDaoMockRecorder struct {
+	mock *MockUserDao
+}
+
+// NewMockUserDao creates a new mock instance.
+func NewMockUserDao(ctrl *gomock.Controller) *MockUserDao {
+	mock := &MockUserDao{ctrl: ctrl}
+	mock.recorder = &MockUserDaoMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockUserDao) EXPECT() *MockUserDaoMockRecorder {
+	return m.recorder
+}
+
+// Create mocks base method.
+func (m *MockUserDao) Create(user domains.User) (*domains.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Create", user)
+	ret0, _ := ret[0].(*domains.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Create indicates an expected call of Create.
+func (mr *MockUserDaoMockRecorder) Create(user interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockUserDao)(nil).Create), user)
+}
+
+// CreateTx mocks base method.
+func (m *MockUserDao) CreateTx(user domains.User, tx *sql.Tx) (*domains.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateTx", user, tx)
+	ret0, _ := ret[0].(*domains.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateTx indicates an expected call of CreateTx.
+func (mr *MockUserDaoMockRecorder) CreateTx(user, tx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTx", reflect.TypeOf((*MockUserDao)(nil).CreateTx), user, tx)
+}
+
+// Delete mocks base method.
+func (m *MockUserDao) Delete(id int) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delete", id)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockUserDaoMockRecorder) Delete(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockUserDao)(nil).Delete), id)
+}
+
+// GetAll mocks base method.
+func (m *MockUserDao) GetAll() (*domains.Users, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAll")
+	ret0, _ := ret[0].(*domains.Users)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAll indicates an expected call of GetAll.
+func (mr *MockUserDaoMockRecorder) GetAll() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAll", reflect.TypeOf((*MockUserDao)(nil).GetAll))
+}
+
+// GetById mocks base method.
+func (m *MockUserDao) GetById(id int) (*domains.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetById", id)
+	ret0, _ := ret[0].(*domains.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetById indicates an expected call of GetById.
+func (mr *MockUserDaoMockRecorder) GetById(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetById", reflect.TypeOf((*MockUserDao)(nil).GetById), id)
+}
+
+// Update mocks base method.
+func (m *MockUserDao) Update(id int, user domains.User) (*domains.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", id, user)
+	ret0, _ := ret[0].(*domains.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockUserDaoMockRecorder) Update(id, user interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockUserDao)(nil).Update), id, user)
 }

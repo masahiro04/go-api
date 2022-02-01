@@ -16,6 +16,7 @@ type Interactor struct {
 	Logger        *MockLogger
 	Presenter     *MockPresenter
 	BlogDao       *MockBlogDao
+	UserDao       *MockUserDao
 	Validator     *MockValidator
 	DBTransaction *MockDBTransaction
 }
@@ -37,6 +38,7 @@ func NewMockedInteractor(mockCtrl *gomock.Controller) Interactor {
 		Logger:        NewMockLogger(mockCtrl),
 		Presenter:     NewMockPresenter(mockCtrl),
 		BlogDao:       NewMockBlogDao(mockCtrl),
+		UserDao:       NewMockUserDao(mockCtrl),
 		Validator:     NewMockValidator(mockCtrl),
 		DBTransaction: NewMockDBTransaction(mockCtrl),
 	}
@@ -48,6 +50,7 @@ func (i Interactor) GetUCHandler() uc.Handler {
 		Logger:        i.Logger,
 		Presenter:     i.Presenter,
 		BlogDao:       i.BlogDao,
+		UserDao:       i.UserDao,
 		Validator:     i.Validator,
 		DBTransaction: i.DBTransaction,
 	}.New()

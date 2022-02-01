@@ -106,6 +106,18 @@ func (mr *MockHandlerMockRecorder) UserCreate(uc interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UserCreate", reflect.TypeOf((*MockHandler)(nil).UserCreate), uc)
 }
 
+// UserEdit mocks base method.
+func (m *MockHandler) UserEdit(uc uc.EditUserUseCase) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "UserEdit", uc)
+}
+
+// UserEdit indicates an expected call of UserEdit.
+func (mr *MockHandlerMockRecorder) UserEdit(uc interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UserEdit", reflect.TypeOf((*MockHandler)(nil).UserEdit), uc)
+}
+
 // UserGet mocks base method.
 func (m *MockHandler) UserGet(uc uc.GetUserUseCase) {
 	m.ctrl.T.Helper()
@@ -246,6 +258,18 @@ func (m *MockUserLogic) UserCreate(uc uc.CreateUserUseCase) {
 func (mr *MockUserLogicMockRecorder) UserCreate(uc interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UserCreate", reflect.TypeOf((*MockUserLogic)(nil).UserCreate), uc)
+}
+
+// UserEdit mocks base method.
+func (m *MockUserLogic) UserEdit(uc uc.EditUserUseCase) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "UserEdit", uc)
+}
+
+// UserEdit indicates an expected call of UserEdit.
+func (mr *MockUserLogicMockRecorder) UserEdit(uc interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UserEdit", reflect.TypeOf((*MockUserLogic)(nil).UserEdit), uc)
 }
 
 // UserGet mocks base method.

@@ -21,6 +21,7 @@ type UserLogic interface {
 	UserGetAll(uc GetUsersUseCase)
 	UserGet(uc GetUserUseCase)
 	UserCreate(uc CreateUserUseCase)
+	UserEdit(uc EditUserUseCase)
 	// UserGet(uc GetUserUseCase)
 	// UserCreate(uc CreateUserUseCase)
 	// UserEdit(uc EditUserUseCase)

@@ -118,27 +118,26 @@ func (rw rw) CreateTx(newUser domains.User, tx *sql.Tx) (*domains.User, error) {
 }
 
 //
-// //
-// func (rw rw) Update(id int, blog domains.Blog) (*domains.Blog, error) {
-// 	_, err := rw.store.Exec(
-// 		UpdateSql,
-// 		id, blog.Title.Value, blog.Body.Value, time.Now())
-//
-// 	if err != nil {
-// 		log.Println(err)
-// 		return nil, err
-// 	}
-//
-// 	_id, _ := blogModel.NewId(id)
-// 	title, _ := blogModel.NewTitle(blog.Title.Value)
-// 	body, _ := blogModel.NewBody(blog.Body.Value)
-// 	newBlog := domains.BuildBlog(_id, title, body, blog.CreatedAt, blog.UpdatedAt)
-// 	return &newBlog, nil
-// }
-//
-// func (rw rw) Delete(id int) error {
-// 	if _, err := rw.store.Exec(DeleteSql, id, time.Now(), time.Now()); err != nil {
-// 		return err
-// 	}
-// 	return nil
-// }
+func (rw rw) Update(id int, user domains.User) (*domains.User, error) {
+	_, err := rw.store.Exec(
+		UpdateSql,
+		id, user.Name.Value, user.Email.Value, time.Now())
+
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	_id, _ := userModel.NewId(id)
+	name, _ := userModel.NewName(user.Name.Value)
+	email, _ := userModel.NewEmail(user.Email.Value)
+	newUser := domains.BuildUser(_id, name, email, user.CreatedAt, user.UpdatedAt)
+	return &newUser, nil
+}
+
+func (rw rw) Delete(id int) error {
+	if _, err := rw.store.Exec(DeleteSql, id, time.Now(), time.Now()); err != nil {
+		return err
+	}
+	return nil
+}

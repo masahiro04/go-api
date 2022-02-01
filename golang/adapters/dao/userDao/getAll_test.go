@@ -36,8 +36,8 @@ func TestRw_GetAll_Success(t *testing.T) {
 		WithArgs().
 		WillReturnRows(mock.NewRows([]string{
 			"id",
-			"title",
-			"body",
+			"name",
+			"email",
 			"created_at",
 			"updated_at",
 		}).AddRow(
@@ -80,8 +80,8 @@ func TestRw_GetAll_Fail(t *testing.T) {
 		WithArgs().
 		WillReturnRows(mock.NewRows([]string{
 			"id",
-			"title",
-			"body",
+			"name",
+			"email",
 			"created_at",
 			"updated_at",
 		}).AddRow(

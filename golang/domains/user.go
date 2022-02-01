@@ -10,17 +10,15 @@ type User struct {
 	ID        user.ID
 	Name      user.Name
 	Email     user.Email
-	Password  user.Password
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt time.Time
 }
 
-func NewUser(name user.Name, email user.Email, password user.Password) User {
+func NewUser(name user.Name, email user.Email) User {
 	return User{
-		Name:     name,
-		Email:    email,
-		Password: password,
+		Name:  name,
+		Email: email,
 	}
 }
 
@@ -43,10 +41,5 @@ func (u *User) UpdateName(name user.Name) *User {
 
 func (u *User) UpdateEmail(email user.Email) *User {
 	u.Email = email
-	return u
-}
-
-func (u *User) UpdatePassword(password user.Password) *User {
-	u.Password = password
 	return u
 }

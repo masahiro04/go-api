@@ -14,15 +14,12 @@ func TestNewUserSuccess(t *testing.T) {
 	// NOTE(okubo): Body.valueとの比較したいけど、小文字はexportされないので、Value経由で比較
 	nameInput := "大久保"
 	emailInput := "test@example.con"
-	passwordInput := "123456"
 	name, _ := user.NewName(nameInput)
 	email, _ := user.NewEmail(emailInput)
-	password, _ := user.NewPassword(passwordInput)
-	newUser := domains.NewUser(name, email, password)
+	newUser := domains.NewUser(name, email)
 	t.Run("", func(t *testing.T) {
 		assert.Equal(t, newUser.Name, name)
 		assert.Equal(t, newUser.Email, email)
-		assert.Equal(t, newUser.Password, password)
 	})
 }
 
@@ -69,14 +66,5 @@ func TestUpdateEmailSuccess(t *testing.T) {
 
 	t.Run("", func(t *testing.T) {
 		assert.Equal(t, updatedEmail.Email, input)
-	})
-}
-func TestUpdatePasswordSuccess(t *testing.T) {
-	_user := testData.User()
-	input, _ := user.NewPassword("12345678")
-	updatedPassword := _user.UpdatePassword(input)
-
-	t.Run("", func(t *testing.T) {
-		assert.Equal(t, updatedPassword.Password, input)
 	})
 }

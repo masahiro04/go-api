@@ -22,10 +22,7 @@ type UserLogic interface {
 	UserGet(uc GetUserUseCase)
 	UserCreate(uc CreateUserUseCase)
 	UserEdit(uc EditUserUseCase)
-	// UserGet(uc GetUserUseCase)
-	// UserCreate(uc CreateUserUseCase)
-	// UserEdit(uc EditUserUseCase)
-	// UserDelete(uc DeleteUserUseCase)
+	UserDelete(uc DeleteUserUseCase)
 }
 
 type HandlerConstructor struct {

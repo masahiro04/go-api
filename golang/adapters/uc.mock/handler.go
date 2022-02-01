@@ -106,6 +106,18 @@ func (mr *MockHandlerMockRecorder) UserCreate(uc interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UserCreate", reflect.TypeOf((*MockHandler)(nil).UserCreate), uc)
 }
 
+// UserDelete mocks base method.
+func (m *MockHandler) UserDelete(uc uc.DeleteUserUseCase) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "UserDelete", uc)
+}
+
+// UserDelete indicates an expected call of UserDelete.
+func (mr *MockHandlerMockRecorder) UserDelete(uc interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UserDelete", reflect.TypeOf((*MockHandler)(nil).UserDelete), uc)
+}
+
 // UserEdit mocks base method.
 func (m *MockHandler) UserEdit(uc uc.EditUserUseCase) {
 	m.ctrl.T.Helper()
@@ -258,6 +270,18 @@ func (m *MockUserLogic) UserCreate(uc uc.CreateUserUseCase) {
 func (mr *MockUserLogicMockRecorder) UserCreate(uc interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UserCreate", reflect.TypeOf((*MockUserLogic)(nil).UserCreate), uc)
+}
+
+// UserDelete mocks base method.
+func (m *MockUserLogic) UserDelete(uc uc.DeleteUserUseCase) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "UserDelete", uc)
+}
+
+// UserDelete indicates an expected call of UserDelete.
+func (mr *MockUserLogicMockRecorder) UserDelete(uc interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UserDelete", reflect.TypeOf((*MockUserLogic)(nil).UserDelete), uc)
 }
 
 // UserEdit mocks base method.

@@ -94,6 +94,18 @@ func (mr *MockHandlerMockRecorder) BlogGetAll(uc interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlogGetAll", reflect.TypeOf((*MockHandler)(nil).BlogGetAll), uc)
 }
 
+// UserCreate mocks base method.
+func (m *MockHandler) UserCreate(uc uc.CreateUserUseCase) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "UserCreate", uc)
+}
+
+// UserCreate indicates an expected call of UserCreate.
+func (mr *MockHandlerMockRecorder) UserCreate(uc interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UserCreate", reflect.TypeOf((*MockHandler)(nil).UserCreate), uc)
+}
+
 // UserGet mocks base method.
 func (m *MockHandler) UserGet(uc uc.GetUserUseCase) {
 	m.ctrl.T.Helper()
@@ -222,6 +234,18 @@ func NewMockUserLogic(ctrl *gomock.Controller) *MockUserLogic {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockUserLogic) EXPECT() *MockUserLogicMockRecorder {
 	return m.recorder
+}
+
+// UserCreate mocks base method.
+func (m *MockUserLogic) UserCreate(uc uc.CreateUserUseCase) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "UserCreate", uc)
+}
+
+// UserCreate indicates an expected call of UserCreate.
+func (mr *MockUserLogicMockRecorder) UserCreate(uc interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UserCreate", reflect.TypeOf((*MockUserLogic)(nil).UserCreate), uc)
 }
 
 // UserGet mocks base method.

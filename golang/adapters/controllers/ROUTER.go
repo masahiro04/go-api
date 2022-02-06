@@ -49,7 +49,7 @@ func (rH RouterHandler) usersRoutes(api *gin.RouterGroup) {
 	users.GET("", rH.userGetAll)
 	users.GET("/:id", rH.userGet)
 	users.POST("", rH.userPost)
-	// blogs.PUT("/:id", rH.blogPatch)
+	users.PUT("/:id", rH.userPatch)
 	// blogs.PATCH("/:id", rH.blogPatch)
 	// blogs.DELETE("/:id", rH.blogDelete)
 }

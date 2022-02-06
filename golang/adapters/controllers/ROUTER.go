@@ -31,6 +31,7 @@ func (rH RouterHandler) SetRoutes(r *gin.Engine) {
 	api.Use(rH.errorCatcher())
 
 	rH.blogsRoutes(api)
+	rH.usersRoutes(api)
 }
 
 func (rH RouterHandler) blogsRoutes(api *gin.RouterGroup) {
@@ -41,6 +42,16 @@ func (rH RouterHandler) blogsRoutes(api *gin.RouterGroup) {
 	blogs.PUT("/:id", rH.blogPatch)
 	blogs.PATCH("/:id", rH.blogPatch)
 	blogs.DELETE("/:id", rH.blogDelete)
+}
+
+func (rH RouterHandler) usersRoutes(api *gin.RouterGroup) {
+	users := api.Group("/users")
+	users.GET("", rH.userGetAll)
+	users.GET("/:id", rH.userGet)
+	// blogs.POST("", rH.blogPost)
+	// blogs.PUT("/:id", rH.blogPatch)
+	// blogs.PATCH("/:id", rH.blogPatch)
+	// blogs.DELETE("/:id", rH.blogDelete)
 }
 
 func (rH RouterHandler) errorCatcher() gin.HandlerFunc {

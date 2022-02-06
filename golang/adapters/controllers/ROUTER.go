@@ -50,8 +50,8 @@ func (rH RouterHandler) usersRoutes(api *gin.RouterGroup) {
 	users.GET("/:id", rH.userGet)
 	users.POST("", rH.userPost)
 	users.PUT("/:id", rH.userPatch)
-	// blogs.PATCH("/:id", rH.blogPatch)
-	// blogs.DELETE("/:id", rH.blogDelete)
+	users.PATCH("/:id", rH.userPatch)
+	users.DELETE("/:id", rH.userDelete)
 }
 
 func (rH RouterHandler) errorCatcher() gin.HandlerFunc {

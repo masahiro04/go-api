@@ -1,6 +1,5 @@
 development:
   dialect: postgres
-  datasource: host=db port=5432 dbname=api user=postgresql password=postgresql sslmode=disable # docker向け
-  # datasource: host=localhost port=5432 dbname=api user=masahirookubo sslmode=disable # local向け
+  datasource: host=db port=5432 dbname=api user=postgresql password=postgresql sslmode=disable
   dir: db/migrations
   table: migrations

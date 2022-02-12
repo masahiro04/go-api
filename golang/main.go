@@ -82,6 +82,7 @@ func run() {
 		viper.GetString("db.user"),
 		viper.GetString("db.password"),
 		viper.GetString("db.name"))
+
 	db, err := gorm.Open(postgres.Open(conn), &gorm.Config{})
 
 	if err != nil {

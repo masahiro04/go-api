@@ -8,12 +8,12 @@ import (
 )
 
 type rw struct {
-	store *gorm.DB
+	db *gorm.DB
 }
 
 func New(db *gorm.DB) *rw {
 	return &rw{
-		store: db,
+		db: db,
 	}
 }
 
@@ -30,7 +30,7 @@ func (UserDto) TableName() string {
 
 func (rw rw) GetAll() (*domains.Users, error) {
 	var dtos []UserDto
-	rw.store.Find(&dtos)
+	rw.db.Find(&dtos)
 	var users []domains.User
 
 	for _, dto := range dtos {
@@ -50,7 +50,7 @@ func (rw rw) GetAll() (*domains.Users, error) {
 func (rw rw) GetById(id int) (*domains.User, error) {
 	var dto UserDto
 
-	rw.store.Where("id = ?", id).First(&dto)
+	rw.db.Where("id = ?", id).First(&dto)
 
 	_id, _ := userModel.NewId(dto.ID)
 	name, _ := userModel.NewName(dto.Name)
@@ -65,7 +65,7 @@ func (rw rw) Create(newUser domains.User) (*domains.User, error) {
 		Email: newUser.Email.Value,
 	}
 
-	rw.store.Create(&dto)
+	rw.db.Create(&dto)
 
 	_id, _ := userModel.NewId(dto.ID)
 	name, _ := userModel.NewName(newUser.Name.Value)
@@ -95,7 +95,7 @@ func (rw rw) Create(newUser domains.User) (*domains.User, error) {
 func (rw rw) Update(id int, user domains.User) (*domains.User, error) {
 	dto := UserDto{}
 
-	rw.store.Where("id = ?", id).First(&dto).Updates(UserDto{
+	rw.db.Where("id = ?", id).First(&dto).Updates(UserDto{
 		ID:    id,
 		Name:  user.Name.Value,
 		Email: user.Email.Value,
@@ -109,6 +109,6 @@ func (rw rw) Update(id int, user domains.User) (*domains.User, error) {
 
 func (rw rw) Delete(id int) error {
 	dto := UserDto{}
-	rw.store.Where("id = ?", id).Delete(&dto)
+	rw.db.Where("id = ?", id).Delete(&dto)
 	return nil
 }

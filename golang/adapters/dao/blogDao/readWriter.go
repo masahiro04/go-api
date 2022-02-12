@@ -8,12 +8,12 @@ import (
 )
 
 type rw struct {
-	store *gorm.DB
+	db *gorm.DB
 }
 
 func New(db *gorm.DB) *rw {
 	return &rw{
-		store: db,
+		db: db,
 	}
 }
 
@@ -31,7 +31,7 @@ func (BlogDto) TableName() string {
 
 func (rw rw) GetAll() (*domains.Blogs, error) {
 	var dtos []BlogDto
-	rw.store.Find(&dtos)
+	rw.db.Find(&dtos)
 	var blogs []domains.Blog
 	for _, blogDto := range dtos {
 		id, _ := blogModel.NewId(blogDto.ID)
@@ -49,7 +49,7 @@ func (rw rw) GetAll() (*domains.Blogs, error) {
 func (rw rw) GetById(id int) (*domains.Blog, error) {
 	var dto BlogDto
 
-	rw.store.Where("id = ?", id).First(&dto)
+	rw.db.Where("id = ?", id).First(&dto)
 
 	_id, _ := blogModel.NewId(dto.ID)
 	title, _ := blogModel.NewTitle(dto.Title)
@@ -64,7 +64,7 @@ func (rw rw) Create(newBlog domains.Blog) (*domains.Blog, error) {
 		Title: newBlog.Title.Value,
 		Body:  newBlog.Body.Value,
 	}
-	rw.store.Create(&dto)
+	rw.db.Create(&dto)
 
 	_id, _ := blogModel.NewId(dto.ID)
 	title, _ := blogModel.NewTitle(newBlog.Title.Value)
@@ -94,7 +94,7 @@ func (rw rw) Create(newBlog domains.Blog) (*domains.Blog, error) {
 func (rw rw) Update(id int, blog domains.Blog) (*domains.Blog, error) {
 	dto := BlogDto{}
 
-	rw.store.Where("id = ?", id).First(&dto).Updates(BlogDto{
+	rw.db.Where("id = ?", id).First(&dto).Updates(BlogDto{
 		ID:    id,
 		Title: blog.Title.Value,
 		Body:  blog.Body.Value,
@@ -109,6 +109,6 @@ func (rw rw) Update(id int, blog domains.Blog) (*domains.Blog, error) {
 
 func (rw rw) Delete(id int) error {
 	dto := BlogDto{}
-	rw.store.Where("id = ?", id).Delete(&dto)
+	rw.db.Where("id = ?", id).Delete(&dto)
 	return nil
 }

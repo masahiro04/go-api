@@ -74,17 +74,14 @@ func run() {
 		viper.GetInt("server.port"),
 		infra.DebugMode,
 	)
-	// DB
-	conn := "host=localhost port=5432 user=masahirookubo dbname=golang_api sslmode=disable" // local向け
-	//conn := "postgres://postgresql:postgresql@db:5432/golang_api?sslmode=disable" // docker向け
 
-	//conn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-	//	viper.GetString("db.host"),
-	//	viper.GetInt("db.port"),
-	//	viper.GetString("db.user"),
-	//	viper.GetString("db.password"),
-	//	viper.GetString("db.name"))
-	// db, err := sql.Open("postgres", conn)
+	// DB
+	conn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+		viper.GetString("db.host"),
+		viper.GetInt("db.port"),
+		viper.GetString("db.user"),
+		viper.GetString("db.password"),
+		viper.GetString("db.name"))
 	db, err := gorm.Open(postgres.Open(conn), &gorm.Config{})
 
 	if err != nil {

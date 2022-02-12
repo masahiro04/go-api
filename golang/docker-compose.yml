@@ -14,32 +14,50 @@ services:
     depends_on:
       - db
 
+  #
+  #
+  # db:
+  #   image: postgres:13.4
+  #   container_name: hrbase-pro-dev-db
+  #   ports:
+  #     - '5432:5432'
+  #   expose:
+  #     - 5432
+  #   environment:
+  #     POSTGRES_DB: api
+  #     POSTGRES_USER: postgresql
+  #     POSTGRES_PASSWORD: postgresql
+  #     POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+  #     TZ: "Asia/Tokyo"
+  #   volumes:
+  #     - db:/var/lib/postgresql/data
+
   db:
     container_name: db
-    build:
-      context: ./docker/postgres
-      dockerfile: Dockerfile
+    image: postgres:13.4
+    # build:
+    #   context: ./docker/postgres
+    #   dockerfile: Dockerfile
     ports:
       - '5432:5432'
     expose:
       - 5432
     environment:
-      POSTGRES_HOST: localhost
-      POSTGRES_DB: golang_api
+      # POSTGRES_HOST: localhost
+      POSTGRES_DB: api
       POSTGRES_USER: postgresql
       POSTGRES_PASSWORD: postgresql
       POSTGRES_PORT: 5432
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+      TZ: "Asia/Tokyo"
+    volumes:
+      - db:/var/lib/postgresql/data
 #    volumes: # ここあるとdataがdockerに保持されて、削除してもデータあるので注意
 #      - db:/var/lib/postgresql/data
 
-#volumes:
-#  db:
-#    driver: local
 
 volumes:
-  dbdata:
-    driver_opts:
-      type: none
-      device: $PWD/.dbdata # Create volume for postgresql
-#　　　　　　　　　↑dbdataの実体は $PWD/.dbdata である
-      o: bind
+  db:
+    driver: local
+  log:
+  tmp:

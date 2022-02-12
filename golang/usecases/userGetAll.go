@@ -24,4 +24,5 @@ func (i interactor) UserGetAll(uc GetUsersUseCase) {
 	users.ApplyLimitAndOffset(uc.InputPort.Limit, uc.InputPort.Offset)
 
 	uc.OutputPort.GetUsers(users)
+
 }

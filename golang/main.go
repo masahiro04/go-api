@@ -1,14 +1,14 @@
 package main
 
 import (
-	"database/sql"
 	"log"
 	"os"
 
 	"github.com/joho/godotenv"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 
 	"clean_architecture/golang/adapters/controllers"
-	dbTransaction "clean_architecture/golang/adapters/dao.dbTransaction"
 	"clean_architecture/golang/adapters/dao/blogDao"
 	"clean_architecture/golang/adapters/dao/userDao"
 	"clean_architecture/golang/adapters/loggers"
@@ -84,7 +84,9 @@ func run() {
 	//	viper.GetString("db.user"),
 	//	viper.GetString("db.password"),
 	//	viper.GetString("db.name"))
-	db, err := sql.Open("postgres", conn)
+	// db, err := sql.Open("postgres", conn)
+	db, err := gorm.Open(postgres.Open(conn), &gorm.Config{})
+
 	if err != nil {
 		panic(err)
 	}
@@ -97,11 +99,11 @@ func run() {
 
 	controllers.NewRouterWithLogger(
 		uc.HandlerConstructor{
-			Logger:        routerLogger,
-			BlogDao:       blogDao.New(db),
-			UserDao:       userDao.New(db),
-			Validator:     validator.New(),
-			DBTransaction: dbTransaction.New(db),
+			Logger:    routerLogger,
+			BlogDao:   blogDao.New(db),
+			UserDao:   userDao.New(db),
+			Validator: validator.New(),
+			// DBTransaction: dbTransaction.New(db),
 		}.New(),
 		routerLogger,
 	).SetRoutes(ginServer.Router)

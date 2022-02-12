@@ -26,12 +26,12 @@ type UserLogic interface {
 }
 
 type HandlerConstructor struct {
-	Logger        Logger
-	Presenter     Presenter
-	BlogDao       BlogDao
-	UserDao       UserDao
-	Validator     Validator
-	DBTransaction DBTransaction
+	Logger    Logger
+	Presenter Presenter
+	BlogDao   BlogDao
+	UserDao   UserDao
+	Validator Validator
+	// DBTransaction DBTransaction
 }
 
 func (c HandlerConstructor) New() Handler {
@@ -47,16 +47,16 @@ func (c HandlerConstructor) New() Handler {
 	if c.Validator == nil {
 		log.Fatal("missing Validator")
 	}
-	if c.DBTransaction == nil {
-		log.Fatal("missing DBTransaction")
-	}
+	// if c.DBTransaction == nil {
+	// 	log.Fatal("missing DBTransaction")
+	// }
 
 	return interactor{
-		logger:        c.Logger,
-		presenter:     c.Presenter,
-		blogDao:       c.BlogDao,
-		userDao:       c.UserDao,
-		validator:     c.Validator,
-		dbTransaction: c.DBTransaction,
+		logger:    c.Logger,
+		presenter: c.Presenter,
+		blogDao:   c.BlogDao,
+		userDao:   c.UserDao,
+		validator: c.Validator,
+		// dbTransaction: c.DBTransaction,
 	}
 }

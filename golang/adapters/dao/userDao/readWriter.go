@@ -24,6 +24,10 @@ type UserDto struct {
 	Email string `json:"email"`
 }
 
+func (UserDto) TableName() string {
+	return "users"
+}
+
 func (rw rw) GetAll() (*domains.Users, error) {
 	var dtos []UserDto
 	rw.store.Find(&dtos)
@@ -56,12 +60,14 @@ func (rw rw) GetById(id int) (*domains.User, error) {
 }
 
 func (rw rw) Create(newUser domains.User) (*domains.User, error) {
-	var id int
-	dto := UserDto{}
+	dto := UserDto{
+		Name:  newUser.Name.Value,
+		Email: newUser.Email.Value,
+	}
 
 	rw.store.Create(&dto)
 
-	_id, _ := userModel.NewId(id)
+	_id, _ := userModel.NewId(dto.ID)
 	name, _ := userModel.NewName(newUser.Name.Value)
 	email, _ := userModel.NewEmail(newUser.Email.Value)
 	user := domains.BuildUser(_id, name, email, newUser.CreatedAt, newUser.UpdatedAt)

@@ -14,6 +14,12 @@ func Blog() domains.Blog {
 	return domains.BuildBlog(id, title, body, time.Time{}, time.Time{})
 }
 
+func NewBlog() domains.Blog {
+	title, _ := blog.NewTitle("タイトル")
+	body, _ := blog.NewBody("内容")
+	return domains.NewBlog(title, body)
+}
+
 func Blogs(length int) domains.Blogs {
 	var blogs []domains.Blog
 	n := 1

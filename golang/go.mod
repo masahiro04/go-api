@@ -5,6 +5,7 @@ go 1.15
 require (
 	firebase.google.com/go v3.13.0+incompatible // indirect
 	github.com/DATA-DOG/go-sqlmock v1.5.0
+	github.com/DATA-DOG/go-txdb v0.1.5 // indirect
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.7.4
 	github.com/go-playground/locales v0.14.0
@@ -33,6 +34,6 @@ require (
 	golang.org/x/text v0.3.7 // indirect
 	gopkg.in/h2non/baloo.v3 v3.0.2
 	gopkg.in/h2non/gentleman.v2 v2.0.5 // indirect
-	gorm.io/driver/postgres v1.2.3 // indirect
-	gorm.io/gorm v1.22.5 // indirect
+	gorm.io/driver/postgres v1.2.3
+	gorm.io/gorm v1.22.5
 )

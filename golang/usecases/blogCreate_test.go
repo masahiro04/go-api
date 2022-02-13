@@ -64,7 +64,7 @@ func TestBlogCreateFails(t *testing.T) {
 
 	validCalls := func(i *mock.Interactor) {
 		i.BlogDao.EXPECT().Create(gomock.Any()).Return(&blog, nil).AnyTimes()
-		i.Validator.EXPECT().Validate(gomock.Any()).Return(nil).AnyTimes()
+		// i.Validator.EXPECT().Validate(gomock.Any()).Return(nil).AnyTimes()
 	}
 
 	for testName, mutation := range mutations {

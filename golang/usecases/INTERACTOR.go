@@ -8,12 +8,12 @@ import (
 // interactor : the struct that will have as properties all the IMPLEMENTED interfaces
 // in order to provide them to its methods : the use cases and implement the Handler interface
 type interactor struct {
-	logger        Logger
-	presenter     Presenter
-	blogDao       BlogDao
-	userDao       UserDao
-	validator     Validator
-	dbTransaction DBTransaction
+	logger    Logger
+	presenter Presenter
+	blogDao   BlogDao
+	userDao   UserDao
+	// validator     Validator
+	// dbTransaction DBTransaction
 }
 
 // Logger : only used to log stuff

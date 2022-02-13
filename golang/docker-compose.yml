@@ -31,8 +31,27 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
 
+  test-db:
+    container_name: test-db
+    image: postgres:13.4
+    ports:
+      - '25432:5432'
+    expose:
+      - 5432
+    environment:
+      POSTGRES_DB: test-api
+      POSTGRES_USER: postgresql
+      POSTGRES_PASSWORD: postgresql
+      POSTGRES_PORT: 5432
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+      TZ: "Asia/Tokyo"
+    volumes:
+      - db:/var/lib/postgresql/data
+
 volumes:
   db:
+    driver: local
+  test-db:
     driver: local
   log:
   tmp:

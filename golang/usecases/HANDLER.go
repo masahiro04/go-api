@@ -30,7 +30,7 @@ type HandlerConstructor struct {
 	Presenter Presenter
 	BlogDao   BlogDao
 	UserDao   UserDao
-	Validator Validator
+	// Validator Validator
 	// DBTransaction DBTransaction
 }
 
@@ -44,9 +44,9 @@ func (c HandlerConstructor) New() Handler {
 	if c.UserDao == nil {
 		log.Fatal("missing UserDao")
 	}
-	if c.Validator == nil {
-		log.Fatal("missing Validator")
-	}
+	// if c.Validator == nil {
+	// 	log.Fatal("missing Validator")
+	// }
 	// if c.DBTransaction == nil {
 	// 	log.Fatal("missing DBTransaction")
 	// }
@@ -56,7 +56,7 @@ func (c HandlerConstructor) New() Handler {
 		presenter: c.Presenter,
 		blogDao:   c.BlogDao,
 		userDao:   c.UserDao,
-		validator: c.Validator,
+		// validator: c.Validator,
 		// dbTransaction: c.DBTransaction,
 	}
 }

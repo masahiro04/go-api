@@ -64,7 +64,7 @@ func TestUserCreateFails(t *testing.T) {
 
 	validCalls := func(i *mock.Interactor) {
 		i.UserDao.EXPECT().Create(gomock.Any()).Return(&user, nil).AnyTimes()
-		i.Validator.EXPECT().Validate(gomock.Any()).Return(nil).AnyTimes()
+		// i.Validator.EXPECT().Validate(gomock.Any()).Return(nil).AnyTimes()
 	}
 
 	for testName, mutation := range mutations {

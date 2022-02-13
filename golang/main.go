@@ -17,8 +17,6 @@ import (
 
 	"fmt"
 
-	validator "clean_architecture/golang/adapters/validator"
-
 	infra "clean_architecture/golang/infrastructure"
 	uc "clean_architecture/golang/usecases"
 
@@ -97,10 +95,10 @@ func run() {
 
 	controllers.NewRouterWithLogger(
 		uc.HandlerConstructor{
-			Logger:    routerLogger,
-			BlogDao:   blogDao.New(db),
-			UserDao:   userDao.New(db),
-			Validator: validator.New(),
+			Logger:  routerLogger,
+			BlogDao: blogDao.New(db),
+			UserDao: userDao.New(db),
+			// Validator: validator.New(),
 			// DBTransaction: dbTransaction.New(db),
 		}.New(),
 		routerLogger,

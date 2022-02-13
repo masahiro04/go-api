@@ -4,72 +4,118 @@ import (
 	"clean_architecture/golang/adapters/dao/blogDao"
 	"clean_architecture/golang/testData"
 	"fmt"
-	"regexp"
 	"testing"
 
-	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/DATA-DOG/go-txdb"
+	"github.com/stretchr/testify/assert"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-func TestRw_happyGetById(t *testing.T) {
-	db, mock, err := sqlmock.New()
+func NewTest(name string) (*gorm.DB, error) {
+	conn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+		"test-db",
+		5432,
+		"postgresql",
+		"postgresql",
+		"test-api",
+	)
+
+	fmt.Println("sentinel1")
+	db, err := gorm.Open(postgres.Open(conn), &gorm.Config{})
 	if err != nil {
-		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
-	}
-	defer db.Close()
-
-	rw := blogDao.New(db)
-	blog := testData.Blog()
-
-	// DBモック用意
-	mock.ExpectQuery(regexp.QuoteMeta(blogDao.GetByIdSql)).
-		WithArgs().
-		WillReturnRows(mock.NewRows([]string{
-			"id",
-			"title",
-			"body",
-			"created_at",
-			"updated_at",
-		}).AddRow(
-			blog.ID.Value,
-			blog.Title.Value,
-			blog.Body.Value,
-			blog.CreatedAt,
-			blog.UpdatedAt,
-		))
-
-	// モック化されたDBを用いてテスト対象関数を実行
-	if _, err := rw.GetById(blog.ID.Value); err != nil {
-		t.Errorf("error was not expected while updating stats: %s", err)
+		fmt.Println("sentinel2")
+		fmt.Println("not connected")
 	}
 
-	// 使用されたモックDBが期待通りの値を持っているかを検証
-	if err := mock.ExpectationsWereMet(); err != nil {
-		t.Errorf("there were unfulfilled expectations: %s", err)
-	}
+	txdb.Register(name, "postgres", conn)
+	fmt.Println("sentinel3")
+
+	return db, nil
 }
 
-func TestRw_unHappyGetById(t *testing.T) {
-	db, mock, err := sqlmock.New()
+func prepare(name string, seeds []interface{}) (*gorm.DB, error) {
+	fmt.Println("------------")
+	fmt.Println(name)
+	fmt.Println(seeds)
+	db, err := NewTest(name)
 	if err != nil {
-		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+		fmt.Println("sentinel4")
+		return nil, err
 	}
-	defer db.Close()
+	fmt.Println("hoge")
+	for _, s := range seeds {
+		fmt.Println("hoge1")
+		fmt.Println(s)
+		if err := db.Create(s).Error; err != nil {
+			fmt.Println("sentinel5")
+			return nil, err
+		}
+		fmt.Println("hoge2")
+	}
+	fmt.Println("hoge3")
+	return db, nil
+}
 
-	rw := blogDao.New(db)
+func TestGetById_Success(t *testing.T) {
+	t.Parallel()
+
+	fmt.Println("sentinel11")
 	blog := testData.Blog()
-
-	// DBモック用意
-	mock.ExpectQuery(regexp.QuoteMeta(blogDao.GetByIdSql)).
-		WithArgs().
-		WillReturnError(fmt.Errorf("some error"))
-
-	// モック化されたDBを用いてテスト対象関数を実行
-	if _, err := rw.GetById(blog.ID.Value); err == nil {
-		t.Errorf("error was not expected while updating stats: %s", err)
+	fmt.Println("sentinel12")
+	// 変数ではなくアドレス入れる必要あり
+	seeds := []interface{}{
+		&blogDao.BlogDto{
+			Title: blog.Title.Value,
+			Body:  blog.Body.Value,
+		},
+	}
+	// fmt.Println(db)
+	// fmt.Println(err)
+	db, err := prepare("users_dao", seeds)
+	if err != nil {
+		fmt.Println("sentinel7")
+		t.Fatal(err)
 	}
 
-	// 使用されたモックDBが期待通りの値を持っているかを検証
-	if err := mock.ExpectationsWereMet(); err != nil {
-		t.Errorf("there were unfulfilled expectations: %s", err)
+	fmt.Println("sentinel8")
+	rw := blogDao.New(db)
+	// d := rw.GetById()
+
+	tests := []struct {
+		name   string
+		give   int
+		wantID int
+		err    bool
+	}{
+		{
+			name:   "success",
+			give:   1,
+			wantID: 1,
+		},
+		{
+			name: "not found",
+			give: 2,
+			err:  true,
+		},
 	}
+
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			fmt.Println("haitta inside")
+			// rw.Create(testData.NewBlog())
+
+			got, aerr := rw.GetById(tt.give)
+			if tt.err {
+				assert.Error(t, aerr)
+			} else {
+				assert.NoError(t, aerr)
+				assert.Equal(t, tt.wantID, got.ID.Value)
+			}
+
+		})
+	}
+
 }

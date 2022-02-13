@@ -272,21 +272,6 @@ func (mr *MockBlogDaoMockRecorder) Create(blog interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockBlogDao)(nil).Create), blog)
 }
 
-// CreateTx mocks base method.
-func (m *MockBlogDao) CreateTx(company domains.Blog, tx *sql.Tx) (*domains.Blog, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateTx", company, tx)
-	ret0, _ := ret[0].(*domains.Blog)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// CreateTx indicates an expected call of CreateTx.
-func (mr *MockBlogDaoMockRecorder) CreateTx(company, tx interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTx", reflect.TypeOf((*MockBlogDao)(nil).CreateTx), company, tx)
-}
-
 // Delete mocks base method.
 func (m *MockBlogDao) Delete(id int) error {
 	m.ctrl.T.Helper()
@@ -382,21 +367,6 @@ func (m *MockUserDao) Create(user domains.User) (*domains.User, error) {
 func (mr *MockUserDaoMockRecorder) Create(user interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockUserDao)(nil).Create), user)
-}
-
-// CreateTx mocks base method.
-func (m *MockUserDao) CreateTx(user domains.User, tx *sql.Tx) (*domains.User, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateTx", user, tx)
-	ret0, _ := ret[0].(*domains.User)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// CreateTx indicates an expected call of CreateTx.
-func (mr *MockUserDaoMockRecorder) CreateTx(user, tx interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTx", reflect.TypeOf((*MockUserDao)(nil).CreateTx), user, tx)
 }
 
 // Delete mocks base method.

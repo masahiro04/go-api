@@ -3,6 +3,7 @@ package blogDao
 import (
 	"clean_architecture/golang/domains"
 	blogModel "clean_architecture/golang/domains/blog"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -47,9 +48,12 @@ func (rw rw) GetAll() (*domains.Blogs, error) {
 }
 
 func (rw rw) GetById(id int) (*domains.Blog, error) {
+	fmt.Println("get by id haitta")
 	var dto BlogDto
 
-	rw.db.Where("id = ?", id).First(&dto)
+	if err := rw.db.Where("id = ?", id).First(&dto).Error; err != nil {
+		return nil, err
+	}
 
 	_id, _ := blogModel.NewId(dto.ID)
 	title, _ := blogModel.NewTitle(dto.Title)

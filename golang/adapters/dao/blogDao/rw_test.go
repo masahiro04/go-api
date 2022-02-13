@@ -50,6 +50,7 @@ func Prepare(name string, seeds []interface{}) (*gorm.DB, error) {
 	return db, nil
 }
 
+// TODO: 単体だと動くけど、NewTest/Prepareは一度しか動かない。parallelだけでなく、db connectionそもそもの問題のようなきも。。。。
 func TestGetAll(t *testing.T) {
 	t.Parallel()
 

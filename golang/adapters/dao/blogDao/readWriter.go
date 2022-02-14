@@ -3,7 +3,6 @@ package blogDao
 import (
 	"clean_architecture/golang/domains"
 	blogModel "clean_architecture/golang/domains/blog"
-	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -51,7 +50,6 @@ func (rw rw) GetById(id int) (*domains.Blog, error) {
 	var dto BlogDto
 
 	if err := rw.db.Where("id = ?", id).First(&dto).Error; gorm.ErrRecordNotFound != nil {
-		fmt.Println("haitta")
 		return nil, err
 	}
 

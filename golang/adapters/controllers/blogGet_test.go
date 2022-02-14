@@ -8,21 +8,29 @@ import (
 	controllers "clean_architecture/golang/adapters/controllers"
 	mock "clean_architecture/golang/adapters/uc.mock"
 
+	"gopkg.in/h2non/baloo.v3"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
-	"gopkg.in/h2non/baloo.v3"
 )
 
-var companyGetPath = "/api/blogs/1"
-
 func TestBlogsGetSuccess(t *testing.T) {
+	url := "/api/blogs/1"
+	// c, _ := gin.CreateTestContext(httptest.NewRecorder())
+	//
+	// blog := testData.Blog()
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
-
 	ucHandler := mock.NewMockHandler(mockCtrl)
-	ucHandler.EXPECT().
-		BlogGet(gomock.Any()).
-		Times(1)
+
+	// useCase := uc.GetBlogUseCase{
+	// 	OutputPort: json.NewPresenter(presenters.New(c)),
+	// 	InputPort:  uc.GetBlogParams{Id: blog.ID.Value},
+	// }
+
+	// TODO(okubo): useCaseを引数に入れたいが、address参照になっているので、一致せずに落ちる
+	// とはいえ、この辺りテストしないと意味ないので、ここは厳重に扱いたい
+	ucHandler.EXPECT().BlogGet(gomock.Any()).Times(1)
 	gE := gin.Default()
 
 	controllers.NewRouter(ucHandler).SetRoutes(gE)
@@ -31,7 +39,7 @@ func TestBlogsGetSuccess(t *testing.T) {
 	defer ts.Close()
 
 	if err := baloo.New(ts.URL).
-		Get(companyGetPath).
+		Get(url).
 		Expect(t).
 		//JSONSchema(testData.CompanySingleRespDefinition).
 		Status(http.StatusOK).

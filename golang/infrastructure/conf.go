@@ -51,7 +51,7 @@ func ServerConfig(cmd *cobra.Command) {
 }
 
 func DatabaseConfig(cmd *cobra.Command) {
-	cmd.Flags().String("db.host", os.Getenv("DB_HOST"), "host on which the db should listen")
+	cmd.Flags().String("db.host", "db", "host on which the db should listen")
 	cmd.Flags().Int("db.port", 5432, "port on which the db should listen")
 	cmd.Flags().String("db.user", "postgresql", "user on which the db should listen")
 	cmd.Flags().String("db.password", "postgresql", "password on which the db should listen")

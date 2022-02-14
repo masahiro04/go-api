@@ -1,8 +1,12 @@
 package testData
 
 import (
+	"clean_architecture/golang/adapters/presenters/json"
 	"clean_architecture/golang/domains"
 	blog "clean_architecture/golang/domains/blog"
+	json2 "encoding/json"
+
+	// "clean_architecture/golang/presenter/json"
 	"strconv"
 	"time"
 )
@@ -38,4 +42,16 @@ func Blogs(length int) domains.Blogs {
 		n++
 	}
 	return domains.NewBlogs(blogs)
+}
+
+func BlogJson(blog domains.Blog) string {
+	jsonSchema := json.BlogItem(&blog)
+	out, _ := json2.Marshal(jsonSchema)
+	response := map[string]string{
+		"response": string(out),
+	}
+
+	out2, _ := json2.Marshal(response)
+	// fmt.Println("{blogs: " + string(out) + "}")
+	return string(out2)
 }

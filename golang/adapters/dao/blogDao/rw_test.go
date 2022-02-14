@@ -52,7 +52,6 @@ func Prepare(name string, seeds []interface{}) (*gorm.DB, error) {
 
 // TODO: 単体だと動くけど、NewTest/Prepareは一度しか動かない。parallelだけでなく、db connectionそもそもの問題のようなきも。。。。
 func TestGetAll(t *testing.T) {
-	t.Parallel()
 
 	blogs := testData.Blogs(5)
 	// dummyBlog := testData.BlogWithID(100) // 100でnot foud起こす
@@ -98,6 +97,9 @@ func TestGetAll(t *testing.T) {
 	fmt.Println(&seeds)
 	db, err := Prepare("users_dao", seeds)
 
+	sqlDB, _ := db.DB()
+	defer sqlDB.Close()
+
 	if err != nil {
 		fmt.Println("sentinel3")
 		t.Fatal(err)
@@ -122,7 +124,7 @@ func TestGetAll(t *testing.T) {
 		fmt.Println("sentinel5")
 		tt := tt
 		t.Run(name, func(t *testing.T) {
-			t.Parallel()
+			// t.Parallel()
 
 			fmt.Println("sentinel6")
 			b, err := rw.GetAll()
@@ -142,7 +144,6 @@ func TestGetAll(t *testing.T) {
 }
 
 func TestGetById(t *testing.T) {
-	t.Parallel()
 
 	blog := testData.Blog()
 	dummyBlog := testData.BlogWithID(100) // 100でnot foud起こす
@@ -155,6 +156,9 @@ func TestGetById(t *testing.T) {
 	}
 
 	db, err := Prepare("user_dao", seeds)
+
+	sqlDB, _ := db.DB()
+	defer sqlDB.Close()
 
 	if err != nil {
 		t.Fatal(err)
@@ -179,7 +183,7 @@ func TestGetById(t *testing.T) {
 	for name, tt := range tests {
 		tt := tt
 		t.Run(name, func(t *testing.T) {
-			t.Parallel()
+			// t.Parallel()
 
 			b, err := rw.GetById(tt.blog.ID.Value)
 

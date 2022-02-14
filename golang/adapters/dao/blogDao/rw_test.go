@@ -54,7 +54,6 @@ func Prepare(name string, seeds []interface{}) (*gorm.DB, error) {
 func TestGetAll(t *testing.T) {
 
 	blogs := testData.Blogs(5)
-	// dummyBlog := testData.BlogWithID(100) // 100でnot foud起こす
 
 	seeds := []interface{}{
 		&blogDao.BlogDto{
@@ -77,11 +76,6 @@ func TestGetAll(t *testing.T) {
 			Title: blogs.Value[3].Title.Value,
 			Body:  blogs.Value[3].Body.Value,
 		},
-		// &blogDao.BlogDto{
-		// 	ID:    blogs.Value[4].ID.Value,
-		// 	Title: blogs.Value[4].Title.Value,
-		// 	Body:  blogs.Value[4].Body.Value,
-		// },
 	}
 
 	// fmt.Println("sentinel1")
@@ -93,37 +87,38 @@ func TestGetAll(t *testing.T) {
 	// 	})
 	// }
 
-	fmt.Println("sentinel2")
-	fmt.Println(&seeds)
 	db, err := Prepare("users_dao", seeds)
 
 	sqlDB, _ := db.DB()
 	defer sqlDB.Close()
 
 	if err != nil {
-		fmt.Println("sentinel3")
 		t.Fatal(err)
 	}
 
 	rw := blogDao.New(db)
 
 	tests := map[string]struct {
+		// blogs *[]domains.Blog
 		noErr bool
 	}{
 		"Get blogs": {
 			noErr: true,
 		},
-		// "Not found": {
-		// 	blogs: &domains.Blogs{},
-		// 	noErr: false,
-		// },
+		"Not found": {
+			// blogs: &domains.Blogs{},
+			noErr: false,
+		},
 	}
 
 	fmt.Println("sentinel4")
 	for name, tt := range tests {
 		fmt.Println("sentinel5")
+		// NOTE(okubo): ttにtt入れるとparallelのscopeの問題を回避できるので、一旦そのままで実装してます
 		tt := tt
 		t.Run(name, func(t *testing.T) {
+			// TODO(okubo): parallelの方が圧倒的に早いけど、goroutineの影響？で
+			// db.Close()のタイミング合わないので、一旦は並行処理は断念
 			// t.Parallel()
 
 			fmt.Println("sentinel6")
@@ -183,6 +178,8 @@ func TestGetById(t *testing.T) {
 	for name, tt := range tests {
 		tt := tt
 		t.Run(name, func(t *testing.T) {
+			// TODO(okubo): parallelの方が圧倒的に早いけど、goroutineの影響？で
+			// db.Close()のタイミング合わないので、一旦は並行処理は断念
 			// t.Parallel()
 
 			b, err := rw.GetById(tt.blog.ID.Value)

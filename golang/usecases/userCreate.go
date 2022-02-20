@@ -11,8 +11,9 @@ type CreateUserUseCase struct {
 }
 
 type CreateUserParams struct {
-	Name  string
-	Email string
+	Name     string
+	Email    string
+	Password string
 }
 
 func (i interactor) UserCreate(uc CreateUserUseCase) {
@@ -28,7 +29,13 @@ func (i interactor) UserCreate(uc CreateUserUseCase) {
 		return
 	}
 
-	newUser := domains.NewUser(name, email)
+	password, err := user.NewPassword(uc.InputPort.Password)
+	if err != nil {
+		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		return
+	}
+
+	newUser := domains.NewUser(name, email, password)
 
 	createdUser, err := i.userDao.Create(newUser)
 	if err != nil {

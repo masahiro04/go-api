@@ -14,6 +14,13 @@ func User() domains.User {
 	return domains.BuildUser(id, name, email, time.Time{}, time.Time{})
 }
 
+func UserWithID(newID int) domains.User {
+	id, _ := user.NewId(newID)
+	name, _ := user.NewName("大久保")
+	email, _ := user.NewEmail("test@example.com")
+	return domains.BuildUser(id, name, email, time.Time{}, time.Time{})
+}
+
 func Users(length int) domains.Users {
 	var users []domains.User
 	n := 1

@@ -50,7 +50,9 @@ func (rw rw) GetAll() (*domains.Users, error) {
 func (rw rw) GetById(id int) (*domains.User, error) {
 	var dto UserDto
 
-	rw.db.Where("id = ?", id).First(&dto)
+	if err := rw.db.Where("id = ?", id).First(&dto).Error; gorm.ErrRecordNotFound != nil {
+		return nil, err
+	}
 
 	_id, _ := userModel.NewId(dto.ID)
 	name, _ := userModel.NewName(dto.Name)

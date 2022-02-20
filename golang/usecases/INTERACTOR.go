@@ -3,15 +3,20 @@ package uc
 import (
 	"clean_architecture/golang/domains"
 	"database/sql"
+	"time"
+
+	"firebase.google.com/go/auth"
+	// "firebase.google.com/go/auth"
 )
 
 // interactor : the struct that will have as properties all the IMPLEMENTED interfaces
 // in order to provide them to its methods : the use cases and implement the Handler interface
 type interactor struct {
-	logger    Logger
-	presenter Presenter
-	blogDao   BlogDao
-	userDao   UserDao
+	logger          Logger
+	presenter       Presenter
+	blogDao         BlogDao
+	userDao         UserDao
+	firebaseHandler FirebaseHandler
 	// validator     Validator
 	// dbTransaction DBTransaction
 }
@@ -30,6 +35,21 @@ type Presenter interface {
 
 	GetUsers(users *domains.Users)
 	GetUser(user *domains.User)
+}
+
+type FirebaseHandler interface {
+	VerifyIDToken(idToken string) (token *auth.Token, err error)
+	// GetUser(uuId string) (user *domains.User, err error)
+	CreateUser(user domains.User) (uuId *string, err error)
+	// UpdateUser(uuId string, updateParams *domain.UserUpdatableProperty) error
+	ActivateUser(uuId string) error
+	DisableUser(uuId string) error
+	DeleteUser(uuId string) error
+	EmailVerificationLinkWithSettings(email string) (*string, error)
+	EmailSignInLink(email string) (*string, error)
+	SessionCookie(idToken string, expiresIn time.Duration) (*string, error)
+	VerifySessionCookieAndCheckRevoked(sessionCookie string) (uuid *string, err error)
+	RevokeRefreshTokens(uuId string) error
 }
 
 type Validator interface {

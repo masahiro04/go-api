@@ -8,7 +8,9 @@ import (
 	domains "clean_architecture/golang/domains"
 	sql "database/sql"
 	reflect "reflect"
+	time "time"
 
+	auth "firebase.google.com/go/auth"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -158,6 +160,175 @@ func (m *MockPresenter) Raise(errorKind domains.ErrorKinds, err error) {
 func (mr *MockPresenterMockRecorder) Raise(errorKind, err interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Raise", reflect.TypeOf((*MockPresenter)(nil).Raise), errorKind, err)
+}
+
+// MockFirebaseHandler is a mock of FirebaseHandler interface.
+type MockFirebaseHandler struct {
+	ctrl     *gomock.Controller
+	recorder *MockFirebaseHandlerMockRecorder
+}
+
+// MockFirebaseHandlerMockRecorder is the mock recorder for MockFirebaseHandler.
+type MockFirebaseHandlerMockRecorder struct {
+	mock *MockFirebaseHandler
+}
+
+// NewMockFirebaseHandler creates a new mock instance.
+func NewMockFirebaseHandler(ctrl *gomock.Controller) *MockFirebaseHandler {
+	mock := &MockFirebaseHandler{ctrl: ctrl}
+	mock.recorder = &MockFirebaseHandlerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockFirebaseHandler) EXPECT() *MockFirebaseHandlerMockRecorder {
+	return m.recorder
+}
+
+// ActivateUser mocks base method.
+func (m *MockFirebaseHandler) ActivateUser(uuId string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ActivateUser", uuId)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// ActivateUser indicates an expected call of ActivateUser.
+func (mr *MockFirebaseHandlerMockRecorder) ActivateUser(uuId interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ActivateUser", reflect.TypeOf((*MockFirebaseHandler)(nil).ActivateUser), uuId)
+}
+
+// CreateUser mocks base method.
+func (m *MockFirebaseHandler) CreateUser(user domains.User) (*string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateUser", user)
+	ret0, _ := ret[0].(*string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateUser indicates an expected call of CreateUser.
+func (mr *MockFirebaseHandlerMockRecorder) CreateUser(user interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockFirebaseHandler)(nil).CreateUser), user)
+}
+
+// DeleteUser mocks base method.
+func (m *MockFirebaseHandler) DeleteUser(uuId string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteUser", uuId)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteUser indicates an expected call of DeleteUser.
+func (mr *MockFirebaseHandlerMockRecorder) DeleteUser(uuId interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUser", reflect.TypeOf((*MockFirebaseHandler)(nil).DeleteUser), uuId)
+}
+
+// DisableUser mocks base method.
+func (m *MockFirebaseHandler) DisableUser(uuId string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DisableUser", uuId)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DisableUser indicates an expected call of DisableUser.
+func (mr *MockFirebaseHandlerMockRecorder) DisableUser(uuId interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DisableUser", reflect.TypeOf((*MockFirebaseHandler)(nil).DisableUser), uuId)
+}
+
+// EmailSignInLink mocks base method.
+func (m *MockFirebaseHandler) EmailSignInLink(email string) (*string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "EmailSignInLink", email)
+	ret0, _ := ret[0].(*string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// EmailSignInLink indicates an expected call of EmailSignInLink.
+func (mr *MockFirebaseHandlerMockRecorder) EmailSignInLink(email interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EmailSignInLink", reflect.TypeOf((*MockFirebaseHandler)(nil).EmailSignInLink), email)
+}
+
+// EmailVerificationLinkWithSettings mocks base method.
+func (m *MockFirebaseHandler) EmailVerificationLinkWithSettings(email string) (*string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "EmailVerificationLinkWithSettings", email)
+	ret0, _ := ret[0].(*string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// EmailVerificationLinkWithSettings indicates an expected call of EmailVerificationLinkWithSettings.
+func (mr *MockFirebaseHandlerMockRecorder) EmailVerificationLinkWithSettings(email interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EmailVerificationLinkWithSettings", reflect.TypeOf((*MockFirebaseHandler)(nil).EmailVerificationLinkWithSettings), email)
+}
+
+// RevokeRefreshTokens mocks base method.
+func (m *MockFirebaseHandler) RevokeRefreshTokens(uuId string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "RevokeRefreshTokens", uuId)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// RevokeRefreshTokens indicates an expected call of RevokeRefreshTokens.
+func (mr *MockFirebaseHandlerMockRecorder) RevokeRefreshTokens(uuId interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RevokeRefreshTokens", reflect.TypeOf((*MockFirebaseHandler)(nil).RevokeRefreshTokens), uuId)
+}
+
+// SessionCookie mocks base method.
+func (m *MockFirebaseHandler) SessionCookie(idToken string, expiresIn time.Duration) (*string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SessionCookie", idToken, expiresIn)
+	ret0, _ := ret[0].(*string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SessionCookie indicates an expected call of SessionCookie.
+func (mr *MockFirebaseHandlerMockRecorder) SessionCookie(idToken, expiresIn interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SessionCookie", reflect.TypeOf((*MockFirebaseHandler)(nil).SessionCookie), idToken, expiresIn)
+}
+
+// VerifyIDToken mocks base method.
+func (m *MockFirebaseHandler) VerifyIDToken(idToken string) (*auth.Token, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "VerifyIDToken", idToken)
+	ret0, _ := ret[0].(*auth.Token)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// VerifyIDToken indicates an expected call of VerifyIDToken.
+func (mr *MockFirebaseHandlerMockRecorder) VerifyIDToken(idToken interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "VerifyIDToken", reflect.TypeOf((*MockFirebaseHandler)(nil).VerifyIDToken), idToken)
+}
+
+// VerifySessionCookieAndCheckRevoked mocks base method.
+func (m *MockFirebaseHandler) VerifySessionCookieAndCheckRevoked(sessionCookie string) (*string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "VerifySessionCookieAndCheckRevoked", sessionCookie)
+	ret0, _ := ret[0].(*string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// VerifySessionCookieAndCheckRevoked indicates an expected call of VerifySessionCookieAndCheckRevoked.
+func (mr *MockFirebaseHandlerMockRecorder) VerifySessionCookieAndCheckRevoked(sessionCookie interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "VerifySessionCookieAndCheckRevoked", reflect.TypeOf((*MockFirebaseHandler)(nil).VerifySessionCookieAndCheckRevoked), sessionCookie)
 }
 
 // MockValidator is a mock of Validator interface.

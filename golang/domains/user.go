@@ -10,15 +10,17 @@ type User struct {
 	ID        user.ID
 	Name      user.Name
 	Email     user.Email
+	Password  user.Password
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt time.Time
 }
 
-func NewUser(name user.Name, email user.Email) User {
+func NewUser(name user.Name, email user.Email, password user.Password) User {
 	return User{
-		Name:  name,
-		Email: email,
+		Name:     name,
+		Email:    email,
+		Password: password,
 	}
 }
 

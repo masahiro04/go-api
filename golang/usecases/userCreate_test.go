@@ -34,8 +34,9 @@ func TestUserCreateSuccess(t *testing.T) {
 	useCase := uc.CreateUserUseCase{
 		OutputPort: form,
 		InputPort: uc.CreateUserParams{
-			Name:  user.Name.Value,
-			Email: user.Email.Value,
+			Name:     user.Name.Value,
+			Email:    user.Email.Value,
+			Password: "hogehgoe",
 		},
 	}
 
@@ -83,8 +84,9 @@ func TestUserCreateFails(t *testing.T) {
 			useCase := uc.CreateUserUseCase{
 				OutputPort: form,
 				InputPort: uc.CreateUserParams{
-					Name:  user.Name.Value,
-					Email: user.Email.Value,
+					Name:     user.Name.Value,
+					Email:    user.Email.Value,
+					Password: "hogehgeo",
 				},
 			}
 

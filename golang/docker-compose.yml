@@ -18,6 +18,7 @@ services:
     container_name: db
     image: postgres:13.4
     ports:
+      # portを15432とかに帰ればlocalとのバッティング避けられるのでは？
       - '5432:5432'
     environment:
       POSTGRES_DB: api

@@ -4,6 +4,8 @@ import (
 	"log"
 	"os"
 
+	firebase "clean_architecture/golang/adapters/auth"
+
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -12,6 +14,7 @@ import (
 	"clean_architecture/golang/adapters/dao/blogDao"
 	"clean_architecture/golang/adapters/dao/userDao"
 	"clean_architecture/golang/adapters/loggers"
+	"clean_architecture/golang/infrastructure"
 
 	_ "github.com/lib/pq"
 
@@ -73,6 +76,10 @@ func run() {
 		infra.DebugMode,
 	)
 
+	// Firebase
+	client := infrastructure.NewFirebaseAuthClient()
+	firebaseHandler := firebase.New(client)
+
 	// DB
 	conn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		viper.GetString("db.host"),
@@ -95,9 +102,10 @@ func run() {
 
 	controllers.NewRouterWithLogger(
 		uc.HandlerConstructor{
-			Logger:  routerLogger,
-			BlogDao: blogDao.New(db),
-			UserDao: userDao.New(db),
+			Logger:          routerLogger,
+			BlogDao:         blogDao.New(db),
+			UserDao:         userDao.New(db),
+			FirebaseHandler: firebaseHandler,
 			// Validator: validator.New(),
 			// DBTransaction: dbTransaction.New(db),
 		}.New(),

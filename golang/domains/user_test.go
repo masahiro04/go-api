@@ -16,7 +16,8 @@ func TestNewUserSuccess(t *testing.T) {
 	emailInput := "test@example.con"
 	name, _ := user.NewName(nameInput)
 	email, _ := user.NewEmail(emailInput)
-	newUser := domains.NewUser(name, email)
+	password, _ := user.NewPassword("hogehgoe")
+	newUser := domains.NewUser(name, email, password)
 	t.Run("", func(t *testing.T) {
 		assert.Equal(t, newUser.Name, name)
 		assert.Equal(t, newUser.Email, email)

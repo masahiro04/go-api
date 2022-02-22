@@ -1,15 +1,16 @@
 .PHONY: all clean test docker latest init db swag
 
-export CGO_ENABLED=0
-export GOOS=darwin
-export GOARCH=amd64
-
-BINARY=go-lgtm-api
-VERSION=$(shell git describe --abbrev=0 --tags 2> /dev/null || echo "0.1.0")
-BUILD=$(shell git rev-parse HEAD 2> /dev/null || echo "undefined")
-LDFLAGS=-ldflags "-X main.Version=$(VERSION) -X main.Build=$(BUILD)"
+# export CGO_ENABLED=0
+# export GOOS=darwin
+# export GOARCH=amd64
+#
+# BINARY=go-lgtm-api
+# VERSION=$(shell git describe --abbrev=0 --tags 2> /dev/null || echo "0.1.0")
+# BUILD=$(shell git rev-parse HEAD 2> /dev/null || echo "undefined")
+# LDFLAGS=-ldflags "-X main.Version=$(VERSION) -X main.Build=$(BUILD)"
 MIGRATE_OPTIONS=-config=db/dbconfig.yml -env development
-GOPATH=$(shell go env GOPATH)
+TEST_MIGRATE_OPTIONS=-config=db/dbconfig.yml -env test
+# GOPATH=$(shell go env GOPATH)
 
 run:
 	air -c .air.toml
@@ -29,17 +30,29 @@ migrate:
 	sql-migrate up $(MIGRATE_OPTIONS)
 	sql-migrate status $(MIGRATE_OPTIONS)
 
+test_migrate:
+	sql-migrate status $(TEST_MIGRATE_OPTIONS)
+	sql-migrate up $(TEST_MIGRATE_OPTIONS)
+	sql-migrate status $(TEST_MIGRATE_OPTIONS)
+
 test:
+	go clean -cache -testcache
 	go test ./...
 
 dao_test:
-	go test ./adapters/dao.blogRW
+	go clean -cache -testcache
+	go test ./adapters/dao/userDao/
+
+controller_test:
+	go clean -cache -testcache
+	go test ./adapters/controllers
 
 uc_test:
-	go test ./usecases
+	go clean -cache -testcache
+	go test ./usecases/...
 
 domain_test:
-	go test ./domains/
+	go test ./domains
 
 cover:
 	go test -cover ./... -coverprofile=cover.out.tmp | grep coverage:

@@ -13,4 +13,7 @@ docker-compose run app make test_migrate
 
 # 起動
 docker-compose up
+
+# テスト
+docker-compose run app make test
 ```

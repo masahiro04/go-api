@@ -1,32 +1,26 @@
-package dao
+package tx
 
-import (
-	"database/sql"
-
-	uc "clean_architecture/golang/usecases"
-)
-
-type rw struct {
-	store *sql.DB
-}
-
-func New(db *sql.DB) uc.DBTransaction {
-	rw := rw{
-		store: db,
-	}
-
-	return rw
-}
-
-func (rw rw) WithTx(runner func(tx *sql.Tx) error) error {
-	tx, err := rw.store.Begin()
-	if err != nil {
-		return err
-	}
-	err = runner(tx)
-	if err != nil {
-		_ = tx.Rollback()
-		return err
-	}
-	return tx.Commit()
-}
+// type rw struct {
+// 	db *gorm.DB
+// }
+//
+// func New(db *gorm.DB) *rw {
+// 	return &rw{
+// 		db: db,
+// 	}
+// }
+//
+// func (rw rw) WithTx(runner func(tx rw) error) error {
+// 	tx := rw.db.Begin()
+// 	if tx.Error != nil {
+// 		tx.Rollback()
+// 		return tx.Error
+// 	}
+//
+// 	if err := runner(rw); err != nil {
+// 		tx.Rollback()
+// 		return tx.Error
+// 	}
+//
+// 	return tx.Commit().Error
+// }

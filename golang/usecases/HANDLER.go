@@ -26,11 +26,10 @@ type UserLogic interface {
 }
 
 type HandlerConstructor struct {
-	Logger          Logger
-	Presenter       Presenter
-	BlogDao         BlogDao
-	UserDao         UserDao
-	FirebaseHandler FirebaseHandler
+	Logger    Logger
+	Presenter Presenter
+	BlogDao   BlogDao
+	UserDao   UserDao
 	// Validator Validator
 	// DBTransaction DBTransaction
 }
@@ -53,11 +52,10 @@ func (c HandlerConstructor) New() Handler {
 	// }
 
 	return interactor{
-		logger:          c.Logger,
-		presenter:       c.Presenter,
-		blogDao:         c.BlogDao,
-		userDao:         c.UserDao,
-		firebaseHandler: c.FirebaseHandler,
+		logger:    c.Logger,
+		presenter: c.Presenter,
+		blogDao:   c.BlogDao,
+		userDao:   c.UserDao,
 		// validator: c.Validator,
 		// dbTransaction: c.DBTransaction,
 	}

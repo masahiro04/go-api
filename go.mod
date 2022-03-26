@@ -13,6 +13,7 @@ require (
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/golang/mock v1.6.0
 	github.com/hashicorp/go-multierror v1.1.1
+	github.com/jackc/pgconn v1.11.0 // indirect
 	github.com/jackc/pgtype v1.10.0 // indirect
 	github.com/joho/godotenv v1.4.0
 	github.com/json-iterator/go v1.1.12 // indirect

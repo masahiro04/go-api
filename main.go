@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
@@ -73,13 +74,15 @@ func run() {
 		infra.DebugMode,
 	)
 
+	dbPort, _ := strconv.Atoi(os.Getenv("DB_PORT"))
 	// DB
 	conn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		viper.GetString("db.host"),
-		viper.GetInt("db.port"),
-		viper.GetString("db.user"),
-		viper.GetString("db.password"),
-		viper.GetString("db.name"))
+		os.Getenv("DB"),
+		dbPort,
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_NAME"),
+	)
 
 	db, err := gorm.Open(postgres.Open(conn), &gorm.Config{})
 

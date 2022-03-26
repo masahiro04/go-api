@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/joho/godotenv"
 
@@ -51,11 +52,14 @@ func ServerConfig(cmd *cobra.Command) {
 }
 
 func DatabaseConfig(cmd *cobra.Command) {
-	cmd.Flags().String("db.host", "db", "host on which the db should listen")
-	cmd.Flags().Int("db.port", 5432, "port on which the db should listen")
-	cmd.Flags().String("db.user", "postgresql", "user on which the db should listen")
-	cmd.Flags().String("db.password", "postgresql", "password on which the db should listen")
-	cmd.Flags().String("db.name", "api", "name on which the db should listen")
+	dbPort, _ := strconv.Atoi(os.Getenv("DB_PORT"))
+
+	// TODO(okubo): なぜか値が入らないので、下手がきでmain.goで対応
+	cmd.Flags().String("db.host", os.Getenv("DB"), "host on which the db should listen")
+	cmd.Flags().Int("db.port", dbPort, "port on which the db should listen")
+	cmd.Flags().String("db.user", os.Getenv("DB_USER"), "user on which the db should listen")
+	cmd.Flags().String("db.password", os.Getenv("DB_PASSWORD"), "password on which the db should listen")
+	cmd.Flags().String("db.name", os.Getenv("DB_NAME"), "name on which the db should listen")
 
 	if err := viper.BindPFlags(cmd.Flags()); err != nil {
 		log.Println("No configuration file found")

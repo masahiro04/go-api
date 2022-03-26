@@ -10,7 +10,7 @@
 # LDFLAGS=-ldflags "-X main.Version=$(VERSION) -X main.Build=$(BUILD)"
 MIGRATE_OPTIONS=-config=db/dbconfig.yml -env development
 TEST_MIGRATE_OPTIONS=-config=db/dbconfig.yml -env test
-# GOPATH=$(shell go env GOPATH)
+GOPATH=$(shell go env GOPATH)
 
 run:
 	air -c .air.toml

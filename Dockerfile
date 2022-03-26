@@ -1,7 +1,11 @@
 FROM golang:1.18
 
+# ENV GOPATH /go
+# ENV GO111MODULE on
+
 WORKDIR /app
-COPY . /app
+# WORKDIR $GOPATH/src/app
+COPY . .
 
 RUN go get -u github.com/cosmtrek/air
 RUN go install github.com/golang/mock/mockgen@v1.6.0

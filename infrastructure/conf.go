@@ -41,8 +41,10 @@ func LoggerConfig(rootCmd *cobra.Command) {
 }
 
 func ServerConfig(cmd *cobra.Command) {
+	port, _ := strconv.Atoi(os.Getenv("PORT"))
+	fmt.Println("port is ", os.Getenv("PORT"))
 	cmd.Flags().String("server.host", "127.0.0.1", "host on which the server should listen")
-	cmd.Flags().Int("server.port", 8080, "port on which the server should listen")
+	cmd.Flags().Int("server.port", port, "port on which the server should listen")
 	cmd.Flags().Bool("server.debug", false, "debug mode for the server")
 	cmd.Flags().String("server.fronthost", os.Getenv("FRONT_HOST"), "allowed origins for the server")
 

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"os"
 	"strconv"
@@ -21,6 +22,7 @@ import (
 	infra "go-api/infrastructure"
 	uc "go-api/usecases"
 
+	migrate "github.com/rubenv/sql-migrate"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -67,6 +69,22 @@ func main() {
 	}
 }
 
+func ExecMigrations(postgresURL string) error {
+	migrations := &migrate.FileMigrationSource{
+		Dir: "db/migrations",
+	}
+	pg, err := sql.Open("postgres", postgresURL)
+
+	logrus.WithError(err).Fatal()
+
+	appliedCount, err := migrate.Exec(pg, "postgres", migrations, migrate.Up)
+	if err != nil {
+		return err
+	}
+	log.Printf("Applied %v migrations", appliedCount)
+	return nil
+}
+
 func run() {
 	// Gin
 	ginServer := infra.NewServer(
@@ -84,8 +102,13 @@ func run() {
 		os.Getenv("DB_NAME"),
 	)
 
-	db, err := gorm.Open(postgres.Open(conn), &gorm.Config{})
+	// migrate
+	err := ExecMigrations(conn)
+	if err != nil {
+		panic(err)
+	}
 
+	db, err := gorm.Open(postgres.Open(conn), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}

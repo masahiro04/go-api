@@ -82,6 +82,8 @@ func ExecMigrations(postgresURL string) error {
 	}
 
 	fmt.Println("hoge3")
+	fmt.Println("postgresURL is ", postgresURL)
+	// TODO(okubo): ここでエラー出てるので、修正する
 	appliedCount, err := migrate.Exec(pg, "postgres", migrations, migrate.Up)
 	if err != nil {
 		logrus.Fatal(err)

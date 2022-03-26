@@ -103,8 +103,6 @@ func run() {
 
 	log.Printf("sentinel3")
 	dbPort, _ := strconv.Atoi(os.Getenv("DB_PORT"))
-	// DB
-
 	conn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		os.Getenv("DB"),
 		dbPort,

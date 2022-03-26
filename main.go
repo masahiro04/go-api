@@ -34,7 +34,7 @@ var (
 
 // the command to run the server
 var rootCmd = &cobra.Command{
-	Use:   "hrbase-pro",
+	Use:   "go-api",
 	Short: "Runs the server",
 	Run: func(cmd *cobra.Command, args []string) {
 		run()

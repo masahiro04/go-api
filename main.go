@@ -103,12 +103,19 @@ func run() {
 
 	log.Printf("sentinel3")
 	dbPort, _ := strconv.Atoi(os.Getenv("DB_PORT"))
-	conn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+
+	sslmode := "require"
+	if os.Getenv("ENV") == "development" {
+		sslmode = "disable"
+	}
+
+	conn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
 		os.Getenv("DB"),
 		dbPort,
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASSWORD"),
 		os.Getenv("DB_NAME"),
+		sslmode,
 	)
 
 	log.Printf("sentinel4")

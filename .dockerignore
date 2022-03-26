@@ -1,0 +1,13 @@
+app
+dist
+vendor/
+tmp
+vendor
+.git
+.env
+Dockerfile
+docker-compose.yml
+.dockerignore
+.DS_Store
+.env.sample
+.idea

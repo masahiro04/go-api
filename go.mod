@@ -10,14 +10,12 @@ require (
 	github.com/go-playground/locales v0.14.0
 	github.com/go-playground/universal-translator v0.18.0
 	github.com/go-playground/validator/v10 v10.9.0
-	github.com/go-sql-driver/mysql v1.5.0 // indirect
+	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/golang/mock v1.6.0
 	github.com/hashicorp/go-multierror v1.1.1
-	github.com/jackc/pgx/v4 v4.15.0 // indirect
 	github.com/joho/godotenv v1.4.0
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/lib/pq v1.10.3
-	github.com/mattn/go-isatty v0.0.14 // indirect
+	github.com/lib/pq v1.10.2
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/nbio/st v0.0.0-20140626010706-e9e8d9816f32 // indirect
 	github.com/sirupsen/logrus v1.8.1

@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestIdNewIDSuccess(t *testing.T) {
+func TestIdNewID_Success(t *testing.T) {
 	// NOTE(okubo): Body.valueとの比較したいけど、小文字はexportされないので、Value経由で比較
 	input := 1
 	newID, err := user.NewId(input)
@@ -18,7 +18,7 @@ func TestIdNewIDSuccess(t *testing.T) {
 	})
 }
 
-func TestIdStringSuccess(t *testing.T) {
+func TestIdString_Success(t *testing.T) {
 	input := 1
 	newID, err := user.NewId(input)
 
@@ -28,7 +28,7 @@ func TestIdStringSuccess(t *testing.T) {
 	})
 }
 
-func TestIDValueSuccess(t *testing.T) {
+func TestIDValue_Success(t *testing.T) {
 	input := 1
 	newID, _ := user.NewId(input)
 	t.Run("hoge", func(t *testing.T) {

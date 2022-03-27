@@ -14,7 +14,7 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
-func TestBlogsGetSuccess(t *testing.T) {
+func TestGetBlog_Success(t *testing.T) {
 	url := "/api/blogs/1"
 	// c, _ := gin.CreateTestContext(httptest.NewRecorder())
 	//

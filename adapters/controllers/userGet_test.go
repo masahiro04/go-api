@@ -13,7 +13,7 @@ import (
 	"gopkg.in/h2non/baloo.v3"
 )
 
-func TestUsersGetSuccess(t *testing.T) {
+func TestGetUser_Success(t *testing.T) {
 	var userGetPath = "/api/users/1"
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()

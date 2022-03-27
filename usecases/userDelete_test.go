@@ -19,7 +19,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestUserDeleteSuccess(t *testing.T) {
+func TestDeleteUser_Success(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	user := factories.User()
@@ -43,7 +43,7 @@ func TestUserDeleteSuccess(t *testing.T) {
 	assert.NoError(t, form.Present())
 }
 
-func TestUserDeleteFails(t *testing.T) {
+func TestDeleteUser_Fail(t *testing.T) {
 	user := factories.User()
 
 	mutations := map[string]mock.Tester{

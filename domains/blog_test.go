@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNewBlogSuccess(t *testing.T) {
+func TestNewBlog_Success(t *testing.T) {
 	// NOTE(okubo): Body.valueとの比較したいけど、小文字はexportされないので、Value経由で比較
 	titleInput := "title"
 	bodyInput := "body"
@@ -22,7 +22,7 @@ func TestNewBlogSuccess(t *testing.T) {
 		assert.Equal(t, newBlog.Body, body)
 	})
 }
-func TestBuildBlogSuccess(t *testing.T) {
+func TestBuildBlog_Success(t *testing.T) {
 	idInput := 1
 	titleInput := "title"
 	bodyInput := "body"
@@ -39,7 +39,7 @@ func TestBuildBlogSuccess(t *testing.T) {
 	})
 }
 
-func TestUpdatedAtSuccess(t *testing.T) {
+func TestUpdatedAt_Success(t *testing.T) {
 	_blog := factories.Blog()
 
 	t.Run("", func(t *testing.T) {
@@ -47,7 +47,7 @@ func TestUpdatedAtSuccess(t *testing.T) {
 	})
 }
 
-func TestUpdateTitleSuccess(t *testing.T) {
+func TestUpdateTitle_Success(t *testing.T) {
 	_blog := factories.Blog()
 	input, _ := blog.NewTitle("updatedTitle")
 	updatedTitle := _blog.UpdateTitle(input)
@@ -57,7 +57,7 @@ func TestUpdateTitleSuccess(t *testing.T) {
 	})
 }
 
-func TestUpdateBodySuccess(t *testing.T) {
+func TestUpdateBody_Success(t *testing.T) {
 	_blog := factories.Blog()
 	input, _ := blog.NewBody("updatedBody")
 	updatedBody := _blog.UpdateBody(input)

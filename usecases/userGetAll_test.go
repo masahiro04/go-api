@@ -15,7 +15,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestUserGetAllSuccess(t *testing.T) {
+func TestGetAllUser_Success(t *testing.T) {
 	var _users = factories.Users(5)
 	t.Run("most obvious", func(t *testing.T) {
 		mockCtrl := gomock.NewController(t)
@@ -45,7 +45,7 @@ func TestUserGetAllSuccess(t *testing.T) {
 	})
 }
 
-func TestUserGetAllFails(t *testing.T) {
+func TestGetAllUser_Fail(t *testing.T) {
 	var _users = factories.Users(5)
 	mutations := map[string]mock.Tester{
 		"shouldPass": {

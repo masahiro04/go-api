@@ -13,7 +13,7 @@ import (
 	"gopkg.in/h2non/baloo.v3"
 )
 
-func TestUserPostSuccess(t *testing.T) {
+func TestPostUser_Success(t *testing.T) {
 	var userPostPath = "/api/users"
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()

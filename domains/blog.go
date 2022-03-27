@@ -5,7 +5,6 @@ import (
 	"time"
 )
 
-// TODO: privateに扱うために、小文字に変更する
 type Blog struct {
 	ID        blog.ID
 	Title     blog.Title

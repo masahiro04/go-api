@@ -15,7 +15,7 @@ import (
 
 var blogGetAllPath = "/api/blogs"
 
-func TestCompanyGetAllSuccess(t *testing.T) {
+func TestGetAllBlog_Success(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 

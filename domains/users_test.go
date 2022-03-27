@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNewUsersSuccess(t *testing.T) {
+func TestNewUsers_Success(t *testing.T) {
 	_users := factories.Users(5)
 
 	t.Run("", func(t *testing.T) {
@@ -16,7 +16,7 @@ func TestNewUsersSuccess(t *testing.T) {
 	})
 }
 
-func TestUsersSizeSuccess(t *testing.T) {
+func TestUsersSize_Success(t *testing.T) {
 	_users := factories.Users(5)
 
 	t.Run("", func(t *testing.T) {
@@ -24,7 +24,7 @@ func TestUsersSizeSuccess(t *testing.T) {
 	})
 }
 
-func TestUsersEmptyUsersSuccess(t *testing.T) {
+func TestUsersEmptyUsers_Success(t *testing.T) {
 	newUsers := domains.EmptyUsers()
 
 	t.Run("", func(t *testing.T) {
@@ -32,7 +32,7 @@ func TestUsersEmptyUsersSuccess(t *testing.T) {
 	})
 }
 
-func TestUsersApplyLimitAndOffset(t *testing.T) {
+func TestUsersApplyLimitAndOffset_Success(t *testing.T) {
 	var _users = factories.Users(5)
 
 	t.Run("complete", func(t *testing.T) {

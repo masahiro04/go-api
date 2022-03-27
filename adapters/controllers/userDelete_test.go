@@ -17,7 +17,7 @@ import (
 	"gopkg.in/h2non/baloo.v3"
 )
 
-func TestUserDeleteSuccess(t *testing.T) {
+func TestDeleteUser_Success(t *testing.T) {
 	var userDeletePath = "/api/users/"
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()

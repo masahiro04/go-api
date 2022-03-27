@@ -18,7 +18,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestUserCreateSuccess(t *testing.T) {
+func TestCreateUser_Success(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	user := factories.User()
@@ -45,7 +45,7 @@ func TestUserCreateSuccess(t *testing.T) {
 	assert.NoError(t, form.Present())
 }
 
-func TestUserCreateFails(t *testing.T) {
+func TestCreateUser_Fail(t *testing.T) {
 	user := factories.User()
 
 	mutations := map[string]mock.Tester{

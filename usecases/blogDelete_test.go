@@ -19,7 +19,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestBlogDeleteSuccess(t *testing.T) {
+func TestDeleteBlog_Success(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	blog := factories.Blog()
@@ -43,7 +43,7 @@ func TestBlogDeleteSuccess(t *testing.T) {
 	assert.NoError(t, form.Present())
 }
 
-func TestBlogDeleteFails(t *testing.T) {
+func TestDeleteBlog_Fail(t *testing.T) {
 	blog := factories.Blog()
 
 	mutations := map[string]mock.Tester{

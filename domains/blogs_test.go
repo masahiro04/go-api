@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNewBlogsSuccess(t *testing.T) {
+func TestNewBlogs_Success(t *testing.T) {
 	_blogs := factories.Blogs(5)
 
 	t.Run("", func(t *testing.T) {
@@ -17,7 +17,7 @@ func TestNewBlogsSuccess(t *testing.T) {
 	})
 }
 
-func TestBlogsSizeSuccess(t *testing.T) {
+func TestBlogsSize_Success(t *testing.T) {
 	_blogs := factories.Blogs(5)
 
 	t.Run("", func(t *testing.T) {
@@ -25,7 +25,7 @@ func TestBlogsSizeSuccess(t *testing.T) {
 	})
 }
 
-func TestBlogsEmptyBlogsSuccess(t *testing.T) {
+func TestBlogsEmptyBlogs_Success(t *testing.T) {
 	newBlogs := domains.EmptyBlogs()
 
 	t.Run("", func(t *testing.T) {
@@ -33,7 +33,7 @@ func TestBlogsEmptyBlogsSuccess(t *testing.T) {
 	})
 }
 
-func TestBlogsApplyLimitAndOffset(t *testing.T) {
+func TestBlogsApplyLimitAndOffset_Success(t *testing.T) {
 	var _blogs = factories.Blogs(5)
 
 	t.Run("complete", func(t *testing.T) {

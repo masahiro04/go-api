@@ -3,7 +3,7 @@ package blog
 import "go-api/domains/validator"
 
 type Title struct {
-	// [Blogの説明を表現する値オブジェクト]
+	// [Titleを表現する値オブジェクト]
 	// バリデーションルールは以下
 	// - 空ではないこと
 	// - 100文字以下であること

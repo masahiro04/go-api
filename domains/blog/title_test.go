@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNewTitleSuccess(t *testing.T) {
+func TestNewTitle_Success(t *testing.T) {
 	input := "title"
 	newTitle, err := blog.NewTitle(input)
 	t.Run("hoge", func(t *testing.T) {
@@ -16,7 +16,7 @@ func TestNewTitleSuccess(t *testing.T) {
 	})
 }
 
-func TestNewTitleFail(t *testing.T) {
+func TestNewTitle_Fail(t *testing.T) {
 	input := ""
 	newTitle, err := blog.NewTitle(input)
 	t.Run("hoge", func(t *testing.T) {
@@ -25,7 +25,7 @@ func TestNewTitleFail(t *testing.T) {
 	})
 }
 
-func TestUpdateTitleSuccess(t *testing.T) {
+func TestUpdateTitle_Success(t *testing.T) {
 	input := "title"
 	updatedTitle, err := blog.UpdateTitle(&input)
 	t.Run("hoge", func(t *testing.T) {
@@ -34,7 +34,7 @@ func TestUpdateTitleSuccess(t *testing.T) {
 	})
 }
 
-func TestUpdateTitleFail(t *testing.T) {
+func TestUpdateTitle_Fail(t *testing.T) {
 	input := ""
 	updatedTitle, err := blog.UpdateTitle(&input)
 	t.Run("hoge", func(t *testing.T) {
@@ -43,7 +43,7 @@ func TestUpdateTitleFail(t *testing.T) {
 	})
 }
 
-func TestTitleValueSuccess(t *testing.T) {
+func TestTitleValue_Success(t *testing.T) {
 	input := "title"
 	title, _ := blog.NewTitle(input)
 	t.Run("hoge", func(t *testing.T) {

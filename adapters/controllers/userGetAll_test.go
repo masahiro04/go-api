@@ -15,7 +15,7 @@ import (
 
 var userGetAllPath = "/api/users"
 
-func TestUserGetAllSuccess(t *testing.T) {
+func TestGetAllUser_Success(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 

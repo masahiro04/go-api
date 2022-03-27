@@ -19,7 +19,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestBlogEditSuccess(t *testing.T) {
+func TestEditBlog_Success(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
@@ -48,7 +48,7 @@ func TestBlogEditSuccess(t *testing.T) {
 	assert.NoError(t, form.Present())
 }
 
-func TestBlogEditFails(t *testing.T) {
+func TestEditBlog_Fail(t *testing.T) {
 	blog := factories.Blog()
 
 	ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())

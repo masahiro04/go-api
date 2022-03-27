@@ -19,7 +19,7 @@ import (
 
 var blogPatchPath = "/api/blogs/"
 
-func TestCompanyPatchSuccess(t *testing.T) {
+func TestPatchBlog_Success(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 

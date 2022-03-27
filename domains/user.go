@@ -5,7 +5,6 @@ import (
 	"time"
 )
 
-// TODO: privateに扱うために、小文字に変更する
 type User struct {
 	ID        user.ID
 	Name      user.Name

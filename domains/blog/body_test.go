@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNewBodySuccess(t *testing.T) {
+func TestNewBody_Success(t *testing.T) {
 	input := "body"
 	newBody, err := blog.NewBody(input)
 	t.Run("hoge", func(t *testing.T) {
@@ -16,7 +16,7 @@ func TestNewBodySuccess(t *testing.T) {
 	})
 }
 
-func TestNewBodyFail(t *testing.T) {
+func TestNewBody_Fail(t *testing.T) {
 	input := ""
 	newBody, err := blog.NewBody(input)
 	t.Run("hoge", func(t *testing.T) {
@@ -25,7 +25,7 @@ func TestNewBodyFail(t *testing.T) {
 	})
 }
 
-func TestUpdateBodySuccess(t *testing.T) {
+func TestUpdateBody_Success(t *testing.T) {
 	input := "body"
 	updatedBody, err := blog.UpdateBody(&input)
 	t.Run("hoge", func(t *testing.T) {
@@ -34,7 +34,7 @@ func TestUpdateBodySuccess(t *testing.T) {
 	})
 }
 
-func TestUpdateBodyFail(t *testing.T) {
+func TestUpdateBody_Fail(t *testing.T) {
 	input := ""
 	updatedBody, err := blog.UpdateBody(&input)
 	t.Run("hoge", func(t *testing.T) {
@@ -43,7 +43,7 @@ func TestUpdateBodyFail(t *testing.T) {
 	})
 }
 
-func TestValueSuccess(t *testing.T) {
+func TestValue_Success(t *testing.T) {
 	input := "body"
 	body, _ := blog.NewBody(input)
 	t.Run("hoge", func(t *testing.T) {

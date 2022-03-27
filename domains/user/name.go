@@ -5,10 +5,9 @@ import (
 )
 
 type Name struct {
-	// [Blogの説明を表現する値オブジェクト]
+	// [Nameを表現する値オブジェクト]
 	// バリデーションルールは以下
 	// - 空ではないこと
-	// - 100文字以下であること
 	Value string `validate:"required" ja:"名前"`
 }
 

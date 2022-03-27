@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNewPasswordSuccess(t *testing.T) {
+func TestNewPassword_Success(t *testing.T) {
 	input := "12345678"
 	newPassword, err := user.NewPassword(input)
 	t.Run("hoge", func(t *testing.T) {
@@ -16,7 +16,7 @@ func TestNewPasswordSuccess(t *testing.T) {
 	})
 }
 
-func TestNewPasswordFailWithBlankString(t *testing.T) {
+func TestNewPasswordWithBlankString_Fail(t *testing.T) {
 	input := ""
 	newPassword, err := user.NewPassword(input)
 	t.Run("hoge", func(t *testing.T) {
@@ -25,7 +25,7 @@ func TestNewPasswordFailWithBlankString(t *testing.T) {
 	})
 }
 
-func TestNewPasswordFailWithLessThan6Chars(t *testing.T) {
+func TestNewPasswordWithLessThan6Chars_Fail(t *testing.T) {
 	input := "12345"
 	newPassword, err := user.NewPassword(input)
 	t.Run("hoge", func(t *testing.T) {
@@ -34,7 +34,7 @@ func TestNewPasswordFailWithLessThan6Chars(t *testing.T) {
 	})
 }
 
-func TestUpdatePasswordSuccess(t *testing.T) {
+func TestUpdatePassword_Success(t *testing.T) {
 	input := "12345678"
 	updatedPassword, err := user.UpdatePassword(&input)
 	t.Run("hoge", func(t *testing.T) {
@@ -43,7 +43,7 @@ func TestUpdatePasswordSuccess(t *testing.T) {
 	})
 }
 
-func TestUpdatePasswordFail(t *testing.T) {
+func TestUpdatePassword_Fail(t *testing.T) {
 	input := ""
 	updatedPassword, err := user.UpdatePassword(&input)
 	t.Run("hoge", func(t *testing.T) {
@@ -52,7 +52,7 @@ func TestUpdatePasswordFail(t *testing.T) {
 	})
 }
 
-func TestPasswordValueSuccess(t *testing.T) {
+func TestPasswordValue_Success(t *testing.T) {
 	input := "12345678"
 	Password, _ := user.NewPassword(input)
 	t.Run("hoge", func(t *testing.T) {

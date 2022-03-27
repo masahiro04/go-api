@@ -17,7 +17,7 @@ import (
 	"gopkg.in/h2non/baloo.v3"
 )
 
-func TestUserPatchSuccess(t *testing.T) {
+func TestPatchUser_Success(t *testing.T) {
 	var userPatchPath = "/api/users/"
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()

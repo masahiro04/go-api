@@ -5,10 +5,10 @@ import (
 )
 
 type Password struct {
-	// [Blogの説明を表現する値オブジェクト]
+	// [Passwordを表現する値オブジェクト]
 	// バリデーションルールは以下
 	// - 空ではないこと
-	// - 100文字以下であること
+	// - 6文字以上であること
 	Value string `validate:"required,gte=6" ja:"パスワード"`
 }
 
@@ -24,7 +24,6 @@ func NewPassword(value string) (Password, error) {
 func UpdatePassword(input *string) (*Password, error) {
 	password := Password{Value: *input}
 	err := validator.Validate(&password)
-
 	if err != nil {
 		return &password, err
 	}

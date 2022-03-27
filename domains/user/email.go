@@ -5,10 +5,10 @@ import (
 )
 
 type Email struct {
-	// [Blogの説明を表現する値オブジェクト]
+	// [Emailを表現する値オブジェクト]
 	// バリデーションルールは以下
 	// - 空ではないこと
-	// - 100文字以下であること
+	// - Emailであること
 	Value string `validate:"required,email" ja:"メールアドレス"`
 }
 
@@ -24,7 +24,6 @@ func NewEmail(value string) (Email, error) {
 func UpdateEmail(input *string) (*Email, error) {
 	email := Email{Value: *input}
 	err := validator.Validate(&email)
-
 	if err != nil {
 		return &email, err
 	}

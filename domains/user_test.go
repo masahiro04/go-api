@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNewUserSuccess(t *testing.T) {
+func TestNewUser_Success(t *testing.T) {
 	// NOTE(okubo): Body.valueとの比較したいけど、小文字はexportされないので、Value経由で比較
 	nameInput := "大久保"
 	emailInput := "test@example.con"
@@ -25,7 +25,7 @@ func TestNewUserSuccess(t *testing.T) {
 	})
 }
 
-func TestBuildUserSuccess(t *testing.T) {
+func TestBuildUser_Success(t *testing.T) {
 	idInput := 1
 	nameInput := "大久保"
 	emailInput := "test@example.con"
@@ -43,7 +43,7 @@ func TestBuildUserSuccess(t *testing.T) {
 	})
 }
 
-// func TestUpdatedAtSuccess(t *testing.T) {
+// func TestUpdatedAt_Success(t *testing.T) {
 // 	_user := factories.User()
 //
 // 	t.Run("", func(t *testing.T) {
@@ -51,7 +51,7 @@ func TestBuildUserSuccess(t *testing.T) {
 // 	})
 // }
 
-func TestUpdateNameSuccess(t *testing.T) {
+func TestUpdateName_Success(t *testing.T) {
 	_user := factories.User()
 	input, _ := user.NewName("修正後名前")
 	updatedName := _user.UpdateName(input)
@@ -61,7 +61,7 @@ func TestUpdateNameSuccess(t *testing.T) {
 	})
 }
 
-func TestUpdateEmailSuccess(t *testing.T) {
+func TestUpdateEmail_Success(t *testing.T) {
 	_user := factories.User()
 	input, _ := user.NewEmail("updated@example.com")
 	updatedEmail := _user.UpdateEmail(input)

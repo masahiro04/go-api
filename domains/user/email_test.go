@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNewEmailSuccess(t *testing.T) {
+func TestNewEmail_Success(t *testing.T) {
 	input := "hogehoge@example.com"
 	newEmail, err := user.NewEmail(input)
 	t.Run("hoge", func(t *testing.T) {
@@ -16,7 +16,7 @@ func TestNewEmailSuccess(t *testing.T) {
 	})
 }
 
-func TestNewEmailFailWithBlankString(t *testing.T) {
+func TestNewEmailWithBlankString_Fail(t *testing.T) {
 	input := ""
 	newEmail, err := user.NewEmail(input)
 	t.Run("hoge", func(t *testing.T) {
@@ -25,7 +25,7 @@ func TestNewEmailFailWithBlankString(t *testing.T) {
 	})
 }
 
-func TestNewEmailFailWithNotCorrectFormat(t *testing.T) {
+func TestNewEmailWithNotCorrectFormat_Fail(t *testing.T) {
 	input := "hogehoge"
 	newEmail, err := user.NewEmail(input)
 	t.Run("hoge", func(t *testing.T) {
@@ -34,7 +34,7 @@ func TestNewEmailFailWithNotCorrectFormat(t *testing.T) {
 	})
 }
 
-func TestUpdateEmailSuccess(t *testing.T) {
+func TestUpdateEmail_Success(t *testing.T) {
 	input := "hogehoge@example.com"
 	updatedEmail, err := user.UpdateEmail(&input)
 	t.Run("hoge", func(t *testing.T) {
@@ -43,7 +43,7 @@ func TestUpdateEmailSuccess(t *testing.T) {
 	})
 }
 
-func TestUpdateEmailFail(t *testing.T) {
+func TestUpdateEmail_Fail(t *testing.T) {
 	input := ""
 	updatedEmail, err := user.UpdateEmail(&input)
 	t.Run("hoge", func(t *testing.T) {
@@ -52,7 +52,7 @@ func TestUpdateEmailFail(t *testing.T) {
 	})
 }
 
-func TestEmailValueSuccess(t *testing.T) {
+func TestEmailValue_Success(t *testing.T) {
 	input := "hogehoge@example.com"
 	Email, _ := user.NewEmail(input)
 	t.Run("hoge", func(t *testing.T) {

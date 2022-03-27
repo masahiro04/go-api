@@ -6,7 +6,7 @@ import (
 
 	controllers "go-api/adapters/controllers"
 	mock "go-api/adapters/uc.mock"
-	"go-api/testData"
+	factories "go-api/test/factories"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
@@ -18,8 +18,8 @@ func TestUserPostSuccess(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
-	// testData
-	user := testData.User()
+	// factories
+	user := factories.User()
 
 	// ucMock
 	ucHandler := mock.NewMockHandler(mockCtrl)

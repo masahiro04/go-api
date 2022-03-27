@@ -3,7 +3,8 @@ package userDao_test
 import (
 	"go-api/adapters/dao/userDao"
 	"go-api/domains"
-	"go-api/testData"
+	factories "go-api/test/factories"
+	testhelpers "go-api/test/testHelpers"
 	"testing"
 
 	_ "github.com/lib/pq"
@@ -11,10 +12,10 @@ import (
 )
 
 func TestCreate(t *testing.T) {
-	user := testData.User()
+	user := factories.User()
 	seeds := []interface{}{}
 
-	db, err := Prepare("user_create_dao", seeds)
+	db, err := testhelpers.Prepare("user_create_dao", seeds)
 
 	sqlDB, _ := db.DB()
 	defer sqlDB.Close()

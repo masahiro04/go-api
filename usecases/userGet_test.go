@@ -11,8 +11,8 @@ import (
 	"github.com/gin-gonic/gin"
 
 	mock "go-api/adapters/uc.mock"
-	"go-api/testData"
 
+	factories "go-api/test/factories"
 	uc "go-api/usecases"
 
 	"github.com/golang/mock/gomock"
@@ -23,7 +23,7 @@ func TestUserGetSuccess(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
-	user := testData.User()
+	user := factories.User()
 
 	i := mock.NewMockedInteractor(mockCtrl)
 	i.UserDao.EXPECT().GetById(user.ID.Value).Return(&user, nil).Times(1)
@@ -43,7 +43,7 @@ func TestUserGetSuccess(t *testing.T) {
 }
 
 func TestUserGetFails(t *testing.T) {
-	user := testData.User()
+	user := factories.User()
 
 	mutations := map[string]mock.Tester{
 		"shouldPass": {

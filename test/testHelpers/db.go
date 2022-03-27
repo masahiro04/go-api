@@ -1,4 +1,4 @@
-package userDao_test
+package testhelpers
 
 import (
 	"database/sql"
@@ -6,7 +6,6 @@ import (
 	"log"
 
 	"github.com/DATA-DOG/go-txdb"
-	_ "github.com/lib/pq"
 	migrate "github.com/rubenv/sql-migrate"
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"
@@ -14,19 +13,14 @@ import (
 )
 
 func ExecMigrations(postgresURL string) error {
-	fmt.Println("hoge1")
 	migrations := &migrate.FileMigrationSource{
 		Dir: "../../../db/migrations",
 	}
-	fmt.Println("hoge1")
 	pg, err := sql.Open("postgres", postgresURL)
 	if err != nil {
 		logrus.Fatal(err)
 	}
 
-	fmt.Println("hoge3")
-	fmt.Println("postgresURL is ", postgresURL)
-	// TODO(okubo): ここでエラー出てるので、修正する
 	appliedCount, err := migrate.Exec(pg, "postgres", migrations, migrate.Up)
 	if err != nil {
 		logrus.Fatal(err)
@@ -47,9 +41,6 @@ func NewTest(name string) (*gorm.DB, error) {
 	// migrate
 	err := ExecMigrations(conn)
 	if err != nil {
-		log.Printf(conn)
-		log.Println(err)
-		log.Printf("sentinel5")
 		panic(err)
 	}
 

@@ -12,7 +12,7 @@ import (
 
 	mock "go-api/adapters/uc.mock"
 
-	"go-api/testData"
+	factories "go-api/test/factories"
 	uc "go-api/usecases"
 
 	"github.com/golang/mock/gomock"
@@ -23,7 +23,7 @@ func TestBlogEditSuccess(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
-	blog := testData.Blog()
+	blog := factories.Blog()
 
 	i := mock.NewMockedInteractor(mockCtrl)
 	i.BlogDao.EXPECT().GetById(blog.ID.Value).Return(&blog, nil).Times(1)
@@ -49,7 +49,7 @@ func TestBlogEditSuccess(t *testing.T) {
 }
 
 func TestBlogEditFails(t *testing.T) {
-	blog := testData.Blog()
+	blog := factories.Blog()
 
 	ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
 	pre := presenters.New(ginContext)

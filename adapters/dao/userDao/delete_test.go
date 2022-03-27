@@ -3,7 +3,8 @@ package userDao_test
 import (
 	"go-api/adapters/dao/userDao"
 	"go-api/domains"
-	"go-api/testData"
+	factories "go-api/test/factories"
+	testhelpers "go-api/test/testHelpers"
 	"testing"
 
 	_ "github.com/lib/pq"
@@ -11,7 +12,7 @@ import (
 )
 
 func TestDelete(t *testing.T) {
-	user := testData.User()
+	user := factories.User()
 	seeds := []interface{}{
 		&userDao.UserDto{
 			ID:    user.ID.Value,
@@ -20,7 +21,7 @@ func TestDelete(t *testing.T) {
 		},
 	}
 
-	db, err := Prepare("user_delete_dao", seeds)
+	db, err := testhelpers.Prepare("user_delete_dao", seeds)
 
 	sqlDB, _ := db.DB()
 	defer sqlDB.Close()

@@ -3,8 +3,10 @@ package blogDao_test
 import (
 	"go-api/adapters/dao/blogDao"
 	"go-api/domains"
-	"go-api/testData"
+	factories "go-api/test/factories"
 	"testing"
+
+	testhelpers "go-api/test/testHelpers"
 
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/assert"
@@ -13,8 +15,8 @@ import (
 
 func TestGetById(t *testing.T) {
 
-	blog := testData.Blog()
-	dummyBlog := testData.BlogWithID(100) // 100でnot foud起こす
+	blog := factories.Blog()
+	dummyBlog := factories.BlogWithID(100) // 100でnot foud起こす
 	seeds := []interface{}{
 		&blogDao.BlogDto{
 			ID:    blog.ID.Value,
@@ -23,7 +25,7 @@ func TestGetById(t *testing.T) {
 		},
 	}
 
-	db, err := Prepare("user_dao", seeds)
+	db, err := testhelpers.Prepare("user_dao", seeds)
 
 	sqlDB, _ := db.DB()
 	defer sqlDB.Close()

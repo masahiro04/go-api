@@ -3,15 +3,17 @@ package blogDao_test
 import (
 	"go-api/adapters/dao/blogDao"
 	"go-api/domains"
-	"go-api/testData"
+	factories "go-api/test/factories"
 	"testing"
+
+	testhelpers "go-api/test/testHelpers"
 
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestDelete(t *testing.T) {
-	blog := testData.Blog()
+	blog := factories.Blog()
 	seeds := []interface{}{
 		&blogDao.BlogDto{
 			ID:    blog.ID.Value,
@@ -20,7 +22,7 @@ func TestDelete(t *testing.T) {
 		},
 	}
 
-	db, err := Prepare("user_delete_dao", seeds)
+	db, err := testhelpers.Prepare("user_delete_dao", seeds)
 
 	sqlDB, _ := db.DB()
 	defer sqlDB.Close()

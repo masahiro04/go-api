@@ -11,7 +11,8 @@ import (
 	"github.com/gin-gonic/gin"
 
 	mock "go-api/adapters/uc.mock"
-	"go-api/testData"
+
+	factories "go-api/test/factories"
 	uc "go-api/usecases"
 
 	"github.com/golang/mock/gomock"
@@ -21,7 +22,7 @@ import (
 func TestBlogCreateSuccess(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
-	blog := testData.Blog()
+	blog := factories.Blog()
 
 	// Mock
 	i := mock.NewMockedInteractor(mockCtrl)
@@ -45,7 +46,7 @@ func TestBlogCreateSuccess(t *testing.T) {
 }
 
 func TestBlogCreateFails(t *testing.T) {
-	blog := testData.Blog()
+	blog := factories.Blog()
 
 	mutations := map[string]mock.Tester{
 		"shouldPass": {

@@ -2,7 +2,8 @@ package userDao_test
 
 import (
 	"go-api/adapters/dao/userDao"
-	"go-api/testData"
+	factories "go-api/test/factories"
+	testhelpers "go-api/test/testHelpers"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -10,7 +11,7 @@ import (
 
 func TestGetAll(t *testing.T) {
 
-	users := testData.Users(5)
+	users := factories.Users(5)
 
 	seeds := []interface{}{
 		&userDao.UserDto{
@@ -35,7 +36,7 @@ func TestGetAll(t *testing.T) {
 		},
 	}
 
-	db, err := Prepare("users_dao", seeds)
+	db, err := testhelpers.Prepare("users_dao", seeds)
 
 	sqlDB, _ := db.DB()
 	defer sqlDB.Close()

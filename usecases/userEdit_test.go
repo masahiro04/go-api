@@ -12,7 +12,7 @@ import (
 
 	mock "go-api/adapters/uc.mock"
 
-	"go-api/testData"
+	factories "go-api/test/factories"
 	uc "go-api/usecases"
 
 	"github.com/golang/mock/gomock"
@@ -23,7 +23,7 @@ func TestUserEditSuccess(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
-	user := testData.User()
+	user := factories.User()
 
 	i := mock.NewMockedInteractor(mockCtrl)
 	i.UserDao.EXPECT().GetById(user.ID.Value).Return(&user, nil).Times(1)
@@ -49,7 +49,7 @@ func TestUserEditSuccess(t *testing.T) {
 }
 
 func TestUserEditFails(t *testing.T) {
-	user := testData.User()
+	user := factories.User()
 
 	ginContext, _ := gin.CreateTestContext(httptest.NewRecorder())
 	pre := presenters.New(ginContext)

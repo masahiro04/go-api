@@ -4,7 +4,8 @@ import (
 	"go-api/adapters/dao/blogDao"
 	"go-api/domains"
 	blogModel "go-api/domains/blog"
-	"go-api/testData"
+	factories "go-api/test/factories"
+	testhelpers "go-api/test/testHelpers"
 	"testing"
 	"time"
 
@@ -13,7 +14,7 @@ import (
 )
 
 func TestUpdate(t *testing.T) {
-	blog := testData.Blog()
+	blog := factories.Blog()
 	seeds := []interface{}{
 		&blogDao.BlogDto{
 			ID:    blog.ID.Value,
@@ -22,7 +23,7 @@ func TestUpdate(t *testing.T) {
 		},
 	}
 
-	db, err := Prepare("user_update_dao", seeds)
+	db, err := testhelpers.Prepare("user_update_dao", seeds)
 
 	sqlDB, _ := db.DB()
 	defer sqlDB.Close()

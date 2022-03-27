@@ -3,7 +3,8 @@ package userDao_test
 import (
 	"go-api/adapters/dao/userDao"
 	"go-api/domains"
-	"go-api/testData"
+	factories "go-api/test/factories"
+	testhelpers "go-api/test/testHelpers"
 	"testing"
 
 	_ "github.com/lib/pq"
@@ -13,8 +14,8 @@ import (
 
 func TestGetById(t *testing.T) {
 
-	user := testData.User()
-	dummyUser := testData.UserWithID(100) // 100でnot foud起こす
+	user := factories.User()
+	dummyUser := factories.UserWithID(100) // 100でnot foud起こす
 	seeds := []interface{}{
 		&userDao.UserDto{
 			ID:    user.ID.Value,
@@ -23,7 +24,7 @@ func TestGetById(t *testing.T) {
 		},
 	}
 
-	db, err := Prepare("user_dao", seeds)
+	db, err := testhelpers.Prepare("user_dao", seeds)
 
 	sqlDB, _ := db.DB()
 	defer sqlDB.Close()

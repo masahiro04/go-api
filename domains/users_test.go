@@ -2,14 +2,14 @@ package domains_test
 
 import (
 	"go-api/domains"
-	"go-api/testData"
+	factories "go-api/test/factories"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestNewUsersSuccess(t *testing.T) {
-	_users := testData.Users(5)
+	_users := factories.Users(5)
 
 	t.Run("", func(t *testing.T) {
 		assert.Equal(t, len(_users.Value), 4)
@@ -17,7 +17,7 @@ func TestNewUsersSuccess(t *testing.T) {
 }
 
 func TestUsersSizeSuccess(t *testing.T) {
-	_users := testData.Users(5)
+	_users := factories.Users(5)
 
 	t.Run("", func(t *testing.T) {
 		assert.Equal(t, _users.Size(), 4)
@@ -33,7 +33,7 @@ func TestUsersEmptyUsersSuccess(t *testing.T) {
 }
 
 func TestUsersApplyLimitAndOffset(t *testing.T) {
-	var _users = testData.Users(5)
+	var _users = factories.Users(5)
 
 	t.Run("complete", func(t *testing.T) {
 		assert.Equal(t, _users.Value, _users.ApplyLimitAndOffset(100, 0))

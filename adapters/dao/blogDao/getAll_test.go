@@ -2,15 +2,17 @@ package blogDao_test
 
 import (
 	"go-api/adapters/dao/blogDao"
-	"go-api/testData"
+	factories "go-api/test/factories"
 	"testing"
+
+	testhelpers "go-api/test/testHelpers"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGetAll(t *testing.T) {
 
-	blogs := testData.Blogs(5)
+	blogs := factories.Blogs(5)
 
 	seeds := []interface{}{
 		&blogDao.BlogDto{
@@ -35,7 +37,7 @@ func TestGetAll(t *testing.T) {
 		},
 	}
 
-	db, err := Prepare("users_dao", seeds)
+	db, err := testhelpers.Prepare("users_dao", seeds)
 
 	sqlDB, _ := db.DB()
 	defer sqlDB.Close()

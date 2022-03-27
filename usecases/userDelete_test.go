@@ -11,8 +11,8 @@ import (
 	"github.com/gin-gonic/gin"
 
 	mock "go-api/adapters/uc.mock"
-	"go-api/testData"
 
+	factories "go-api/test/factories"
 	uc "go-api/usecases"
 
 	"github.com/golang/mock/gomock"
@@ -22,7 +22,7 @@ import (
 func TestUserDeleteSuccess(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
-	user := testData.User()
+	user := factories.User()
 
 	i := mock.NewMockedInteractor(mockCtrl)
 	i.UserDao.EXPECT().Delete(user.ID.Value).Return(nil).Times(1)
@@ -44,7 +44,7 @@ func TestUserDeleteSuccess(t *testing.T) {
 }
 
 func TestUserDeleteFails(t *testing.T) {
-	user := testData.User()
+	user := factories.User()
 
 	mutations := map[string]mock.Tester{
 		"shouldPass": {

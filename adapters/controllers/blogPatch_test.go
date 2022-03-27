@@ -9,7 +9,8 @@ import (
 	controllers "go-api/adapters/controllers"
 	"go-api/adapters/loggers"
 	mock "go-api/adapters/uc.mock"
-	"go-api/testData"
+
+	factories "go-api/test/factories"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
@@ -22,7 +23,7 @@ func TestCompanyPatchSuccess(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
-	blog := testData.Blog()
+	blog := factories.Blog()
 	ucHandler := mock.NewMockHandler(mockCtrl)
 	ucHandler.EXPECT().BlogEdit(gomock.Any()).Times(1)
 
@@ -46,7 +47,7 @@ func TestCompanyPatchSuccess(t *testing.T) {
 		}`).
 		Expect(t).
 		Status(http.StatusOK).
-		//JSONSchema(testData.CompanySingleRespDefinition).
+		//JSONSchema(factories.CompanySingleRespDefinition).
 		Done(); err != nil {
 		t.Error(err)
 	}

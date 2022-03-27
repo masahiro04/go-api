@@ -5,7 +5,7 @@ import (
 	"go-api/adapters/presenters"
 	"go-api/adapters/presenters/json"
 	mock "go-api/adapters/uc.mock"
-	"go-api/testData"
+	factories "go-api/test/factories"
 	uc "go-api/usecases"
 	"net/http/httptest"
 	"testing"
@@ -16,7 +16,7 @@ import (
 )
 
 func TestUserGetAllSuccess(t *testing.T) {
-	var _users = testData.Users(5)
+	var _users = factories.Users(5)
 	t.Run("most obvious", func(t *testing.T) {
 		mockCtrl := gomock.NewController(t)
 		defer mockCtrl.Finish()
@@ -46,7 +46,7 @@ func TestUserGetAllSuccess(t *testing.T) {
 }
 
 func TestUserGetAllFails(t *testing.T) {
-	var _users = testData.Users(5)
+	var _users = factories.Users(5)
 	mutations := map[string]mock.Tester{
 		"shouldPass": {
 			Calls: func(i *mock.Interactor) { // change nothing

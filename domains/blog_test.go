@@ -3,7 +3,7 @@ package domains_test
 import (
 	"go-api/domains"
 	"go-api/domains/blog"
-	"go-api/testData"
+	factories "go-api/test/factories"
 	"testing"
 	"time"
 
@@ -40,7 +40,7 @@ func TestBuildBlogSuccess(t *testing.T) {
 }
 
 func TestUpdatedAtSuccess(t *testing.T) {
-	_blog := testData.Blog()
+	_blog := factories.Blog()
 
 	t.Run("", func(t *testing.T) {
 		assert.Equal(t, _blog.UpdatedAt, _blog.UpdatedAt)
@@ -48,7 +48,7 @@ func TestUpdatedAtSuccess(t *testing.T) {
 }
 
 func TestUpdateTitleSuccess(t *testing.T) {
-	_blog := testData.Blog()
+	_blog := factories.Blog()
 	input, _ := blog.NewTitle("updatedTitle")
 	updatedTitle := _blog.UpdateTitle(input)
 
@@ -58,7 +58,7 @@ func TestUpdateTitleSuccess(t *testing.T) {
 }
 
 func TestUpdateBodySuccess(t *testing.T) {
-	_blog := testData.Blog()
+	_blog := factories.Blog()
 	input, _ := blog.NewBody("updatedBody")
 	updatedBody := _blog.UpdateBody(input)
 

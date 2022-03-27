@@ -3,7 +3,8 @@ package domains_test
 import (
 	"go-api/domains"
 	"go-api/domains/user"
-	"go-api/testData"
+
+	factories "go-api/test/factories"
 	"testing"
 	"time"
 
@@ -43,7 +44,7 @@ func TestBuildUserSuccess(t *testing.T) {
 }
 
 // func TestUpdatedAtSuccess(t *testing.T) {
-// 	_user := testData.User()
+// 	_user := factories.User()
 //
 // 	t.Run("", func(t *testing.T) {
 // 		assert.Equal(t, _user.UpdatedAt, _user.UpdatedAt)
@@ -51,7 +52,7 @@ func TestBuildUserSuccess(t *testing.T) {
 // }
 
 func TestUpdateNameSuccess(t *testing.T) {
-	_user := testData.User()
+	_user := factories.User()
 	input, _ := user.NewName("修正後名前")
 	updatedName := _user.UpdateName(input)
 
@@ -61,7 +62,7 @@ func TestUpdateNameSuccess(t *testing.T) {
 }
 
 func TestUpdateEmailSuccess(t *testing.T) {
-	_user := testData.User()
+	_user := factories.User()
 	input, _ := user.NewEmail("updated@example.com")
 	updatedEmail := _user.UpdateEmail(input)
 

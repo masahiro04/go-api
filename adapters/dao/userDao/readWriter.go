@@ -1,6 +1,7 @@
 package userDao
 
 import (
+	"errors"
 	"go-api/domains"
 	userModel "go-api/domains/user"
 
@@ -50,7 +51,9 @@ func (rw rw) GetAll() (*domains.Users, error) {
 func (rw rw) GetById(id int) (*domains.User, error) {
 	var dto UserDto
 
-	if err := rw.db.Where("id = ?", id).First(&dto).Error; gorm.ErrRecordNotFound != nil {
+	err := rw.db.First(&dto, id).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, err
 	}
 
@@ -97,7 +100,7 @@ func (rw rw) Create(newUser domains.User) (*domains.User, error) {
 func (rw rw) Update(id int, user domains.User) (*domains.User, error) {
 	dto := UserDto{}
 
-	rw.db.Where("id = ?", id).First(&dto).Updates(UserDto{
+	rw.db.First(&dto, id).Updates(UserDto{
 		ID:    id,
 		Name:  user.Name.Value,
 		Email: user.Email.Value,
@@ -111,6 +114,6 @@ func (rw rw) Update(id int, user domains.User) (*domains.User, error) {
 
 func (rw rw) Delete(id int) error {
 	dto := UserDto{}
-	rw.db.Where("id = ?", id).Delete(&dto)
+	rw.db.First(&dto, id).Delete(&dto)
 	return nil
 }

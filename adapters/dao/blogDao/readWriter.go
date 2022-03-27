@@ -1,6 +1,7 @@
 package blogDao
 
 import (
+	"errors"
 	"go-api/domains"
 	blogModel "go-api/domains/blog"
 
@@ -49,7 +50,9 @@ func (rw rw) GetAll() (*domains.Blogs, error) {
 func (rw rw) GetById(id int) (*domains.Blog, error) {
 	var dto BlogDto
 
-	if err := rw.db.Where("id = ?", id).First(&dto).Error; gorm.ErrRecordNotFound != nil {
+	err := rw.db.First(&dto, id).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, err
 	}
 
@@ -96,7 +99,7 @@ func (rw rw) Create(newBlog domains.Blog) (*domains.Blog, error) {
 func (rw rw) Update(id int, blog domains.Blog) (*domains.Blog, error) {
 	dto := BlogDto{}
 
-	rw.db.Where("id = ?", id).First(&dto).Updates(BlogDto{
+	rw.db.First(&dto, id).Updates(BlogDto{
 		ID:    id,
 		Title: blog.Title.Value,
 		Body:  blog.Body.Value,
@@ -111,6 +114,6 @@ func (rw rw) Update(id int, blog domains.Blog) (*domains.Blog, error) {
 
 func (rw rw) Delete(id int) error {
 	dto := BlogDto{}
-	rw.db.Where("id = ?", id).Delete(&dto)
+	rw.db.First(&dto, id).Delete(&dto)
 	return nil
 }

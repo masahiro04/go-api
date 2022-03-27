@@ -13,9 +13,8 @@ import (
 	"gopkg.in/h2non/baloo.v3"
 )
 
-var blogGetAllPath = "/api/blogs"
-
 func TestGetAllBlog_Success(t *testing.T) {
+	blogGetAllPath := "/api/blogs"
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
@@ -31,7 +30,6 @@ func TestGetAllBlog_Success(t *testing.T) {
 	if err := baloo.New(ts.URL).
 		Get(blogGetAllPath).
 		Expect(t).
-		//JSONSchema(testData.CompanyMultipleRespDefinition).
 		Status(http.StatusOK).
 		Done(); err != nil {
 		t.Error(err)

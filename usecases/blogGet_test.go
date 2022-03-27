@@ -46,10 +46,6 @@ func TestGetBlog_Fail(t *testing.T) {
 	blog := factories.Blog()
 
 	mutations := map[string]mock.Tester{
-		"shouldPass": {
-			Calls: func(i *mock.Interactor) { // change nothing
-			},
-			ShouldPass: true},
 		"error return on BlogDao.GetById": {
 			Calls: func(i *mock.Interactor) {
 				i.BlogDao.EXPECT().GetById(blog.ID.Value).Return(nil, errors.New(""))

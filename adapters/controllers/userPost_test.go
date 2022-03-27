@@ -14,7 +14,7 @@ import (
 )
 
 func TestPostUser_Success(t *testing.T) {
-	var userPostPath = "/api/users"
+	userPostPath := "/api/users"
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 

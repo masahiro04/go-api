@@ -14,7 +14,7 @@ import (
 )
 
 func TestGetUser_Success(t *testing.T) {
-	var userGetPath = "/api/users/1"
+	userGetPath := "/api/users/1"
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
@@ -30,7 +30,6 @@ func TestGetUser_Success(t *testing.T) {
 	if err := baloo.New(ts.URL).
 		Get(userGetPath).
 		Expect(t).
-		//JSONSchema(testData.CompanySingleRespDefinition).
 		Status(http.StatusOK).
 		Done(); err != nil {
 		t.Error(err)

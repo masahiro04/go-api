@@ -17,9 +17,8 @@ import (
 	"gopkg.in/h2non/baloo.v3"
 )
 
-var blogDeletePath = "/api/blogs/"
-
 func TestDeleteBlog_Success(t *testing.T) {
+	blogDeletePath := "/api/blogs/"
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 

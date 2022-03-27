@@ -18,7 +18,7 @@ import (
 )
 
 func TestPatchUser_Success(t *testing.T) {
-	var userPatchPath = "/api/users/"
+	userPatchPath := "/api/users/"
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
@@ -46,7 +46,6 @@ func TestPatchUser_Success(t *testing.T) {
 		}`).
 		Expect(t).
 		Status(http.StatusOK).
-		//JSONSchema(factories.CompanySingleRespDefinition).
 		Done(); err != nil {
 		t.Error(err)
 	}

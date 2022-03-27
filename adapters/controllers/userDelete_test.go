@@ -18,7 +18,7 @@ import (
 )
 
 func TestDeleteUser_Success(t *testing.T) {
-	var userDeletePath = "/api/users/"
+	userDeletePath := "/api/users/"
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 

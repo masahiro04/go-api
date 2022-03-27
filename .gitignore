@@ -1,4 +1,3 @@
 *.idea
-golang/.env
-golang/.dockerignore
-
+.env
+.dockerignore

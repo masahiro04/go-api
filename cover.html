@@ -55,51 +55,75 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">clean_architecture/golang/adapters/controllers/ROUTER.go (66.7%)</option>
+				<option value="file0">go-api/adapters/controllers/ROUTER.go (75.0%)</option>
 				
-				<option value="file1">clean_architecture/golang/adapters/controllers/blogDelete.go (62.5%)</option>
+				<option value="file1">go-api/adapters/controllers/blogDelete.go (62.5%)</option>
 				
-				<option value="file2">clean_architecture/golang/adapters/controllers/blogGet.go (62.5%)</option>
+				<option value="file2">go-api/adapters/controllers/blogGet.go (62.5%)</option>
 				
-				<option value="file3">clean_architecture/golang/adapters/controllers/blogGetAll.go (100.0%)</option>
+				<option value="file3">go-api/adapters/controllers/blogGetAll.go (100.0%)</option>
 				
-				<option value="file4">clean_architecture/golang/adapters/controllers/blogPatch.go (53.8%)</option>
+				<option value="file4">go-api/adapters/controllers/blogPatch.go (53.8%)</option>
 				
-				<option value="file5">clean_architecture/golang/adapters/controllers/blogPost.go (62.5%)</option>
+				<option value="file5">go-api/adapters/controllers/blogPost.go (62.5%)</option>
 				
-				<option value="file6">clean_architecture/golang/adapters/dao/blogDao/readWriter.go (80.0%)</option>
+				<option value="file6">go-api/adapters/controllers/userDelete.go (62.5%)</option>
 				
-				<option value="file7">clean_architecture/golang/domains/blog.go (100.0%)</option>
+				<option value="file7">go-api/adapters/controllers/userGet.go (62.5%)</option>
 				
-				<option value="file8">clean_architecture/golang/domains/blog/body.go (100.0%)</option>
+				<option value="file8">go-api/adapters/controllers/userGetAll.go (100.0%)</option>
 				
-				<option value="file9">clean_architecture/golang/domains/blog/id.go (100.0%)</option>
+				<option value="file9">go-api/adapters/controllers/userPatch.go (53.8%)</option>
 				
-				<option value="file10">clean_architecture/golang/domains/blog/title.go (100.0%)</option>
+				<option value="file10">go-api/adapters/controllers/userPost.go (62.5%)</option>
 				
-				<option value="file11">clean_architecture/golang/domains/blogs.go (100.0%)</option>
+				<option value="file11">go-api/adapters/dao/blogDao/readWriter.go (100.0%)</option>
 				
-				<option value="file12">clean_architecture/golang/domains/user.go (100.0%)</option>
+				<option value="file12">go-api/adapters/dao/userDao/readWriter.go (100.0%)</option>
 				
-				<option value="file13">clean_architecture/golang/domains/user/email.go (100.0%)</option>
+				<option value="file13">go-api/domains/blog.go (100.0%)</option>
 				
-				<option value="file14">clean_architecture/golang/domains/user/id.go (100.0%)</option>
+				<option value="file14">go-api/domains/blog/body.go (100.0%)</option>
 				
-				<option value="file15">clean_architecture/golang/domains/user/name.go (100.0%)</option>
+				<option value="file15">go-api/domains/blog/id.go (100.0%)</option>
 				
-				<option value="file16">clean_architecture/golang/domains/user/password.go (100.0%)</option>
+				<option value="file16">go-api/domains/blog/title.go (100.0%)</option>
 				
-				<option value="file17">clean_architecture/golang/usecases/HANDLER.go (55.6%)</option>
+				<option value="file17">go-api/domains/blogs.go (100.0%)</option>
 				
-				<option value="file18">clean_architecture/golang/usecases/blogCreate.go (71.4%)</option>
+				<option value="file18">go-api/domains/user.go (100.0%)</option>
 				
-				<option value="file19">clean_architecture/golang/usecases/blogDelete.go (100.0%)</option>
+				<option value="file19">go-api/domains/user/email.go (100.0%)</option>
 				
-				<option value="file20">clean_architecture/golang/usecases/blogEdit.go (100.0%)</option>
+				<option value="file20">go-api/domains/user/id.go (100.0%)</option>
 				
-				<option value="file21">clean_architecture/golang/usecases/blogGet.go (100.0%)</option>
+				<option value="file21">go-api/domains/user/name.go (100.0%)</option>
 				
-				<option value="file22">clean_architecture/golang/usecases/blogGetAll.go (100.0%)</option>
+				<option value="file22">go-api/domains/user/password.go (100.0%)</option>
+				
+				<option value="file23">go-api/domains/users.go (100.0%)</option>
+				
+				<option value="file24">go-api/usecases/HANDLER.go (57.1%)</option>
+				
+				<option value="file25">go-api/usecases/blogCreate.go (71.4%)</option>
+				
+				<option value="file26">go-api/usecases/blogDelete.go (100.0%)</option>
+				
+				<option value="file27">go-api/usecases/blogEdit.go (100.0%)</option>
+				
+				<option value="file28">go-api/usecases/blogGet.go (100.0%)</option>
+				
+				<option value="file29">go-api/usecases/blogGetAll.go (100.0%)</option>
+				
+				<option value="file30">go-api/usecases/userCreate.go (66.7%)</option>
+				
+				<option value="file31">go-api/usecases/userDelete.go (100.0%)</option>
+				
+				<option value="file32">go-api/usecases/userEdit.go (100.0%)</option>
+				
+				<option value="file33">go-api/usecases/userGet.go (100.0%)</option>
+				
+				<option value="file34">go-api/usecases/userGetAll.go (100.0%)</option>
 				
 				</select>
 			</div>
@@ -116,8 +140,8 @@
 		<pre class="file" id="file0" style="display: none">package controllers
 
 import (
-        uc "clean_architecture/golang/usecases"
         "fmt"
+        uc "go-api/usecases"
 
         "github.com/gin-gonic/gin"
         "github.com/gin-gonic/gin/render"
@@ -146,6 +170,7 @@ func (rH RouterHandler) SetRoutes(r *gin.Engine) <span class="cov8" title="1">{
         api.Use(rH.errorCatcher())
 
         rH.blogsRoutes(api)
+        rH.usersRoutes(api)
 }</span>
 
 func (rH RouterHandler) blogsRoutes(api *gin.RouterGroup) <span class="cov8" title="1">{
@@ -156,6 +181,16 @@ func (rH RouterHandler) blogsRoutes(api *gin.RouterGroup) <span class="cov8" tit
         blogs.PUT("/:id", rH.blogPatch)
         blogs.PATCH("/:id", rH.blogPatch)
         blogs.DELETE("/:id", rH.blogDelete)
+}</span>
+
+func (rH RouterHandler) usersRoutes(api *gin.RouterGroup) <span class="cov8" title="1">{
+        users := api.Group("/users")
+        users.GET("", rH.userGetAll)
+        users.GET("/:id", rH.userGet)
+        users.POST("", rH.userPost)
+        users.PUT("/:id", rH.userPatch)
+        users.PATCH("/:id", rH.userPatch)
+        users.DELETE("/:id", rH.userDelete)
 }</span>
 
 func (rH RouterHandler) errorCatcher() gin.HandlerFunc <span class="cov8" title="1">{
@@ -200,9 +235,9 @@ import (
         "net/http"
         "strconv"
 
-        "clean_architecture/golang/adapters/presenters"
-        "clean_architecture/golang/adapters/presenters/json"
-        uc "clean_architecture/golang/usecases"
+        "go-api/adapters/presenters"
+        "go-api/adapters/presenters/json"
+        uc "go-api/usecases"
 
         "github.com/gin-gonic/gin"
 )
@@ -233,10 +268,10 @@ import (
         "net/http"
         "strconv"
 
-        uc "clean_architecture/golang/usecases"
+        uc "go-api/usecases"
 
-        "clean_architecture/golang/adapters/presenters"
-        "clean_architecture/golang/adapters/presenters/json"
+        "go-api/adapters/presenters"
+        "go-api/adapters/presenters/json"
 
         "github.com/gin-gonic/gin"
 )
@@ -264,9 +299,9 @@ func (rH RouterHandler) blogGet(c *gin.Context) <span class="cov8" title="1">{
 import (
         "strconv"
 
-        "clean_architecture/golang/adapters/presenters"
-        "clean_architecture/golang/adapters/presenters/json"
-        uc "clean_architecture/golang/usecases"
+        "go-api/adapters/presenters"
+        "go-api/adapters/presenters/json"
+        uc "go-api/usecases"
 
         "github.com/gin-gonic/gin"
 )
@@ -302,9 +337,9 @@ import (
         "net/http"
         "strconv"
 
-        "clean_architecture/golang/adapters/presenters"
-        "clean_architecture/golang/adapters/presenters/json"
-        uc "clean_architecture/golang/usecases"
+        "go-api/adapters/presenters"
+        "go-api/adapters/presenters/json"
+        uc "go-api/usecases"
 
         "github.com/gin-gonic/gin"
 )
@@ -344,9 +379,9 @@ func (rH RouterHandler) blogPatch(c *gin.Context) <span class="cov8" title="1">{
 import (
         "net/http"
 
-        "clean_architecture/golang/adapters/presenters"
-        "clean_architecture/golang/adapters/presenters/json"
-        uc "clean_architecture/golang/usecases"
+        "go-api/adapters/presenters"
+        "go-api/adapters/presenters/json"
+        uc "go-api/usecases"
 
         "github.com/gin-gonic/gin"
 )
@@ -380,160 +415,436 @@ func (rH RouterHandler) blogPost(c *gin.Context) <span class="cov8" title="1">{
 }
 </pre>
 		
-		<pre class="file" id="file6" style="display: none">package blogDao
+		<pre class="file" id="file6" style="display: none">package controllers
 
 import (
-        "clean_architecture/golang/domains"
-        blogModel "clean_architecture/golang/domains/blog"
-        "time"
+        "net/http"
+        "strconv"
 
-        "database/sql"
-        "log"
+        "go-api/adapters/presenters"
+        "go-api/adapters/presenters/json"
+        uc "go-api/usecases"
+
+        "github.com/gin-gonic/gin"
+)
+
+func (rH RouterHandler) userDelete(c *gin.Context) <span class="cov8" title="1">{
+        log := rH.log(rH.MethodAndPath(c))
+
+        id, err := strconv.Atoi(c.Param("id"))
+        if err != nil </span><span class="cov0" title="0">{
+                log(err)
+                c.Status(http.StatusBadRequest)
+                return
+        }</span>
+
+        <span class="cov8" title="1">useCase := uc.DeleteUserUseCase{
+                OutputPort: json.NewPresenter(presenters.New(c)),
+                InputPort: uc.DeleteUserParams{
+                        ID: id,
+                },
+        }
+        rH.ucHandler.UserDelete(useCase)</span>
+}
+</pre>
+		
+		<pre class="file" id="file7" style="display: none">package controllers
+
+import (
+        "net/http"
+        "strconv"
+
+        uc "go-api/usecases"
+
+        "go-api/adapters/presenters"
+        "go-api/adapters/presenters/json"
+
+        "github.com/gin-gonic/gin"
+)
+
+func (rH RouterHandler) userGet(c *gin.Context) <span class="cov8" title="1">{
+        log := rH.log(rH.MethodAndPath(c))
+
+        id, err := strconv.Atoi(c.Param("id"))
+        if err != nil </span><span class="cov0" title="0">{
+                log(err)
+                c.Status(http.StatusBadRequest)
+                return
+        }</span>
+
+        <span class="cov8" title="1">useCase := uc.GetUserUseCase{
+                OutputPort: json.NewPresenter(presenters.New(c)),
+                InputPort:  uc.GetUserParams{ID: id},
+        }
+        rH.ucHandler.UserGet(useCase)</span>
+}
+</pre>
+		
+		<pre class="file" id="file8" style="display: none">package controllers
+
+import (
+        "strconv"
+
+        "go-api/adapters/presenters"
+        "go-api/adapters/presenters/json"
+        uc "go-api/usecases"
+
+        "github.com/gin-gonic/gin"
+)
+
+func (rH RouterHandler) userGetAll(c *gin.Context) <span class="cov8" title="1">{
+        limit, err := strconv.Atoi(c.Query("limit"))
+        if err != nil </span><span class="cov8" title="1">{
+                limit = defaultLimit
+        }</span>
+
+        <span class="cov8" title="1">offset, err := strconv.Atoi(c.Query("offset"))
+        if err != nil </span><span class="cov8" title="1">{
+                offset = defaultOffset
+        }</span>
+
+        <span class="cov8" title="1">useCase := uc.GetUsersUseCase{
+                OutputPort: json.NewPresenter(presenters.New(c)),
+                InputPort:  uc.GetUsersParams{Limit: limit, Offset: offset},
+        }
+
+        rH.ucHandler.UserGetAll(useCase)</span>
+}
+</pre>
+		
+		<pre class="file" id="file9" style="display: none">package controllers
+
+import (
+        "net/http"
+        "strconv"
+
+        "go-api/adapters/presenters"
+        "go-api/adapters/presenters/json"
+        uc "go-api/usecases"
+
+        "github.com/gin-gonic/gin"
+)
+
+func (rH RouterHandler) userPatch(c *gin.Context) <span class="cov8" title="1">{
+        log := rH.log(rH.MethodAndPath(c))
+
+        req := &amp;UserRequest{}
+        if err := c.BindJSON(req); err != nil </span><span class="cov0" title="0">{
+                log(err)
+                c.Status(http.StatusBadRequest)
+                return
+        }</span>
+
+        <span class="cov8" title="1">id, err := strconv.Atoi(c.Param("id"))
+        if err != nil </span><span class="cov0" title="0">{
+                log(err)
+                c.Status(http.StatusBadRequest)
+                return
+        }</span>
+
+        <span class="cov8" title="1">useCase := uc.EditUserUseCase{
+                OutputPort: json.NewPresenter(presenters.New(c)),
+                InputPort: uc.EditUserParams{
+                        ID:    id,
+                        Name:  *req.User.Name,
+                        Email: *req.User.Email,
+                },
+        }
+        rH.ucHandler.UserEdit(useCase)</span>
+
+}
+</pre>
+		
+		<pre class="file" id="file10" style="display: none">package controllers
+
+import (
+        "net/http"
+
+        "go-api/adapters/presenters"
+        "go-api/adapters/presenters/json"
+        uc "go-api/usecases"
+
+        "github.com/gin-gonic/gin"
+)
+
+type UserRequest struct {
+        User struct {
+                Name  *string `json:"name" binding:"required"`
+                Email *string `json:"email"`
+        } `json:"user" binding:"required"`
+}
+
+func (rH RouterHandler) userPost(c *gin.Context) <span class="cov8" title="1">{
+        log := rH.log(rH.MethodAndPath(c))
+        req := &amp;UserRequest{}
+
+        if err := c.BindJSON(req); err != nil </span><span class="cov0" title="0">{
+                log(err)
+                c.Status(http.StatusBadRequest)
+                return
+        }</span>
+
+        <span class="cov8" title="1">useCase := uc.CreateUserUseCase{
+                OutputPort: json.NewPresenter(presenters.New(c)),
+                InputPort: uc.CreateUserParams{
+                        Name:  *req.User.Name,
+                        Email: *req.User.Email,
+                },
+        }
+
+        rH.ucHandler.UserCreate(useCase)</span>
+}
+</pre>
+		
+		<pre class="file" id="file11" style="display: none">package blogDao
+
+import (
+        "errors"
+        "go-api/domains"
+        blogModel "go-api/domains/blog"
+
+        "gorm.io/gorm"
 )
 
 type rw struct {
-        store *sql.DB
+        db *gorm.DB
 }
 
-func New(db *sql.DB) *rw <span class="cov8" title="1">{
+func New(db *gorm.DB) *rw <span class="cov8" title="1">{
         return &amp;rw{
-                store: db,
+                db: db,
         }
 }</span>
 
 type BlogDto struct {
-        ID        int
-        Title     string
-        Body      string
-        CreatedAt time.Time
-        UpdatedAt time.Time
+        gorm.Model
+        ID    int    `json:"id"`
+        Title string `json:"title"`
+        Body  string `json:"body"`
 }
 
+// NOTE(okubo): table名を指定
+func (BlogDto) TableName() string <span class="cov8" title="1">{
+        return "blogs"
+}</span>
+
 func (rw rw) GetAll() (*domains.Blogs, error) <span class="cov8" title="1">{
+        var dtos []BlogDto
+        rw.db.Find(&amp;dtos)
         var blogs []domains.Blog
-        rows, err := rw.store.Query(GetAllSql)
-
-        if err != nil </span><span class="cov8" title="1">{
-                return nil, err
-        }</span>
-
-        <span class="cov8" title="1">for rows.Next() </span><span class="cov8" title="1">{
-                var blogDto BlogDto
-
-                if err = rows.Scan(
-                        &amp;blogDto.ID,
-                        &amp;blogDto.Title,
-                        &amp;blogDto.Body,
-                        &amp;blogDto.CreatedAt,
-                        &amp;blogDto.UpdatedAt,
-                ); err != nil </span><span class="cov0" title="0">{
-                        log.Fatal(err)
-                        return nil, err
-                }</span>
-
-                <span class="cov8" title="1">id, _ := blogModel.NewId(blogDto.ID)
+        for _, blogDto := range dtos </span><span class="cov8" title="1">{
+                id, _ := blogModel.NewId(blogDto.ID)
                 title, _ := blogModel.NewTitle(blogDto.Title)
                 body, _ := blogModel.NewBody(blogDto.Body)
                 newBlog := domains.BuildBlog(id, title, body, blogDto.CreatedAt, blogDto.UpdatedAt)
 
-                blogs = append(blogs, newBlog)</span>
-        }
+                blogs = append(blogs, newBlog)
+        }</span>
+
         <span class="cov8" title="1">blogsData := domains.NewBlogs(blogs)
         return &amp;blogsData, nil</span>
 }
 
 func (rw rw) GetById(id int) (*domains.Blog, error) <span class="cov8" title="1">{
-        var blogDto BlogDto
+        var dto BlogDto
 
-        result := rw.store.QueryRow(GetByIdSql, id)
-        err := result.Scan(
-                &amp;blogDto.ID,
-                &amp;blogDto.Title,
-                &amp;blogDto.Body,
-                &amp;blogDto.CreatedAt,
-                &amp;blogDto.UpdatedAt,
-        )
-        if err != nil </span><span class="cov8" title="1">{
-                log.Println(err)
+        err := rw.db.First(&amp;dto, id).Error
+
+        if errors.Is(err, gorm.ErrRecordNotFound) </span><span class="cov8" title="1">{
                 return nil, err
         }</span>
 
-        <span class="cov8" title="1">_id, _ := blogModel.NewId(blogDto.ID)
-        title, _ := blogModel.NewTitle(blogDto.Title)
-        body, _ := blogModel.NewBody(blogDto.Body)
-        newBlog := domains.BuildBlog(_id, title, body, blogDto.CreatedAt, blogDto.UpdatedAt)
+        <span class="cov8" title="1">_id, _ := blogModel.NewId(dto.ID)
+        title, _ := blogModel.NewTitle(dto.Title)
+        body, _ := blogModel.NewBody(dto.Body)
+        newBlog := domains.BuildBlog(_id, title, body, dto.CreatedAt, dto.UpdatedAt)
         return &amp;newBlog, nil</span>
 }
 
 //
 func (rw rw) Create(newBlog domains.Blog) (*domains.Blog, error) <span class="cov8" title="1">{
-        var id int
-        err := rw.store.QueryRow(
-                CreateSql,
-                newBlog.Title.Value, newBlog.Body.Value, time.Now(), time.Now()).Scan(&amp;id)
-        if err != nil </span><span class="cov8" title="1">{
-                log.Println(err)
-                return nil, err
-        }</span>
+        dto := BlogDto{
+                Title: newBlog.Title.Value,
+                Body:  newBlog.Body.Value,
+        }
+        rw.db.Create(&amp;dto)
 
-        <span class="cov8" title="1">_id, _ := blogModel.NewId(id)
+        _id, _ := blogModel.NewId(dto.ID)
         title, _ := blogModel.NewTitle(newBlog.Title.Value)
         body, _ := blogModel.NewBody(newBlog.Body.Value)
         blog := domains.BuildBlog(_id, title, body, newBlog.CreatedAt, newBlog.UpdatedAt)
-        return &amp;blog, nil</span>
-}
+        return &amp;blog, nil
+}</span>
 
-func (rw rw) CreateTx(newBlog domains.Blog, tx *sql.Tx) (*domains.Blog, error) <span class="cov0" title="0">{
-        var id int
-        err := tx.QueryRow(
-                CreateSql,
-                newBlog.Title, newBlog.Body, time.Now(), time.Now()).Scan(&amp;id)
-        if err != nil </span><span class="cov0" title="0">{
-                log.Println(err)
-                return nil, err
-        }</span>
-
-        <span class="cov0" title="0">_id, _ := blogModel.NewId(newBlog.ID.Value)
-        title, _ := blogModel.NewTitle(newBlog.Title.Value)
-        body, _ := blogModel.NewBody(newBlog.Body.Value)
-        blog := domains.BuildBlog(_id, title, body, newBlog.CreatedAt, newBlog.UpdatedAt)
-        return &amp;blog, nil</span>
-}
+// func (rw rw) CreateTx(newBlog domains.Blog, tx *sql.Tx) (*domains.Blog, error) {
+//         var id int
+//         err := tx.QueryRow(
+//                 CreateSql,
+//                 newBlog.Title, newBlog.Body, time.Now(), time.Now()).Scan(&amp;id)
+//         if err != nil {
+//                 log.Println(err)
+//                 return nil, err
+//         }
+//
+//         _id, _ := blogModel.NewId(newBlog.ID.Value)
+//         title, _ := blogModel.NewTitle(newBlog.Title.Value)
+//         body, _ := blogModel.NewBody(newBlog.Body.Value)
+//         blog := domains.BuildBlog(_id, title, body, newBlog.CreatedAt, newBlog.UpdatedAt)
+//         return &amp;blog, nil
+// }
 
 //
 func (rw rw) Update(id int, blog domains.Blog) (*domains.Blog, error) <span class="cov8" title="1">{
-        _, err := rw.store.Exec(
-                UpdateSql,
-                id, blog.Title.Value, blog.Body.Value, time.Now())
+        dto := BlogDto{}
 
-        if err != nil </span><span class="cov8" title="1">{
-                log.Println(err)
-                return nil, err
-        }</span>
+        rw.db.First(&amp;dto, id).Updates(BlogDto{
+                ID:    id,
+                Title: blog.Title.Value,
+                Body:  blog.Body.Value,
+        })
 
-        <span class="cov8" title="1">_id, _ := blogModel.NewId(id)
+        _id, _ := blogModel.NewId(id)
         title, _ := blogModel.NewTitle(blog.Title.Value)
         body, _ := blogModel.NewBody(blog.Body.Value)
         newBlog := domains.BuildBlog(_id, title, body, blog.CreatedAt, blog.UpdatedAt)
-        return &amp;newBlog, nil</span>
-}
+        return &amp;newBlog, nil
+}</span>
 
 func (rw rw) Delete(id int) error <span class="cov8" title="1">{
-        if _, err := rw.store.Exec(DeleteSql, id, time.Now(), time.Now()); err != nil </span><span class="cov8" title="1">{
-                return err
-        }</span>
-        <span class="cov8" title="1">return nil</span>
-}
+        dto := BlogDto{}
+        rw.db.First(&amp;dto, id).Delete(&amp;dto)
+        return nil
+}</span>
 </pre>
 		
-		<pre class="file" id="file7" style="display: none">package domains
+		<pre class="file" id="file12" style="display: none">package userDao
 
 import (
-        "clean_architecture/golang/domains/blog"
+        "errors"
+        "go-api/domains"
+        userModel "go-api/domains/user"
+
+        "gorm.io/gorm"
+)
+
+type rw struct {
+        db *gorm.DB
+}
+
+func New(db *gorm.DB) *rw <span class="cov8" title="1">{
+        return &amp;rw{
+                db: db,
+        }
+}</span>
+
+type UserDto struct {
+        gorm.Model
+        ID    int    `json:"id"`
+        Name  string `json:"name"`
+        Email string `json:"email"`
+}
+
+func (UserDto) TableName() string <span class="cov8" title="1">{
+        return "users"
+}</span>
+
+func (rw rw) GetAll() (*domains.Users, error) <span class="cov8" title="1">{
+        var dtos []UserDto
+        rw.db.Find(&amp;dtos)
+        var users []domains.User
+
+        for _, dto := range dtos </span><span class="cov8" title="1">{
+
+                id, _ := userModel.NewId(dto.ID)
+                name, _ := userModel.NewName(dto.Name)
+                email, _ := userModel.NewEmail(dto.Email)
+                newUser := domains.BuildUser(id, name, email, dto.CreatedAt, dto.UpdatedAt)
+
+                users = append(users, newUser)
+        }</span>
+
+        <span class="cov8" title="1">usersData := domains.NewUsers(users)
+        return &amp;usersData, nil</span>
+}
+
+func (rw rw) GetById(id int) (*domains.User, error) <span class="cov8" title="1">{
+        var dto UserDto
+
+        err := rw.db.First(&amp;dto, id).Error
+
+        if errors.Is(err, gorm.ErrRecordNotFound) </span><span class="cov8" title="1">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">_id, _ := userModel.NewId(dto.ID)
+        name, _ := userModel.NewName(dto.Name)
+        email, _ := userModel.NewEmail(dto.Email)
+        newUser := domains.BuildUser(_id, name, email, dto.CreatedAt, dto.UpdatedAt)
+        return &amp;newUser, nil</span>
+}
+
+func (rw rw) Create(newUser domains.User) (*domains.User, error) <span class="cov8" title="1">{
+        dto := UserDto{
+                Name:  newUser.Name.Value,
+                Email: newUser.Email.Value,
+        }
+
+        rw.db.Create(&amp;dto)
+
+        _id, _ := userModel.NewId(dto.ID)
+        name, _ := userModel.NewName(newUser.Name.Value)
+        email, _ := userModel.NewEmail(newUser.Email.Value)
+        user := domains.BuildUser(_id, name, email, newUser.CreatedAt, newUser.UpdatedAt)
+        return &amp;user, nil
+}</span>
+
+// func (rw rw) CreateTx(newUser domains.User, tx *sql.Tx) (*domains.User, error) {
+//         var id int
+//         err := tx.QueryRow(
+//                 CreateSql,
+//                 newUser.Name, newUser.Email, time.Now(), time.Now()).Scan(&amp;id)
+//         if err != nil {
+//                 log.Println(err)
+//                 return nil, err
+//         }
+//
+//         _id, _ := userModel.NewId(newUser.ID.Value)
+//         name, _ := userModel.NewName(newUser.Name.Value)
+//         email, _ := userModel.NewEmail(newUser.Email.Value)
+//         user := domains.BuildUser(_id, name, email, newUser.CreatedAt, newUser.UpdatedAt)
+//         return &amp;user, nil
+// }
+
+//
+func (rw rw) Update(id int, user domains.User) (*domains.User, error) <span class="cov8" title="1">{
+        dto := UserDto{}
+
+        rw.db.First(&amp;dto, id).Updates(UserDto{
+                ID:    id,
+                Name:  user.Name.Value,
+                Email: user.Email.Value,
+        })
+        _id, _ := userModel.NewId(id)
+        name, _ := userModel.NewName(user.Name.Value)
+        email, _ := userModel.NewEmail(user.Email.Value)
+        newUser := domains.BuildUser(_id, name, email, user.CreatedAt, user.UpdatedAt)
+        return &amp;newUser, nil
+}</span>
+
+func (rw rw) Delete(id int) error <span class="cov8" title="1">{
+        dto := UserDto{}
+        rw.db.First(&amp;dto, id).Delete(&amp;dto)
+        return nil
+}</span>
+</pre>
+		
+		<pre class="file" id="file13" style="display: none">package domains
+
+import (
+        "go-api/domains/blog"
         "time"
 )
 
-// TODO: privateに扱うために、小文字に変更する
 type Blog struct {
         ID        blog.ID
         Title     blog.Title
@@ -572,17 +883,16 @@ func (b *Blog) UpdateBody(body blog.Body) *Blog <span class="cov8" title="1">{
 }</span>
 </pre>
 		
-		<pre class="file" id="file8" style="display: none">package blog
+		<pre class="file" id="file14" style="display: none">package blog
 
 import (
-        "clean_architecture/golang/domains/validator"
+        "go-api/domains/validator"
 )
 
 type Body struct {
-        // [Blogの説明を表現する値オブジェクト]
+        // [Bodyを表現する値オブジェクト]
         // バリデーションルールは以下
         // - 空ではないこと
-        // - 100文字以下であること
         Value string `validate:"required" ja:"内容"`
 }
 
@@ -598,7 +908,6 @@ func NewBody(value string) (Body, error) <span class="cov8" title="1">{
 func UpdateBody(input *string) (*Body, error) <span class="cov8" title="1">{
         body := Body{Value: *input}
         err := validator.Validate(&amp;body)
-
         if err != nil </span><span class="cov8" title="1">{
                 return &amp;body, err
         }</span>
@@ -606,7 +915,7 @@ func UpdateBody(input *string) (*Body, error) <span class="cov8" title="1">{
 }
 </pre>
 		
-		<pre class="file" id="file9" style="display: none">package blog
+		<pre class="file" id="file15" style="display: none">package blog
 
 import "strconv"
 
@@ -623,12 +932,12 @@ func (id ID) String() string <span class="cov8" title="1">{
 }</span>
 </pre>
 		
-		<pre class="file" id="file10" style="display: none">package blog
+		<pre class="file" id="file16" style="display: none">package blog
 
-import "clean_architecture/golang/domains/validator"
+import "go-api/domains/validator"
 
 type Title struct {
-        // [Blogの説明を表現する値オブジェクト]
+        // [Titleを表現する値オブジェクト]
         // バリデーションルールは以下
         // - 空ではないこと
         // - 100文字以下であること
@@ -654,7 +963,7 @@ func UpdateTitle(input *string) (*Title, error) <span class="cov8" title="1">{
 }
 </pre>
 		
-		<pre class="file" id="file11" style="display: none">package domains
+		<pre class="file" id="file17" style="display: none">package domains
 
 type Blogs struct {
         // Blogの集合を表現
@@ -696,14 +1005,13 @@ func (blogs *Blogs) ApplyLimitAndOffset(limit, offset int) []Blog <span class="c
 }
 </pre>
 		
-		<pre class="file" id="file12" style="display: none">package domains
+		<pre class="file" id="file18" style="display: none">package domains
 
 import (
-        "clean_architecture/golang/domains/user"
+        "go-api/domains/user"
         "time"
 )
 
-// TODO: privateに扱うために、小文字に変更する
 type User struct {
         ID        user.ID
         Name      user.Name
@@ -743,24 +1051,19 @@ func (u *User) UpdateEmail(email user.Email) *User <span class="cov8" title="1">
         u.Email = email
         return u
 }</span>
-
-func (u *User) UpdatePassword(password user.Password) *User <span class="cov8" title="1">{
-        u.Password = password
-        return u
-}</span>
 </pre>
 		
-		<pre class="file" id="file13" style="display: none">package user
+		<pre class="file" id="file19" style="display: none">package user
 
 import (
-        "clean_architecture/golang/domains/validator"
+        "go-api/domains/validator"
 )
 
 type Email struct {
-        // [Blogの説明を表現する値オブジェクト]
+        // [Emailを表現する値オブジェクト]
         // バリデーションルールは以下
         // - 空ではないこと
-        // - 100文字以下であること
+        // - Emailであること
         Value string `validate:"required,email" ja:"メールアドレス"`
 }
 
@@ -776,7 +1079,6 @@ func NewEmail(value string) (Email, error) <span class="cov8" title="1">{
 func UpdateEmail(input *string) (*Email, error) <span class="cov8" title="1">{
         email := Email{Value: *input}
         err := validator.Validate(&amp;email)
-
         if err != nil </span><span class="cov8" title="1">{
                 return &amp;email, err
         }</span>
@@ -784,7 +1086,7 @@ func UpdateEmail(input *string) (*Email, error) <span class="cov8" title="1">{
 }
 </pre>
 		
-		<pre class="file" id="file14" style="display: none">package user
+		<pre class="file" id="file20" style="display: none">package user
 
 import "strconv"
 
@@ -801,17 +1103,16 @@ func (id ID) String() string <span class="cov8" title="1">{
 }</span>
 </pre>
 		
-		<pre class="file" id="file15" style="display: none">package user
+		<pre class="file" id="file21" style="display: none">package user
 
 import (
-        "clean_architecture/golang/domains/validator"
+        "go-api/domains/validator"
 )
 
 type Name struct {
-        // [Blogの説明を表現する値オブジェクト]
+        // [Nameを表現する値オブジェクト]
         // バリデーションルールは以下
         // - 空ではないこと
-        // - 100文字以下であること
         Value string `validate:"required" ja:"名前"`
 }
 
@@ -835,17 +1136,17 @@ func UpdateName(input *string) (*Name, error) <span class="cov8" title="1">{
 }
 </pre>
 		
-		<pre class="file" id="file16" style="display: none">package user
+		<pre class="file" id="file22" style="display: none">package user
 
 import (
-        "clean_architecture/golang/domains/validator"
+        "go-api/domains/validator"
 )
 
 type Password struct {
-        // [Blogの説明を表現する値オブジェクト]
+        // [Passwordを表現する値オブジェクト]
         // バリデーションルールは以下
         // - 空ではないこと
-        // - 100文字以下であること
+        // - 6文字以上であること
         Value string `validate:"required,gte=6" ja:"パスワード"`
 }
 
@@ -861,7 +1162,6 @@ func NewPassword(value string) (Password, error) <span class="cov8" title="1">{
 func UpdatePassword(input *string) (*Password, error) <span class="cov8" title="1">{
         password := Password{Value: *input}
         err := validator.Validate(&amp;password)
-
         if err != nil </span><span class="cov8" title="1">{
                 return &amp;password, err
         }</span>
@@ -869,7 +1169,49 @@ func UpdatePassword(input *string) (*Password, error) <span class="cov8" title="
 }
 </pre>
 		
-		<pre class="file" id="file17" style="display: none">package uc
+		<pre class="file" id="file23" style="display: none">package domains
+
+type Users struct {
+        // Userの集合を表現
+        Value []User
+}
+
+func NewUsers(value []User) Users <span class="cov8" title="1">{
+        return Users{Value: value}
+}</span>
+
+func (users Users) Size() int <span class="cov8" title="1">{
+        return len(users.Value)
+}</span>
+
+func EmptyUsers() Users <span class="cov8" title="1">{
+        return Users{Value: []User{}}
+}</span>
+func (users *Users) ApplyLimitAndOffset(limit, offset int) []User <span class="cov8" title="1">{
+        if limit &lt;= 0 </span><span class="cov8" title="1">{
+                return []User{}
+        }</span>
+
+        <span class="cov8" title="1">usersSize := users.Size()
+        min := offset
+        if min &lt; 0 </span><span class="cov8" title="1">{
+                min = 0
+        }</span>
+
+        <span class="cov8" title="1">if min &gt; usersSize </span><span class="cov8" title="1">{
+                return []User{}
+        }</span>
+
+        <span class="cov8" title="1">max := min + limit
+        if max &gt; usersSize </span><span class="cov8" title="1">{
+                max = usersSize
+        }</span>
+
+        <span class="cov8" title="1">return users.Value[min:max]</span>
+}
+</pre>
+		
+		<pre class="file" id="file24" style="display: none">package uc
 
 import (
         "log"
@@ -877,6 +1219,7 @@ import (
 
 type Handler interface {
         BlogLogic
+        UserLogic
 }
 
 type BlogLogic interface {
@@ -887,12 +1230,21 @@ type BlogLogic interface {
         BlogDelete(uc DeleteBlogUseCase)
 }
 
+type UserLogic interface {
+        UserGetAll(uc GetUsersUseCase)
+        UserGet(uc GetUserUseCase)
+        UserCreate(uc CreateUserUseCase)
+        UserEdit(uc EditUserUseCase)
+        UserDelete(uc DeleteUserUseCase)
+}
+
 type HandlerConstructor struct {
-        Logger        Logger
-        Presenter     Presenter
-        BlogDao       BlogDao
-        Validator     Validator
-        DBTransaction DBTransaction
+        Logger    Logger
+        Presenter Presenter
+        BlogDao   BlogDao
+        UserDao   UserDao
+        // Validator Validator
+        // DBTransaction DBTransaction
 }
 
 func (c HandlerConstructor) New() Handler <span class="cov8" title="1">{
@@ -900,30 +1252,34 @@ func (c HandlerConstructor) New() Handler <span class="cov8" title="1">{
                 log.Fatal("missing Logger")
         }</span>
         <span class="cov8" title="1">if c.BlogDao == nil </span><span class="cov0" title="0">{
-                log.Fatal("missing CompanyRW")
+                log.Fatal("missing BlogDao")
         }</span>
-        <span class="cov8" title="1">if c.Validator == nil </span><span class="cov0" title="0">{
-                log.Fatal("missing Validator")
+        <span class="cov8" title="1">if c.UserDao == nil </span><span class="cov0" title="0">{
+                log.Fatal("missing UserDao")
         }</span>
-        <span class="cov8" title="1">if c.DBTransaction == nil </span><span class="cov0" title="0">{
-                log.Fatal("missing DBTransaction")
-        }</span>
+        // if c.Validator == nil {
+        //         log.Fatal("missing Validator")
+        // }
+        // if c.DBTransaction == nil {
+        //         log.Fatal("missing DBTransaction")
+        // }
 
         <span class="cov8" title="1">return interactor{
-                logger:        c.Logger,
-                presenter:     c.Presenter,
-                blogDao:       c.BlogDao,
-                validator:     c.Validator,
-                dbTransaction: c.DBTransaction,
+                logger:    c.Logger,
+                presenter: c.Presenter,
+                blogDao:   c.BlogDao,
+                userDao:   c.UserDao,
+                // validator: c.Validator,
+                // dbTransaction: c.DBTransaction,
         }</span>
 }
 </pre>
 		
-		<pre class="file" id="file18" style="display: none">package uc
+		<pre class="file" id="file25" style="display: none">package uc
 
 import (
-        "clean_architecture/golang/domains"
-        "clean_architecture/golang/domains/blog"
+        "go-api/domains"
+        "go-api/domains/blog"
 )
 
 type CreateBlogUseCase struct {
@@ -961,10 +1317,10 @@ func (i interactor) BlogCreate(uc CreateBlogUseCase) <span class="cov8" title="1
 }
 </pre>
 		
-		<pre class="file" id="file19" style="display: none">package uc
+		<pre class="file" id="file26" style="display: none">package uc
 
 import (
-        "clean_architecture/golang/domains"
+        "go-api/domains"
 )
 
 type DeleteBlogUseCase struct {
@@ -984,11 +1340,11 @@ func (i interactor) BlogDelete(uc DeleteBlogUseCase) <span class="cov8" title="1
 }
 </pre>
 		
-		<pre class="file" id="file20" style="display: none">package uc
+		<pre class="file" id="file27" style="display: none">package uc
 
 import (
-        "clean_architecture/golang/domains"
-        blog2 "clean_architecture/golang/domains/blog"
+        "go-api/domains"
+        blog2 "go-api/domains/blog"
 )
 
 type EditBlogUseCase struct {
@@ -1044,10 +1400,10 @@ func (i interactor) BlogEdit(uc EditBlogUseCase) <span class="cov8" title="1">{
 }
 </pre>
 		
-		<pre class="file" id="file21" style="display: none">package uc
+		<pre class="file" id="file28" style="display: none">package uc
 
 import (
-        "clean_architecture/golang/domains"
+        "go-api/domains"
 )
 
 type GetBlogUseCase struct {
@@ -1075,10 +1431,10 @@ func (i interactor) BlogGet(uc GetBlogUseCase) <span class="cov8" title="1">{
 }
 </pre>
 		
-		<pre class="file" id="file22" style="display: none">package uc
+		<pre class="file" id="file29" style="display: none">package uc
 
 import (
-        "clean_architecture/golang/domains"
+        "go-api/domains"
 )
 
 type GetBlogsUseCase struct {
@@ -1101,6 +1457,199 @@ func (i interactor) BlogGetAll(uc GetBlogsUseCase) <span class="cov8" title="1">
         <span class="cov8" title="1">blogs.ApplyLimitAndOffset(uc.InputPort.Limit, uc.InputPort.Offset)
 
         uc.OutputPort.GetBlogs(blogs)</span>
+}
+</pre>
+		
+		<pre class="file" id="file30" style="display: none">package uc
+
+import (
+        "go-api/domains"
+        "go-api/domains/user"
+)
+
+type CreateUserUseCase struct {
+        OutputPort Presenter
+        InputPort  CreateUserParams
+}
+
+type CreateUserParams struct {
+        Name     string
+        Email    string
+        Password string
+}
+
+func (i interactor) UserCreate(uc CreateUserUseCase) <span class="cov8" title="1">{
+        name, err := user.NewName(uc.InputPort.Name)
+        if err != nil </span><span class="cov0" title="0">{
+                uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+                return
+        }</span>
+
+        <span class="cov8" title="1">email, err := user.NewEmail(uc.InputPort.Email)
+        if err != nil </span><span class="cov0" title="0">{
+                uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+                return
+        }</span>
+
+        <span class="cov8" title="1">password, err := user.NewPassword(uc.InputPort.Password)
+        if err != nil </span><span class="cov0" title="0">{
+                uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+                return
+        }</span>
+
+        <span class="cov8" title="1">newUser := domains.NewUser(name, email, password)
+
+        createdUser, err := i.userDao.Create(newUser)
+        if err != nil </span><span class="cov8" title="1">{
+                uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+                return
+        }</span>
+
+        <span class="cov8" title="1">uc.OutputPort.GetUser(createdUser)</span>
+}
+</pre>
+		
+		<pre class="file" id="file31" style="display: none">package uc
+
+import (
+        "go-api/domains"
+)
+
+type DeleteUserUseCase struct {
+        OutputPort Presenter
+        InputPort  DeleteUserParams
+}
+
+type DeleteUserParams struct {
+        ID int
+}
+
+func (i interactor) UserDelete(uc DeleteUserUseCase) <span class="cov8" title="1">{
+        if err := i.userDao.Delete(uc.InputPort.ID); err != nil </span><span class="cov8" title="1">{
+                uc.OutputPort.Raise(domains.BadRequest, err)
+                return
+        }</span>
+}
+</pre>
+		
+		<pre class="file" id="file32" style="display: none">package uc
+
+import (
+        "go-api/domains"
+        userModel "go-api/domains/user"
+)
+
+type EditUserUseCase struct {
+        OutputPort Presenter
+        InputPort  EditUserParams
+}
+
+type EditUserParams struct {
+        ID    int
+        Name  string
+        Email string
+}
+
+func (i interactor) UserEdit(uc EditUserUseCase) <span class="cov8" title="1">{
+        var user *domains.User
+        var err error
+
+        user, err = i.userDao.GetById(uc.InputPort.ID)
+        if err != nil </span><span class="cov8" title="1">{
+                uc.OutputPort.Raise(domains.BadRequest, err)
+                return
+        }</span>
+
+        <span class="cov8" title="1">if user == nil </span><span class="cov8" title="1">{
+                uc.OutputPort.Raise(domains.NotFound, errNotFound)
+                return
+        }</span>
+
+        // NOTE(okubo): input portで検索している -&gt; どう考えてもerrは起きない
+        <span class="cov8" title="1">id, _ := userModel.NewId(uc.InputPort.ID)
+
+        name, err := userModel.UpdateName(&amp;uc.InputPort.Name)
+        if err != nil </span><span class="cov8" title="1">{
+                uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+                return
+        }</span>
+
+        <span class="cov8" title="1">email, err := userModel.UpdateEmail(&amp;uc.InputPort.Email)
+        if err != nil </span><span class="cov8" title="1">{
+                uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+                return
+        }</span>
+
+        <span class="cov8" title="1">updatedUser, err := i.userDao.Update(
+                uc.InputPort.ID, domains.BuildUser(id, *name, *email, user.CreatedAt, user.UpdatedAt),
+        )
+        if err != nil </span><span class="cov8" title="1">{
+                uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+                return
+        }</span>
+
+        <span class="cov8" title="1">uc.OutputPort.GetUser(updatedUser)</span>
+}
+</pre>
+		
+		<pre class="file" id="file33" style="display: none">package uc
+
+import (
+        "go-api/domains"
+)
+
+type GetUserUseCase struct {
+        OutputPort Presenter
+        InputPort  GetUserParams
+}
+
+type GetUserParams struct {
+        ID int
+}
+
+func (i interactor) UserGet(uc GetUserUseCase) <span class="cov8" title="1">{
+        user, err := i.userDao.GetById(uc.InputPort.ID)
+        if err != nil </span><span class="cov8" title="1">{
+                uc.OutputPort.Raise(domains.BadRequest, err)
+                return
+        }</span>
+
+        <span class="cov8" title="1">if user == nil </span><span class="cov8" title="1">{
+                uc.OutputPort.Raise(domains.NotFound, errNotFound)
+                return
+        }</span>
+
+        <span class="cov8" title="1">uc.OutputPort.GetUser(user)</span>
+}
+</pre>
+		
+		<pre class="file" id="file34" style="display: none">package uc
+
+import (
+        "go-api/domains"
+)
+
+type GetUsersUseCase struct {
+        OutputPort Presenter
+        InputPort  GetUsersParams
+}
+
+type GetUsersParams struct {
+        Limit  int
+        Offset int
+}
+
+func (i interactor) UserGetAll(uc GetUsersUseCase) <span class="cov8" title="1">{
+        users, err := i.userDao.GetAll()
+        if err != nil </span><span class="cov8" title="1">{
+                uc.OutputPort.Raise(domains.BadRequest, err)
+                return
+        }</span>
+
+        <span class="cov8" title="1">users.ApplyLimitAndOffset(uc.InputPort.Limit, uc.InputPort.Offset)
+
+        uc.OutputPort.GetUsers(users)</span>
+
 }
 </pre>
 		

@@ -14,9 +14,8 @@ import (
 	"gopkg.in/h2non/baloo.v3"
 )
 
-var blogPostPath = "/api/blogs"
-
 func TestPostBlog_Success(t *testing.T) {
+	blogPostPath := "/api/blogs"
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 

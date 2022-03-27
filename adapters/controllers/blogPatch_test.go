@@ -17,9 +17,8 @@ import (
 	"gopkg.in/h2non/baloo.v3"
 )
 
-var blogPatchPath = "/api/blogs/"
-
 func TestPatchBlog_Success(t *testing.T) {
+	blogPatchPath := "/api/blogs/"
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 
@@ -47,7 +46,6 @@ func TestPatchBlog_Success(t *testing.T) {
 		}`).
 		Expect(t).
 		Status(http.StatusOK).
-		//JSONSchema(factories.CompanySingleRespDefinition).
 		Done(); err != nil {
 		t.Error(err)
 	}

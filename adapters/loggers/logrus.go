@@ -50,11 +50,11 @@ func (l LogrusLogger) Log(args ...interface{}) {
 		if ok {
 			l.newLog(castedError, args[1])
 		} else {
-			l.Logger.Info(args...)
+			l.Logger.Error(args...)
 		}
 		return
 	}
-	l.Logger.Info(args...)
+	l.Logger.Error(args...)
 }
 
 //fixme

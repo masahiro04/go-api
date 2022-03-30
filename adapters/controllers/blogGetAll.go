@@ -16,6 +16,7 @@ const (
 )
 
 func (rH RouterHandler) blogsGetAll(c *gin.Context) {
+	log := rH.log(rH.MethodAndPath(c))
 	limit, err := strconv.Atoi(c.Query("limit"))
 	if err != nil {
 		limit = defaultLimit
@@ -27,7 +28,7 @@ func (rH RouterHandler) blogsGetAll(c *gin.Context) {
 	}
 
 	useCase := uc.GetBlogsUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c)),
+		OutputPort: json.NewPresenter(presenters.New(c), log),
 		InputPort:  uc.GetBlogsParams{Limit: limit, Offset: offset},
 	}
 

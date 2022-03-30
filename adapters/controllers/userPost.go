@@ -28,7 +28,7 @@ func (rH RouterHandler) userPost(c *gin.Context) {
 	}
 
 	useCase := uc.CreateUserUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c)),
+		OutputPort: json.NewPresenter(presenters.New(c), log),
 		InputPort: uc.CreateUserParams{
 			Name:  *req.User.Name,
 			Email: *req.User.Email,

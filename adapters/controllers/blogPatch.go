@@ -29,7 +29,7 @@ func (rH RouterHandler) blogPatch(c *gin.Context) {
 	}
 
 	useCase := uc.EditBlogUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c)),
+		OutputPort: json.NewPresenter(presenters.New(c), log),
 		InputPort: uc.EditBlogParams{
 			Id:    id,
 			Title: *req.Blog.Title,

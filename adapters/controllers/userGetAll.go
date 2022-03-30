@@ -11,6 +11,7 @@ import (
 )
 
 func (rH RouterHandler) userGetAll(c *gin.Context) {
+	log := rH.log(rH.MethodAndPath(c))
 	limit, err := strconv.Atoi(c.Query("limit"))
 	if err != nil {
 		limit = defaultLimit
@@ -22,7 +23,7 @@ func (rH RouterHandler) userGetAll(c *gin.Context) {
 	}
 
 	useCase := uc.GetUsersUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c)),
+		OutputPort: json.NewPresenter(presenters.New(c), log),
 		InputPort:  uc.GetUsersParams{Limit: limit, Offset: offset},
 	}
 

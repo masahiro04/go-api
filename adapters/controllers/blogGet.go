@@ -23,7 +23,7 @@ func (rH RouterHandler) blogGet(c *gin.Context) {
 	}
 
 	useCase := uc.GetBlogUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c)),
+		OutputPort: json.NewPresenter(presenters.New(c), log),
 		InputPort:  uc.GetBlogParams{Id: id},
 	}
 	rH.ucHandler.BlogGet(useCase)

@@ -52,7 +52,6 @@ var versionCmd = &cobra.Command{
 }
 
 func main() {
-	log.Printf("sentinel1")
 	log.SetFlags(log.Llongfile)
 	err := godotenv.Load(fmt.Sprintf("./%s.env", os.Getenv("GO_ENV")))
 	if err != nil {
@@ -71,18 +70,14 @@ func main() {
 }
 
 func ExecMigrations(postgresURL string) error {
-	fmt.Println("hoge1")
 	migrations := &migrate.FileMigrationSource{
 		Dir: "db/migrations",
 	}
-	fmt.Println("hoge1")
 	pg, err := sql.Open("postgres", postgresURL)
 	if err != nil {
 		logrus.Fatal(err)
 	}
 
-	fmt.Println("hoge3")
-	fmt.Println("postgresURL is ", postgresURL)
 	// TODO(okubo): ここでエラー出てるので、修正する
 	appliedCount, err := migrate.Exec(pg, "postgres", migrations, migrate.Up)
 	if err != nil {
@@ -94,14 +89,12 @@ func ExecMigrations(postgresURL string) error {
 }
 
 func run() {
-	log.Printf("sentinel2")
 	// Gin
 	ginServer := infra.NewServer(
 		viper.GetInt("server.port"),
 		infra.DebugMode,
 	)
 
-	log.Printf("sentinel3")
 	dbPort, _ := strconv.Atoi(os.Getenv("DB_PORT"))
 
 	sslmode := "require"
@@ -118,8 +111,6 @@ func run() {
 		sslmode,
 	)
 
-	log.Printf("sentinel4")
-
 	// migrate
 	err := ExecMigrations(conn)
 	if err != nil {
@@ -129,15 +120,14 @@ func run() {
 		panic(err)
 	}
 
-	log.Printf("sentinel6")
 	db, err := gorm.Open(postgres.Open(conn), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
 
-	log.Printf("sentinel7")
 	// Loggar
-	routerLogger := loggers.NewLogger("TEST",
+	routerLogger := loggers.NewLogger(
+		os.Getenv("ENV"),
 		viper.GetString("log.level"),
 		viper.GetString("log.format"),
 	)

@@ -22,6 +22,7 @@ func TestNewBlog_Success(t *testing.T) {
 		assert.Equal(t, newBlog.Body, body)
 	})
 }
+
 func TestBuildBlog_Success(t *testing.T) {
 	idInput := 1
 	titleInput := "title"

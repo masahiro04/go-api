@@ -28,7 +28,7 @@ func (rH RouterHandler) blogPost(c *gin.Context) {
 	}
 
 	useCase := uc.CreateBlogUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c)),
+		OutputPort: json.NewPresenter(presenters.New(c), log),
 		InputPort: uc.CreateBlogParams{
 			Title: *req.Blog.Title,
 			Body:  *req.Blog.Body,

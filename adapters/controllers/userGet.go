@@ -23,7 +23,7 @@ func (rH RouterHandler) userGet(c *gin.Context) {
 	}
 
 	useCase := uc.GetUserUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c)),
+		OutputPort: json.NewPresenter(presenters.New(c), log),
 		InputPort:  uc.GetUserParams{ID: id},
 	}
 	rH.ucHandler.UserGet(useCase)

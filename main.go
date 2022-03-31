@@ -13,6 +13,7 @@ import (
 	"go-api/adapters/controllers"
 	"go-api/adapters/dao/blogDao"
 	"go-api/adapters/dao/userDao"
+	"go-api/adapters/firebase"
 	"go-api/adapters/loggers"
 
 	_ "github.com/lib/pq"
@@ -125,6 +126,10 @@ func run() {
 		panic(err)
 	}
 
+	// Firebase
+	client := infra.NewFirebaseAuthClient()
+	firebaseHandler := firebase.New(client)
+
 	// Loggar
 	routerLogger := loggers.NewLogger(
 		os.Getenv("ENV"),
@@ -134,12 +139,14 @@ func run() {
 
 	controllers.NewRouterWithLogger(
 		uc.HandlerConstructor{
-			Logger:  routerLogger,
-			BlogDao: blogDao.New(db),
-			UserDao: userDao.New(db),
+			Logger:          routerLogger,
+			BlogDao:         blogDao.New(db),
+			UserDao:         userDao.New(db),
+			FirebaseHandler: firebaseHandler,
 			// Validator: validator.New(),
 			// DBTransaction: dbTransaction.New(db),
 		}.New(),
+		firebaseHandler,
 		routerLogger,
 	).SetRoutes(ginServer.Router)
 

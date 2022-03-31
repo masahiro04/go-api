@@ -23,13 +23,16 @@ type UserLogic interface {
 	UserCreate(uc CreateUserUseCase)
 	UserEdit(uc EditUserUseCase)
 	UserDelete(uc DeleteUserUseCase)
+
+	SignUp(uc SignUpUseCase)
 }
 
 type HandlerConstructor struct {
-	Logger    Logger
-	Presenter Presenter
-	BlogDao   BlogDao
-	UserDao   UserDao
+	Logger          Logger
+	Presenter       Presenter
+	BlogDao         BlogDao
+	UserDao         UserDao
+	FirebaseHandler FirebaseHandler
 	// Validator Validator
 	// DBTransaction DBTransaction
 }
@@ -37,6 +40,9 @@ type HandlerConstructor struct {
 func (c HandlerConstructor) New() Handler {
 	if c.Logger == nil {
 		log.Fatal("missing Logger")
+	}
+	if c.FirebaseHandler == nil {
+		log.Fatal("missing FirebaseHandler")
 	}
 	if c.BlogDao == nil {
 		log.Fatal("missing BlogDao")
@@ -52,10 +58,11 @@ func (c HandlerConstructor) New() Handler {
 	// }
 
 	return interactor{
-		logger:    c.Logger,
-		presenter: c.Presenter,
-		blogDao:   c.BlogDao,
-		userDao:   c.UserDao,
+		logger:          c.Logger,
+		presenter:       c.Presenter,
+		firebaseHandler: c.FirebaseHandler,
+		blogDao:         c.BlogDao,
+		userDao:         c.UserDao,
 		// validator: c.Validator,
 		// dbTransaction: c.DBTransaction,
 	}

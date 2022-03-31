@@ -19,16 +19,18 @@ func (rH RouterHandler) blogsGetAll(c *gin.Context) {
 	log := rH.log(rH.MethodAndPath(c))
 	limit, err := strconv.Atoi(c.Query("limit"))
 	if err != nil {
+		log(err)
 		limit = defaultLimit
 	}
 
 	offset, err := strconv.Atoi(c.Query("offset"))
 	if err != nil {
+		log(err)
 		offset = defaultOffset
 	}
 
 	useCase := uc.GetBlogsUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c), log),
+		OutputPort: json.NewPresenter(presenters.New(c)),
 		InputPort:  uc.GetBlogsParams{Limit: limit, Offset: offset},
 	}
 

@@ -9,20 +9,25 @@ import (
 )
 
 type RouterHandler struct {
-	ucHandler uc.Handler
-	Logger    uc.Logger
+	ucHandler       uc.Handler
+	firebaseHandler uc.FirebaseHandler
+	Logger          uc.Logger
 }
 
-func NewRouter(i uc.Handler) RouterHandler {
+func NewRouter(
+	i uc.Handler, fb uc.FirebaseHandler) RouterHandler {
 	return RouterHandler{
-		ucHandler: i,
+		ucHandler:       i,
+		firebaseHandler: fb,
 	}
 }
 
-func NewRouterWithLogger(i uc.Handler, logger uc.Logger) RouterHandler {
+func NewRouterWithLogger(
+	i uc.Handler, fb uc.FirebaseHandler, logger uc.Logger) RouterHandler {
 	return RouterHandler{
-		ucHandler: i,
-		Logger:    logger,
+		ucHandler:       i,
+		firebaseHandler: fb,
+		Logger:          logger,
 	}
 }
 
@@ -30,8 +35,15 @@ func (rH RouterHandler) SetRoutes(r *gin.Engine) {
 	api := r.Group("/api")
 	api.Use(rH.errorCatcher())
 
+	rH.signupRoutes(api)
 	rH.blogsRoutes(api)
 	rH.usersRoutes(api)
+}
+
+func (rH RouterHandler) signupRoutes(api *gin.RouterGroup) {
+	signup := api.Group("/signup")
+	signup.POST("", rH.signUp)
+	// signup.POST("/complete", rH.cookieMiddleware(), rH.signUpComplete)
 }
 
 func (rH RouterHandler) blogsRoutes(api *gin.RouterGroup) {

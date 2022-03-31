@@ -22,7 +22,7 @@ func (rH RouterHandler) blogDelete(c *gin.Context) {
 	}
 
 	useCase := uc.DeleteBlogUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c), log),
+		OutputPort: json.NewPresenter(presenters.New(c)),
 		InputPort: uc.DeleteBlogParams{
 			Id: id,
 		},

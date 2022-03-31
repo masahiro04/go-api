@@ -22,7 +22,7 @@ func (rH RouterHandler) userDelete(c *gin.Context) {
 	}
 
 	useCase := uc.DeleteUserUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c), log),
+		OutputPort: json.NewPresenter(presenters.New(c)),
 		InputPort: uc.DeleteUserParams{
 			ID: id,
 		},

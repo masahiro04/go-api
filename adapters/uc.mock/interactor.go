@@ -5,7 +5,6 @@
 package mock
 
 import (
-	sql "database/sql"
 	domains "go-api/domains"
 	reflect "reflect"
 	time "time"
@@ -162,6 +161,80 @@ func (mr *MockPresenterMockRecorder) Raise(errorKind, err interface{}) *gomock.C
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Raise", reflect.TypeOf((*MockPresenter)(nil).Raise), errorKind, err)
 }
 
+// MockValidator is a mock of Validator interface.
+type MockValidator struct {
+	ctrl     *gomock.Controller
+	recorder *MockValidatorMockRecorder
+}
+
+// MockValidatorMockRecorder is the mock recorder for MockValidator.
+type MockValidatorMockRecorder struct {
+	mock *MockValidator
+}
+
+// NewMockValidator creates a new mock instance.
+func NewMockValidator(ctrl *gomock.Controller) *MockValidator {
+	mock := &MockValidator{ctrl: ctrl}
+	mock.recorder = &MockValidatorMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockValidator) EXPECT() *MockValidatorMockRecorder {
+	return m.recorder
+}
+
+// Validate mocks base method.
+func (m *MockValidator) Validate(targetStruct interface{}) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Validate", targetStruct)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Validate indicates an expected call of Validate.
+func (mr *MockValidatorMockRecorder) Validate(targetStruct interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Validate", reflect.TypeOf((*MockValidator)(nil).Validate), targetStruct)
+}
+
+// MockDBTransaction is a mock of DBTransaction interface.
+type MockDBTransaction struct {
+	ctrl     *gomock.Controller
+	recorder *MockDBTransactionMockRecorder
+}
+
+// MockDBTransactionMockRecorder is the mock recorder for MockDBTransaction.
+type MockDBTransactionMockRecorder struct {
+	mock *MockDBTransaction
+}
+
+// NewMockDBTransaction creates a new mock instance.
+func NewMockDBTransaction(ctrl *gomock.Controller) *MockDBTransaction {
+	mock := &MockDBTransaction{ctrl: ctrl}
+	mock.recorder = &MockDBTransactionMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockDBTransaction) EXPECT() *MockDBTransactionMockRecorder {
+	return m.recorder
+}
+
+// WithTx mocks base method.
+func (m *MockDBTransaction) WithTx(runner func(interface{}) error) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "WithTx", runner)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// WithTx indicates an expected call of WithTx.
+func (mr *MockDBTransactionMockRecorder) WithTx(runner interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WithTx", reflect.TypeOf((*MockDBTransaction)(nil).WithTx), runner)
+}
+
 // MockFirebaseHandler is a mock of FirebaseHandler interface.
 type MockFirebaseHandler struct {
 	ctrl     *gomock.Controller
@@ -185,20 +258,6 @@ func (m *MockFirebaseHandler) EXPECT() *MockFirebaseHandlerMockRecorder {
 	return m.recorder
 }
 
-// ActivateUser mocks base method.
-func (m *MockFirebaseHandler) ActivateUser(uuId string) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ActivateUser", uuId)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// ActivateUser indicates an expected call of ActivateUser.
-func (mr *MockFirebaseHandlerMockRecorder) ActivateUser(uuId interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ActivateUser", reflect.TypeOf((*MockFirebaseHandler)(nil).ActivateUser), uuId)
-}
-
 // CreateUser mocks base method.
 func (m *MockFirebaseHandler) CreateUser(user domains.User) (*string, error) {
 	m.ctrl.T.Helper()
@@ -212,34 +271,6 @@ func (m *MockFirebaseHandler) CreateUser(user domains.User) (*string, error) {
 func (mr *MockFirebaseHandlerMockRecorder) CreateUser(user interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockFirebaseHandler)(nil).CreateUser), user)
-}
-
-// DeleteUser mocks base method.
-func (m *MockFirebaseHandler) DeleteUser(uuId string) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteUser", uuId)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteUser indicates an expected call of DeleteUser.
-func (mr *MockFirebaseHandlerMockRecorder) DeleteUser(uuId interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUser", reflect.TypeOf((*MockFirebaseHandler)(nil).DeleteUser), uuId)
-}
-
-// DisableUser mocks base method.
-func (m *MockFirebaseHandler) DisableUser(uuId string) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DisableUser", uuId)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DisableUser indicates an expected call of DisableUser.
-func (mr *MockFirebaseHandlerMockRecorder) DisableUser(uuId interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DisableUser", reflect.TypeOf((*MockFirebaseHandler)(nil).DisableUser), uuId)
 }
 
 // EmailSignInLink mocks base method.
@@ -329,80 +360,6 @@ func (m *MockFirebaseHandler) VerifySessionCookieAndCheckRevoked(sessionCookie s
 func (mr *MockFirebaseHandlerMockRecorder) VerifySessionCookieAndCheckRevoked(sessionCookie interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "VerifySessionCookieAndCheckRevoked", reflect.TypeOf((*MockFirebaseHandler)(nil).VerifySessionCookieAndCheckRevoked), sessionCookie)
-}
-
-// MockValidator is a mock of Validator interface.
-type MockValidator struct {
-	ctrl     *gomock.Controller
-	recorder *MockValidatorMockRecorder
-}
-
-// MockValidatorMockRecorder is the mock recorder for MockValidator.
-type MockValidatorMockRecorder struct {
-	mock *MockValidator
-}
-
-// NewMockValidator creates a new mock instance.
-func NewMockValidator(ctrl *gomock.Controller) *MockValidator {
-	mock := &MockValidator{ctrl: ctrl}
-	mock.recorder = &MockValidatorMockRecorder{mock}
-	return mock
-}
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockValidator) EXPECT() *MockValidatorMockRecorder {
-	return m.recorder
-}
-
-// Validate mocks base method.
-func (m *MockValidator) Validate(targetStruct interface{}) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Validate", targetStruct)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// Validate indicates an expected call of Validate.
-func (mr *MockValidatorMockRecorder) Validate(targetStruct interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Validate", reflect.TypeOf((*MockValidator)(nil).Validate), targetStruct)
-}
-
-// MockDBTransaction is a mock of DBTransaction interface.
-type MockDBTransaction struct {
-	ctrl     *gomock.Controller
-	recorder *MockDBTransactionMockRecorder
-}
-
-// MockDBTransactionMockRecorder is the mock recorder for MockDBTransaction.
-type MockDBTransactionMockRecorder struct {
-	mock *MockDBTransaction
-}
-
-// NewMockDBTransaction creates a new mock instance.
-func NewMockDBTransaction(ctrl *gomock.Controller) *MockDBTransaction {
-	mock := &MockDBTransaction{ctrl: ctrl}
-	mock.recorder = &MockDBTransactionMockRecorder{mock}
-	return mock
-}
-
-// EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockDBTransaction) EXPECT() *MockDBTransactionMockRecorder {
-	return m.recorder
-}
-
-// WithTx mocks base method.
-func (m *MockDBTransaction) WithTx(runner func(*sql.Tx) error) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WithTx", runner)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// WithTx indicates an expected call of WithTx.
-func (mr *MockDBTransactionMockRecorder) WithTx(runner interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WithTx", reflect.TypeOf((*MockDBTransaction)(nil).WithTx), runner)
 }
 
 // MockBlogDao is a mock of BlogDao interface.

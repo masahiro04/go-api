@@ -34,7 +34,7 @@ type HandlerConstructor struct {
 	UserDao         UserDao
 	FirebaseHandler FirebaseHandler
 	// Validator Validator
-	// DBTransaction DBTransaction
+	DBTransaction DBTransaction
 }
 
 func (c HandlerConstructor) New() Handler {
@@ -53,9 +53,9 @@ func (c HandlerConstructor) New() Handler {
 	// if c.Validator == nil {
 	// 	log.Fatal("missing Validator")
 	// }
-	// if c.DBTransaction == nil {
-	// 	log.Fatal("missing DBTransaction")
-	// }
+	if c.DBTransaction == nil {
+		log.Fatal("missing DBTransaction")
+	}
 
 	return interactor{
 		logger:          c.Logger,
@@ -64,6 +64,6 @@ func (c HandlerConstructor) New() Handler {
 		blogDao:         c.BlogDao,
 		userDao:         c.UserDao,
 		// validator: c.Validator,
-		// dbTransaction: c.DBTransaction,
+		dbTransaction: c.DBTransaction,
 	}
 }

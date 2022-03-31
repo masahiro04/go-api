@@ -19,7 +19,7 @@ type firebaseClient interface {
 	// GetUser(ctx context.Context, uid string) (*auth.UserRecord, error)
 	CreateUser(ctx context.Context, params *auth.UserToCreate) (*auth.UserRecord, error)
 	// UpdateUser(ctx context.Context, uid string, user *auth.UserToUpdate) (ur *auth.UserRecord, err error)
-	// DeleteUser(ctx context.Context, uid string) error
+	DeleteUser(ctx context.Context, uid string) error
 	// SetCustomUserClaims(ctx context.Context, uid string, customClaims map[string]interface{}) error
 	EmailVerificationLinkWithSettings(ctx context.Context, email string, settings *auth.ActionCodeSettings) (string, error)
 	EmailSignInLink(ctx context.Context, email string, settings *auth.ActionCodeSettings) (string, error)
@@ -128,14 +128,14 @@ func (tH tokenHandler) CreateUser(user domains.User) (uuId *string, err error) {
 // }
 
 // 完全に削除する場合
-// func (tH tokenHandler) DeleteUser(uuId string) error {
-// 	err := tH.client.DeleteUser(context.Background(), uuId)
-// 	if err != nil {
-// 		return err
-// 	}
-//
-// 	return nil
-// }
+func (tH tokenHandler) DeleteUser(uuId string) error {
+	err := tH.client.DeleteUser(context.Background(), uuId)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
 
 func (tH tokenHandler) EmailVerificationLinkWithSettings(email string) (*string, error) {
 	actionCodeSettings := &auth.ActionCodeSettings{URL: fmt.Sprintf("%s/login", viper.GetString("server.fronthost"))}

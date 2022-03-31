@@ -20,6 +20,7 @@ import (
 
 	"fmt"
 
+	dbTransaction "go-api/adapters/dao/tx"
 	infra "go-api/infrastructure"
 	uc "go-api/usecases"
 
@@ -144,7 +145,7 @@ func run() {
 			UserDao:         userDao.New(db),
 			FirebaseHandler: firebaseHandler,
 			// Validator: validator.New(),
-			// DBTransaction: dbTransaction.New(db),
+			DBTransaction: dbTransaction.New(db),
 		}.New(),
 		firebaseHandler,
 		routerLogger,

@@ -4,7 +4,8 @@ import (
 	"go-api/domains"
 
 	"go-api/domains/user"
-	// "gorm.io/gorm"
+
+	"gorm.io/gorm"
 )
 
 type SignUpUseCase struct {
@@ -18,24 +19,9 @@ type SignUpParams struct {
 	Password string
 }
 
-// type SignUpParams struct {
-// 	Name     string
-// 	Email    string
-// 	Password string
-// 	// User SignUpUserParams
-// }
-
-// type SignUpUserParams struct {
-// 	Email    string
-// 	Password string
-// }
-//
-// type SignUpCompanyParams struct {
-// 	Name string
-// }
-//
 func (i interactor) SignUp(uc SignUpUseCase) {
-	var err error
+	// var err error
+	var createdUser domains.User
 
 	name, err := user.NewName(uc.InputPort.Name)
 	if err != nil {
@@ -55,28 +41,33 @@ func (i interactor) SignUp(uc SignUpUseCase) {
 		return
 	}
 
-	user := domains.NewUser(name, email, password)
+	dummyUUID, err := user.NewUUID("dummy")
+	u := domains.NewUser(dummyUUID, name, email, password)
 	// uuId, err := i.firebaseHandler.CreateUser(user)
-	_, err = i.firebaseHandler.CreateUser(user)
-	if err != nil {
-		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
-		return
-	}
-	// TODO(okubo): rollback入れる
-	// if err != nil {
-	// 	if rollbackErr := tx.Rollback(); rollbackErr != nil {
-	// 		i.logger.Log(err)
-	// 	}
-	// 	return err
-	// }
 
-	// user.UuId = *uuId
-	_, err = i.userDao.Create(user)
-	if err != nil {
-		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
-		return
-	}
-	// TODO(okubo): rollback入れる
+	err = i.dbTransaction.WithTx(func(tx *gorm.DB) error {
+		uuid, err := i.firebaseHandler.CreateUser(u)
+		if err != nil {
+			i.logger.Log(err)
+			return err
+		}
+
+		newUUID, err := user.NewUUID(*uuid)
+		u.UUID = newUUID
+
+		usr, err := i.userDao.CreateTx(u, tx)
+		createdUser = *usr
+		if err != nil {
+			if rollbackErr := tx.Rollback().Error; rollbackErr != nil {
+				if err = i.firebaseHandler.DeleteUser(createdUser.UUID.Value); err != nil {
+					i.logger.Log(err)
+				}
+			}
+			return err
+		}
+
+		return nil
+	})
 
 	// link, err := i.firebaseHandler.EmailSignInLink(user.Email)
 	// if err != nil {
@@ -99,6 +90,9 @@ func (i interactor) SignUp(uc SignUpUseCase) {
 	// 	presenter.Raise(domain.UnprocessableEntity, err)
 	// 	return
 	// }
-
-	uc.OutputPort.CreateSignUp(&user)
+	if err != nil {
+		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		return
+	}
+	uc.OutputPort.CreateSignUp(&createdUser)
 }

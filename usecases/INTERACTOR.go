@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"firebase.google.com/go/auth"
+	"gorm.io/gorm"
 	// "firebase.google.com/go/auth"
 )
 
@@ -17,7 +18,7 @@ type interactor struct {
 	userDao         UserDao
 	firebaseHandler FirebaseHandler
 	// validator     Validator
-	// dbTransaction DBTransaction
+	dbTransaction DBTransaction
 }
 
 // Logger : only used to log stuff
@@ -43,8 +44,7 @@ type Validator interface {
 }
 
 type DBTransaction interface {
-	// TODO(okubo): かたをちゃんと入れる
-	WithTx(runner func(tx interface{}) error) error
+	WithTx(runner func(tx *gorm.DB) error) error
 }
 
 type FirebaseHandler interface {
@@ -54,7 +54,7 @@ type FirebaseHandler interface {
 	// UpdateUser(uuId string, updateParams *domain.UserUpdatableProperty) error
 	// ActivateUser(uuId string) error
 	// DisableUser(uuId string) error
-	// DeleteUser(uuId string) error
+	DeleteUser(uuId string) error
 	EmailVerificationLinkWithSettings(email string) (*string, error)
 	EmailSignInLink(email string) (*string, error)
 	SessionCookie(idToken string, expiresIn time.Duration) (*string, error)
@@ -75,7 +75,7 @@ type UserDao interface {
 	GetAll() (*domains.Users, error)
 	GetById(id int) (*domains.User, error)
 	Create(user domains.User) (*domains.User, error)
-	// CreateTx(user domains.User, tx *sql.Tx) (*domains.User, error)
+	CreateTx(user domains.User, tx *gorm.DB) (*domains.User, error)
 	Update(id int, user domains.User) (*domains.User, error)
 	Delete(id int) error
 }

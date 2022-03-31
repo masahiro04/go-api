@@ -7,6 +7,7 @@ import (
 
 type User struct {
 	ID        user.ID
+	UUID      user.UUID
 	Name      user.Name
 	Email     user.Email
 	Password  user.Password
@@ -15,8 +16,9 @@ type User struct {
 	DeletedAt time.Time
 }
 
-func NewUser(name user.Name, email user.Email, password user.Password) User {
+func NewUser(uuid user.UUID, name user.Name, email user.Email, password user.Password) User {
 	return User{
+		UUID:     uuid,
 		Name:     name,
 		Email:    email,
 		Password: password,
@@ -25,9 +27,10 @@ func NewUser(name user.Name, email user.Email, password user.Password) User {
 
 // repositoryやfactory経由の生成において使用する関数
 // 生成時のバリデーションをしないことに注意
-func BuildUser(id user.ID, name user.Name, email user.Email, createdAt time.Time, updatedAt time.Time) User {
+func BuildUser(id user.ID, uuid user.UUID, name user.Name, email user.Email, createdAt time.Time, updatedAt time.Time) User {
 	return User{
 		ID:        id,
+		UUID:      uuid,
 		Name:      name,
 		Email:     email,
 		CreatedAt: createdAt,

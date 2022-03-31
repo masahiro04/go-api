@@ -33,6 +33,11 @@ func (i interactor) UserEdit(uc EditUserUseCase) {
 
 	// NOTE(okubo): input portで検索している -> どう考えてもerrは起きない
 	id, _ := userModel.NewId(uc.InputPort.ID)
+	uuid, err := userModel.NewUUID(user.UUID.Value)
+	if err != nil {
+		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		return
+	}
 
 	name, err := userModel.UpdateName(&uc.InputPort.Name)
 	if err != nil {
@@ -47,7 +52,7 @@ func (i interactor) UserEdit(uc EditUserUseCase) {
 	}
 
 	updatedUser, err := i.userDao.Update(
-		uc.InputPort.ID, domains.BuildUser(id, *name, *email, user.CreatedAt, user.UpdatedAt),
+		uc.InputPort.ID, domains.BuildUser(id, uuid, *name, *email, user.CreatedAt, user.UpdatedAt),
 	)
 	if err != nil {
 		uc.OutputPort.Raise(domains.UnprocessableEntity, err)

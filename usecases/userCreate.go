@@ -22,6 +22,11 @@ func (i interactor) UserCreate(uc CreateUserUseCase) {
 		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
 		return
 	}
+	uuid, err := user.NewUUID("dummy")
+	if err != nil {
+		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		return
+	}
 
 	email, err := user.NewEmail(uc.InputPort.Email)
 	if err != nil {
@@ -35,7 +40,7 @@ func (i interactor) UserCreate(uc CreateUserUseCase) {
 		return
 	}
 
-	newUser := domains.NewUser(name, email, password)
+	newUser := domains.NewUser(uuid, name, email, password)
 
 	createdUser, err := i.userDao.Create(newUser)
 	if err != nil {

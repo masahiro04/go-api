@@ -30,7 +30,7 @@ func (rH RouterHandler) userPatch(c *gin.Context) {
 
 	useCase := usecases.EditUserUseCase{
 		OutputPort: json.NewPresenter(presenters.New(c)),
-		UserDao:    rH.driver.UserDao,
+		UserDao:    rH.drivers.UserDao,
 	}
 	useCase.UserEdit(usecases.EditUserParams{
 		ID:    id,

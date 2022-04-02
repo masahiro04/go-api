@@ -28,10 +28,11 @@ func (rH RouterHandler) signUp(c *gin.Context) {
 
 	useCase := usecases.SignUpUseCase{
 		OutputPort:      json.NewPresenter(presenters.New(c)),
-		UserDao:         rH.driver.UserDao,
-		DBTransaction:   rH.driver.DBTransaction,
-		FirebaseHandler: rH.driver.FirebaseHandler,
+		UserDao:         rH.drivers.UserDao,
+		DBTransaction:   rH.drivers.DBTransaction,
+		FirebaseHandler: rH.drivers.FirebaseHandler,
 	}
+
 	useCase.SignUp(usecases.SignUpParams{
 		Name:     req.Name,
 		Email:    req.Email,

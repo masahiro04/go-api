@@ -26,7 +26,7 @@ func (rH RouterHandler) userGetAll(c *gin.Context) {
 
 	useCase := usecases.GetUsersUseCase{
 		OutputPort: json.NewPresenter(presenters.New(c)),
-		UserDao:    rH.driver.UserDao,
+		UserDao:    rH.drivers.UserDao,
 	}
 
 	useCase.UserGetAll(usecases.GetUsersParams{Limit: limit, Offset: offset})

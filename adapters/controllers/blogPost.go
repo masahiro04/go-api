@@ -31,7 +31,7 @@ func (rH RouterHandler) blogPost(c *gin.Context) {
 
 	useCase := usecases.CreateBlogUseCase{
 		OutputPort: json.NewPresenter(presenters.New(c)),
-		BlogDao:    rH.driver.BlogDao,
+		BlogDao:    rH.drivers.BlogDao,
 	}
 
 	useCase.BlogCreate(usecases.CreateBlogParams{

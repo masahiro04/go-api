@@ -29,7 +29,7 @@ func (rH RouterHandler) userPost(c *gin.Context) {
 
 	useCase := usecases.CreateUserUseCase{
 		OutputPort: json.NewPresenter(presenters.New(c)),
-		UserDao:    rH.driver.UserDao,
+		UserDao:    rH.drivers.UserDao,
 	}
 
 	useCase.UserCreate(usecases.CreateUserParams{

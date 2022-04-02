@@ -11,12 +11,12 @@ import (
 // driverという名前でも良いかもj
 // Repositoryを返すプログラムでも良さそう
 type RouterHandler struct {
-	driver adapters.Driver
+	drivers *adapters.Driver
 }
 
-func NewRouter(driver adapters.Driver) RouterHandler {
+func NewRouter(driver *adapters.Driver) RouterHandler {
 	return RouterHandler{
-		driver: driver,
+		drivers: driver,
 	}
 }
 

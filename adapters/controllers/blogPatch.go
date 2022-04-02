@@ -30,7 +30,7 @@ func (rH RouterHandler) blogPatch(c *gin.Context) {
 
 	useCase := usecases.EditBlogUseCase{
 		OutputPort: json.NewPresenter(presenters.New(c)),
-		BlogDao:    rH.driver.BlogDao,
+		BlogDao:    rH.drivers.BlogDao,
 	}
 	useCase.BlogEdit(usecases.EditBlogParams{
 		Id:    id,

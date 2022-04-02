@@ -14,8 +14,6 @@ type rw struct {
 }
 
 func New(db *gorm.DB) *rw {
-
-	fmt.Println("initialized BlogNew RW")
 	return &rw{
 		db: db,
 	}

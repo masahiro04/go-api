@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"strconv"
 
 	"go-api/adapters/presenters"
@@ -18,8 +17,6 @@ const (
 
 func (rH RouterHandler) blogsGetAll(c *gin.Context) {
 	log := rH.log(rH.MethodAndPath(c))
-	fmt.Println("inside controller")
-	fmt.Println(rH.driver.BlogDao)
 	limit, err := strconv.Atoi(c.Query("limit"))
 	if err != nil {
 		log(err)
@@ -35,7 +32,7 @@ func (rH RouterHandler) blogsGetAll(c *gin.Context) {
 	// TODO(okubo): からでもエラー起きないので、そこは直したい
 	useCase := usecases.GetBlogsUseCase{
 		OutputPort: json.NewPresenter(presenters.New(c)),
-		BlogDao:    rH.driver.BlogDao,
+		BlogDao:    rH.drivers.BlogDao,
 	}
 
 	useCase.BlogGetAll(usecases.GetBlogsParams{Limit: limit, Offset: offset})

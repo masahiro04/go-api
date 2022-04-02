@@ -23,7 +23,7 @@ func (rH RouterHandler) blogDelete(c *gin.Context) {
 
 	useCase := usecases.DeleteBlogUseCase{
 		OutputPort: json.NewPresenter(presenters.New(c)),
-		BlogDao:    rH.driver.BlogDao,
+		BlogDao:    rH.drivers.BlogDao,
 	}
 
 	useCase.BlogDelete(usecases.DeleteBlogParams{Id: id})

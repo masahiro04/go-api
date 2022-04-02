@@ -7,17 +7,20 @@ import (
 	"go-api/domains/models/blog"
 )
 
+// NOTE(okubo): OutputPort
 type EditBlogUseCase struct {
 	OutputPort domains.PresenterRepository
 	BlogDao    domains.BlogRepository
 }
 
+// NOTE(okubo): InputPort
 type EditBlogParams struct {
 	Id    int
 	Title string
 	Body  string
 }
 
+// NOTE(okubo): OutputPort(出力) と InputPort(入力) を結びつける = interactor
 func (uc EditBlogUseCase) BlogEdit(params EditBlogParams) {
 	var newBlog *models.Blog
 	var err error

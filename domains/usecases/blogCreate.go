@@ -6,16 +6,20 @@ import (
 	"go-api/domains/models/blog"
 )
 
+// NOTE(okubo): OutputPort
 type CreateBlogUseCase struct {
 	OutputPort domains.PresenterRepository
 	BlogDao    domains.BlogRepository
 }
 
+// NOTE(okubo): InputPort
 type CreateBlogParams struct {
 	Title string
 	Body  string
 }
 
+// NOTE(okubo): OutputPort(出力) と InputPort(入力) を結びつける = interactor
+// noteKk
 func (uc CreateBlogUseCase) BlogCreate(params CreateBlogParams) {
 	title, err := blog.NewTitle(params.Title)
 	if err != nil {

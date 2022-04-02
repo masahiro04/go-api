@@ -5,15 +5,18 @@ import (
 	"go-api/domains/models"
 )
 
+// NOTE(okubo): OutputPort
 type GetUserUseCase struct {
 	OutputPort domains.PresenterRepository
 	UserDao    domains.UserRepository
 }
 
+// NOTE(okubo): InputPort
 type GetUserParams struct {
 	ID int
 }
 
+// NOTE(okubo): OutputPort(出力) と InputPort(入力) を結びつける = interactor
 func (uc GetUserUseCase) UserGet(params GetUserParams) {
 	user, err := uc.UserDao.GetById(params.ID)
 	if err != nil {

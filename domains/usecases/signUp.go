@@ -8,6 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// NOTE(okubo): OutputPort
 type SignUpUseCase struct {
 	OutputPort      domains.PresenterRepository
 	UserDao         domains.UserRepository
@@ -15,12 +16,14 @@ type SignUpUseCase struct {
 	FirebaseHandler domains.FirebaseHandlerRepository
 }
 
+// NOTE(okubo): InputPort
 type SignUpParams struct {
 	Name     string
 	Email    string
 	Password string
 }
 
+// NOTE(okubo): OutputPort(出力) と InputPort(入力) を結びつける = interactor
 func (uc SignUpUseCase) SignUp(params SignUpParams) {
 	// var err error
 	var createdUser models.User

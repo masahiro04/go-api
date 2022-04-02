@@ -1,4 +1,4 @@
-package uc
+package usecases
 
 import "errors"
 

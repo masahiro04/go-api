@@ -1,4 +1,4 @@
-package uc_test
+package usecases_test
 
 import (
 	"errors"

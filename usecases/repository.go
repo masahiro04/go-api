@@ -1,4 +1,4 @@
-package uc
+package usecases
 
 import (
 	"go-api/domains"
@@ -39,9 +39,9 @@ type PresenterRepository interface {
 	GetUser(user *domains.User)
 }
 
-// type ValidatorRepository interface {
-// 	Validate(targetStruct interface{}) error
-// }
+type ValidatorRepository interface {
+	Validate(targetStruct interface{}) error
+}
 
 type DBTransactionRepository interface {
 	WithTx(runner func(tx *gorm.DB) error) error

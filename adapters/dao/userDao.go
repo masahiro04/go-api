@@ -1,4 +1,4 @@
-package userDao
+package dao
 
 import (
 	"errors"
@@ -8,15 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type rw struct {
-	db *gorm.DB
-}
-
-func New(db *gorm.DB) *rw {
-	return &rw{
-		db: db,
-	}
-}
+type userRW = RW
 
 type UserDto struct {
 	gorm.Model
@@ -30,7 +22,7 @@ func (UserDto) TableName() string {
 	return "users"
 }
 
-func (rw rw) GetAll() (*domains.Users, error) {
+func (rw userRW) GetAll() (*domains.Users, error) {
 	var dtos []UserDto
 	rw.db.Find(&dtos)
 	var users []domains.User
@@ -50,7 +42,7 @@ func (rw rw) GetAll() (*domains.Users, error) {
 	return &usersData, nil
 }
 
-func (rw rw) GetById(id int) (*domains.User, error) {
+func (rw userRW) GetById(id int) (*domains.User, error) {
 	var dto UserDto
 
 	err := rw.db.First(&dto, id).Error
@@ -67,7 +59,7 @@ func (rw rw) GetById(id int) (*domains.User, error) {
 	return &newUser, nil
 }
 
-func (rw rw) Create(newUser domains.User) (*domains.User, error) {
+func (rw RW) UserCreate(newUser domains.User) (*domains.User, error) {
 	dto := UserDto{
 		UUID:  newUser.UUID.Value,
 		Name:  newUser.Name.Value,
@@ -85,7 +77,7 @@ func (rw rw) Create(newUser domains.User) (*domains.User, error) {
 }
 
 // NOTE(okubo): transactioの場合に利用
-func (rw rw) CreateTx(newUser domains.User, tx *gorm.DB) (*domains.User, error) {
+func (rw RW) UserCreateTx(newUser domains.User, tx *gorm.DB) (*domains.User, error) {
 	dto := UserDto{
 		UUID:  newUser.UUID.Value,
 		Name:  newUser.Name.Value,
@@ -104,7 +96,7 @@ func (rw rw) CreateTx(newUser domains.User, tx *gorm.DB) (*domains.User, error) 
 }
 
 //
-func (rw rw) Update(id int, user domains.User) (*domains.User, error) {
+func (rw RW) UserUpdate(id int, user domains.User) (*domains.User, error) {
 	dto := UserDto{}
 
 	rw.db.First(&dto, id).Updates(UserDto{
@@ -120,7 +112,7 @@ func (rw rw) Update(id int, user domains.User) (*domains.User, error) {
 	return &newUser, nil
 }
 
-func (rw rw) Delete(id int) error {
+func (rw RW) UserDelete(id int) error {
 	dto := UserDto{}
 	rw.db.First(&dto, id).Delete(&dto)
 	return nil

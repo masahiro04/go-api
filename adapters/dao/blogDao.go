@@ -1,4 +1,4 @@
-package blogDao
+package dao
 
 import (
 	"errors"
@@ -8,15 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type rw struct {
-	db *gorm.DB
-}
-
-func New(db *gorm.DB) *rw {
-	return &rw{
-		db: db,
-	}
-}
+type blogRW = rw
 
 type BlogDto struct {
 	gorm.Model
@@ -30,7 +22,7 @@ func (BlogDto) TableName() string {
 	return "blogs"
 }
 
-func (rw rw) GetAll() (*domains.Blogs, error) {
+func (rw blogRW) GetAll() (*domains.Blogs, error) {
 	var dtos []BlogDto
 	rw.db.Find(&dtos)
 	var blogs []domains.Blog
@@ -47,7 +39,7 @@ func (rw rw) GetAll() (*domains.Blogs, error) {
 	return &blogsData, nil
 }
 
-func (rw rw) GetById(id int) (*domains.Blog, error) {
+func (rw RW) GetById(id int) (*domains.Blog, error) {
 	var dto BlogDto
 
 	err := rw.db.First(&dto, id).Error
@@ -64,7 +56,7 @@ func (rw rw) GetById(id int) (*domains.Blog, error) {
 }
 
 //
-func (rw rw) Create(newBlog domains.Blog) (*domains.Blog, error) {
+func (rw RW) Create(newBlog domains.Blog) (*domains.Blog, error) {
 	dto := BlogDto{
 		Title: newBlog.Title.Value,
 		Body:  newBlog.Body.Value,
@@ -96,7 +88,7 @@ func (rw rw) Create(newBlog domains.Blog) (*domains.Blog, error) {
 // }
 
 //
-func (rw rw) Update(id int, blog domains.Blog) (*domains.Blog, error) {
+func (rw RW) Update(id int, blog domains.Blog) (*domains.Blog, error) {
 	dto := BlogDto{}
 
 	rw.db.First(&dto, id).Updates(BlogDto{
@@ -112,7 +104,7 @@ func (rw rw) Update(id int, blog domains.Blog) (*domains.Blog, error) {
 	return &newBlog, nil
 }
 
-func (rw rw) Delete(id int) error {
+func (rw RW) Delete(id int) error {
 	dto := BlogDto{}
 	rw.db.First(&dto, id).Delete(&dto)
 	return nil

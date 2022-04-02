@@ -1,7 +1,7 @@
-package domains_test
+package models_test
 
 import (
-	"go-api/domains"
+	"go-api/domains/models"
 	factories "go-api/test/factories"
 	"testing"
 
@@ -25,7 +25,7 @@ func TestUsersSize_Success(t *testing.T) {
 }
 
 func TestUsersEmptyUsers_Success(t *testing.T) {
-	newUsers := domains.EmptyUsers()
+	newUsers := models.EmptyUsers()
 
 	t.Run("", func(t *testing.T) {
 		assert.Equal(t, newUsers.Size(), 0)
@@ -41,8 +41,8 @@ func TestUsersApplyLimitAndOffset_Success(t *testing.T) {
 		assert.Equal(t, _users.Value, _users.ApplyLimitAndOffset(4, -1))
 	})
 	t.Run("empty", func(t *testing.T) {
-		assert.Equal(t, domains.EmptyUsers().Value, _users.ApplyLimitAndOffset(100, 10))
-		assert.Equal(t, domains.EmptyUsers().Value, _users.ApplyLimitAndOffset(3, 4))
-		assert.Equal(t, domains.EmptyUsers().Value, _users.ApplyLimitAndOffset(-1, 0))
+		assert.Equal(t, models.EmptyUsers().Value, _users.ApplyLimitAndOffset(100, 10))
+		assert.Equal(t, models.EmptyUsers().Value, _users.ApplyLimitAndOffset(3, 4))
+		assert.Equal(t, models.EmptyUsers().Value, _users.ApplyLimitAndOffset(-1, 0))
 	})
 }

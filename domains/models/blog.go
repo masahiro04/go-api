@@ -1,7 +1,7 @@
-package domains
+package models
 
 import (
-	"go-api/domains/blog"
+	"go-api/domains/models/blog"
 	"time"
 )
 

@@ -1,6 +1,6 @@
 package blog
 
-import "go-api/domains/validator"
+import "go-api/domains/models/validator"
 
 type Title struct {
 	// [Titleを表現する値オブジェクト]

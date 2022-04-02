@@ -1,7 +1,7 @@
 package user
 
 import (
-	"go-api/domains/validator"
+	"go-api/domains/models/validator"
 )
 
 type Email struct {

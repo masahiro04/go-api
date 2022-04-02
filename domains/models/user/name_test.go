@@ -1,7 +1,7 @@
 package user_test
 
 import (
-	"go-api/domains/user"
+	"go-api/domains/models/user"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

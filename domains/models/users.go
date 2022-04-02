@@ -1,4 +1,4 @@
-package domains
+package models
 
 type Users struct {
 	// Userの集合を表現

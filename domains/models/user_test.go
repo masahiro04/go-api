@@ -1,8 +1,8 @@
-package domains_test
+package models_test
 
 import (
-	"go-api/domains"
-	"go-api/domains/user"
+	"go-api/domains/models"
+	"go-api/domains/models/user"
 
 	factories "go-api/test/factories"
 	"testing"
@@ -18,7 +18,7 @@ func TestNewUser_Success(t *testing.T) {
 	name, _ := user.NewName(nameInput)
 	email, _ := user.NewEmail(emailInput)
 	password, _ := user.NewPassword("hogehgoe")
-	newUser := domains.NewUser(name, email, password)
+	newUser := models.NewUser(name, email, password)
 	t.Run("", func(t *testing.T) {
 		assert.Equal(t, newUser.Name, name)
 		assert.Equal(t, newUser.Email, email)
@@ -35,7 +35,7 @@ func TestBuildUser_Success(t *testing.T) {
 	name, _ := user.NewName(nameInput)
 	email, _ := user.NewEmail(emailInput)
 
-	newUser := domains.BuildUser(id, name, email, time.Time{}, time.Time{})
+	newUser := models.BuildUser(id, name, email, time.Time{}, time.Time{})
 
 	t.Run("", func(t *testing.T) {
 		assert.Equal(t, newUser.Name, name)

@@ -1,4 +1,4 @@
-package domains
+package models
 
 type ErrorKinds int
 

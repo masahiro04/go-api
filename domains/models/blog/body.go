@@ -1,7 +1,7 @@
 package blog
 
 import (
-	"go-api/domains/validator"
+	"go-api/domains/models/validator"
 )
 
 type Body struct {

@@ -1,8 +1,8 @@
-package domains_test
+package models_test
 
 import (
-	"go-api/domains"
-	"go-api/domains/blog"
+	"go-api/domains/models"
+	"go-api/domains/models/blog"
 	factories "go-api/test/factories"
 	"testing"
 	"time"
@@ -16,7 +16,7 @@ func TestNewBlog_Success(t *testing.T) {
 	bodyInput := "body"
 	title, _ := blog.NewTitle(titleInput)
 	body, _ := blog.NewBody(bodyInput)
-	newBlog := domains.NewBlog(title, body)
+	newBlog := models.NewBlog(title, body)
 	t.Run("", func(t *testing.T) {
 		assert.Equal(t, newBlog.Title, title)
 		assert.Equal(t, newBlog.Body, body)
@@ -32,7 +32,7 @@ func TestBuildBlog_Success(t *testing.T) {
 	title, _ := blog.NewTitle(titleInput)
 	body, _ := blog.NewBody(bodyInput)
 
-	newBlog := domains.BuildBlog(id, title, body, time.Time{}, time.Time{})
+	newBlog := models.BuildBlog(id, title, body, time.Time{}, time.Time{})
 
 	t.Run("", func(t *testing.T) {
 		assert.Equal(t, newBlog.Title, title)

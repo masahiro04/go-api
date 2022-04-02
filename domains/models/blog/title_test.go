@@ -1,7 +1,7 @@
 package blog_test
 
 import (
-	"go-api/domains/blog"
+	"go-api/domains/models/blog"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

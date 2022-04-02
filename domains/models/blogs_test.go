@@ -1,8 +1,7 @@
-package domains_test
+package models_test
 
 import (
-	"go-api/domains"
-
+	"go-api/domains/models"
 	factories "go-api/test/factories"
 	"testing"
 
@@ -26,7 +25,7 @@ func TestBlogsSize_Success(t *testing.T) {
 }
 
 func TestBlogsEmptyBlogs_Success(t *testing.T) {
-	newBlogs := domains.EmptyBlogs()
+	newBlogs := models.EmptyBlogs()
 
 	t.Run("", func(t *testing.T) {
 		assert.Equal(t, newBlogs.Size(), 0)
@@ -42,8 +41,8 @@ func TestBlogsApplyLimitAndOffset_Success(t *testing.T) {
 		assert.Equal(t, _blogs.Value, _blogs.ApplyLimitAndOffset(4, -1))
 	})
 	t.Run("empty", func(t *testing.T) {
-		assert.Equal(t, domains.EmptyBlogs().Value, _blogs.ApplyLimitAndOffset(100, 10))
-		assert.Equal(t, domains.EmptyBlogs().Value, _blogs.ApplyLimitAndOffset(3, 4))
-		assert.Equal(t, domains.EmptyBlogs().Value, _blogs.ApplyLimitAndOffset(-1, 0))
+		assert.Equal(t, models.EmptyBlogs().Value, _blogs.ApplyLimitAndOffset(100, 10))
+		assert.Equal(t, models.EmptyBlogs().Value, _blogs.ApplyLimitAndOffset(3, 4))
+		assert.Equal(t, models.EmptyBlogs().Value, _blogs.ApplyLimitAndOffset(-1, 0))
 	})
 }

@@ -1,4 +1,4 @@
-package domains
+package models
 
 type Blogs struct {
 	// Blogの集合を表現

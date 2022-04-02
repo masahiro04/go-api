@@ -8,6 +8,8 @@ import (
 	"github.com/gin-gonic/gin/render"
 )
 
+// driverという名前でも良いかもj
+// Repositoryを返すプログラムでも良さそう
 type RouterHandler struct {
 	ucHandler       uc.Handler
 	firebaseHandler uc.FirebaseHandler

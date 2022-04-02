@@ -5,7 +5,7 @@ import (
 
 	"go-api/adapters/presenters"
 	"go-api/adapters/presenters/json"
-	uc "go-api/usecases"
+	"go-api/domains/usecases"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,7 +17,7 @@ type BlogRequest struct {
 	} `json:"blog" binding:"required"`
 }
 
-func (rH RouterHandler) blogPost(c *gin.Context) {
+func blogPost(ctx *gin.Context, db domains.) {
 	log := rH.log(rH.MethodAndPath(c))
 	req := &BlogRequest{}
 
@@ -27,11 +27,12 @@ func (rH RouterHandler) blogPost(c *gin.Context) {
 		return
 	}
 
-	useCase := uc.CreateBlogUseCase{
+	useCase := usecases.CreateBlogUseCase{
 		OutputPort: json.NewPresenter(presenters.New(c)),
-		InputPort: uc.CreateBlogParams{
+		InputPort: usecases.CreateBlogParams{
 			Title: *req.Blog.Title,
 			Body:  *req.Blog.Body,
+			BlogDao: 
 		},
 	}
 

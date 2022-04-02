@@ -12,15 +12,16 @@ import (
 
 	"go-api/adapters/controllers"
 	"go-api/adapters/dao/blogDao"
+	"go-api/adapters/dao/tx"
 	"go-api/adapters/dao/userDao"
 	"go-api/adapters/firebase"
 	"go-api/adapters/loggers"
+	"go-api/domains"
 
 	_ "github.com/lib/pq"
 
 	"fmt"
 
-	dbTransaction "go-api/adapters/dao/tx"
 	infra "go-api/infrastructure"
 	uc "go-api/usecases"
 
@@ -138,6 +139,15 @@ func run() {
 		viper.GetString("log.format"),
 	)
 
+	repo := domains.Repository{
+		Logger:          routerLogger,
+		BlogDao:         blogDao.New(db),
+		UserDao:         userDao.New(db),
+		FirebaseHandler: firebaseHandler,
+		DBTransaction:   tx.New(db),
+		// Validator: validator.New(),
+	}
+
 	controllers.NewRouterWithLogger(
 		uc.HandlerConstructor{
 			Logger:          routerLogger,
@@ -145,7 +155,7 @@ func run() {
 			UserDao:         userDao.New(db),
 			FirebaseHandler: firebaseHandler,
 			// Validator: validator.New(),
-			DBTransaction: dbTransaction.New(db),
+			DBTransaction: tx.New(db),
 		}.New(),
 		firebaseHandler,
 		routerLogger,

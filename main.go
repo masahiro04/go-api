@@ -138,7 +138,7 @@ func run() {
 		viper.GetString("log.format"),
 	)
 
-	driver := adapters.NewDriver(
+	drivers := adapters.NewDriver(
 		adapters.Driver{
 			Logger:          routerLogger,
 			BlogDao:         blogDao.New(db),
@@ -149,7 +149,7 @@ func run() {
 		},
 	)
 
-	controllers.NewRouter(driver).SetRoutes(ginServer.Router)
+	controllers.NewRouter(drivers).SetRoutes(ginServer.Router)
 
 	ginServer.Start()
 }

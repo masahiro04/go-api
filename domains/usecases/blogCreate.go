@@ -8,7 +8,6 @@ import (
 
 type CreateBlogUseCase struct {
 	OutputPort domains.PresenterRepository
-	InputPort  CreateBlogParams
 	BlogDao    domains.BlogRepository
 }
 
@@ -18,13 +17,13 @@ type CreateBlogParams struct {
 }
 
 func (uc CreateBlogUseCase) BlogCreate(params CreateBlogParams) {
-	title, err := blog.NewTitle(uc.InputPort.Title)
+	title, err := blog.NewTitle(params.Title)
 	if err != nil {
 		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 
-	body, err := blog.NewBody(uc.InputPort.Body)
+	body, err := blog.NewBody(params.Body)
 	if err != nil {
 		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return

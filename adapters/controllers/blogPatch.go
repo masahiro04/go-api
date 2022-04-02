@@ -34,8 +34,8 @@ func (rH RouterHandler) blogPatch(c *gin.Context) {
 	}
 	useCase.BlogEdit(usecases.EditBlogParams{
 		Id:    id,
-		Title: *req.Blog.Title,
-		Body:  *req.Blog.Body,
+		Title: req.Blog.Title,
+		Body:  req.Blog.Body,
 	})
 
 }

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 
 	"go-api/adapters/presenters"
@@ -12,8 +13,8 @@ import (
 
 type BlogRequest struct {
 	Blog struct {
-		Title *string `json:"title" binding:"required"`
-		Body  *string `json:"body"`
+		Title string `json:"title" binding:"required"`
+		Body  string `json:"body"`
 	} `json:"blog" binding:"required"`
 }
 
@@ -26,6 +27,7 @@ func (rH RouterHandler) blogPost(c *gin.Context) {
 		c.Status(http.StatusBadRequest)
 		return
 	}
+	fmt.Println(req.Blog.Title, req.Blog.Body)
 
 	useCase := usecases.CreateBlogUseCase{
 		OutputPort: json.NewPresenter(presenters.New(c)),
@@ -33,7 +35,7 @@ func (rH RouterHandler) blogPost(c *gin.Context) {
 	}
 
 	useCase.BlogCreate(usecases.CreateBlogParams{
-		Title: *req.Blog.Title,
-		Body:  *req.Blog.Body,
+		Title: req.Blog.Title,
+		Body:  req.Blog.Body,
 	})
 }

@@ -11,13 +11,13 @@ type Driver struct {
 	DBTransaction   domains.DBTransactionRepository
 }
 
-func NewDriver(driver Driver) Driver {
+func NewDriver(drivers Driver) Driver {
 	return Driver{
-		Logger:          driver.Logger,
-		Presenter:       driver.Presenter,
-		BlogDao:         driver.BlogDao,
-		UserDao:         driver.UserDao,
-		FirebaseHandler: driver.FirebaseHandler,
-		DBTransaction:   driver.DBTransaction,
+		Logger:          drivers.Logger,
+		Presenter:       drivers.Presenter,
+		BlogDao:         drivers.BlogDao,
+		UserDao:         drivers.UserDao,
+		FirebaseHandler: drivers.FirebaseHandler,
+		DBTransaction:   drivers.DBTransaction,
 	}
 }

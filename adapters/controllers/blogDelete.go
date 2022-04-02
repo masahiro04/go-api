@@ -6,28 +6,25 @@ import (
 
 	"go-api/adapters/presenters"
 	"go-api/adapters/presenters/json"
-	"go-api/domains"
-	"go-api/usecases"
+	"go-api/domains/usecases"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
-func blogDelete(ctx *gin.Context, logger domains.Logger, db *gorm.DB) {
-	// log := rH.log(rH.MethodAndPath(c))
+func (rH RouterHandler) blogDelete(c *gin.Context) {
+	log := rH.log(rH.MethodAndPath(c))
 
-	id, err := strconv.Atoi(ctx.Param("id"))
+	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		// log(err)
-		ctx.Status(http.StatusBadRequest)
+		log(err)
+		c.Status(http.StatusBadRequest)
 		return
 	}
 
 	useCase := usecases.DeleteBlogUseCase{
-		OutputPort: json.NewPresenter(presenters.New(ctx)),
-		InputPort: usecases.DeleteBlogParams{
-			Id: id,
-		},
+		OutputPort: json.NewPresenter(presenters.New(c)),
+		BlogDao:    rH.driver.BlogDao,
 	}
-	usecases.BlogDelete(useCase)
+
+	useCase.BlogDelete(usecases.DeleteBlogParams{Id: id})
 }

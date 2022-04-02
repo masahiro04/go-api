@@ -2,15 +2,17 @@ package usecases
 
 import (
 	"go-api/domains"
-
-	"go-api/domains/user"
+	"go-api/domains/models"
+	"go-api/domains/models/user"
 
 	"gorm.io/gorm"
 )
 
 type SignUpUseCase struct {
-	OutputPort PresenterRepository
-	InputPort  SignUpParams
+	OutputPort      domains.PresenterRepository
+	UserDao         domains.UserRepository
+	DBTransaction   domains.DBTransactionRepository
+	FirebaseHandler domains.FirebaseHandlerRepository
 }
 
 type SignUpParams struct {
@@ -19,48 +21,48 @@ type SignUpParams struct {
 	Password string
 }
 
-func (rp Repository) SignUp(uc SignUpUseCase) {
+func (uc SignUpUseCase) SignUp(params SignUpParams) {
 	// var err error
-	var createdUser domains.User
+	var createdUser models.User
 
-	name, err := user.NewName(uc.InputPort.Name)
+	name, err := user.NewName(params.Name)
 	if err != nil {
-		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 
-	email, err := user.NewEmail(uc.InputPort.Email)
+	email, err := user.NewEmail(params.Email)
 	if err != nil {
-		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 
-	password, err := user.NewPassword(uc.InputPort.Password)
+	password, err := user.NewPassword(params.Password)
 	if err != nil {
-		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 
 	dummyUUID, err := user.NewUUID("dummy")
-	u := domains.NewUser(dummyUUID, name, email, password)
+	u := models.NewUser(dummyUUID, name, email, password)
 	// uuId, err := i.firebaseHandler.CreateUser(user)
 
-	err = rp.dbTransaction.WithTx(func(tx *gorm.DB) error {
-		uuid, err := rp.firebaseHandler.CreateUser(u)
+	err = uc.DBTransaction.WithTx(func(tx *gorm.DB) error {
+		uuid, err := uc.FirebaseHandler.CreateUser(u)
 		if err != nil {
-			rp.logger.Log(err)
+			// rp.logger.Log(err)
 			return err
 		}
 
 		newUUID, err := user.NewUUID(*uuid)
 		u.UUID = newUUID
 
-		usr, err := rp.userDao.CreateTx(u, tx)
+		usr, err := uc.UserDao.CreateTx(u, tx)
 		createdUser = *usr
 		if err != nil {
 			if rollbackErr := tx.Rollback().Error; rollbackErr != nil {
-				if err = rp.firebaseHandler.DeleteUser(createdUser.UUID.Value); err != nil {
-					rp.logger.Log(err)
+				if err = uc.FirebaseHandler.DeleteUser(createdUser.UUID.Value); err != nil {
+					// rp.logger.Log(err)
 				}
 			}
 			return err
@@ -91,7 +93,7 @@ func (rp Repository) SignUp(uc SignUpUseCase) {
 	// 	return
 	// }
 	if err != nil {
-		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 	uc.OutputPort.CreateSignUp(&createdUser)

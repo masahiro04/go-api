@@ -1,8 +1,6 @@
 package json
 
-import (
-	"go-api/domains"
-)
+import "go-api/domains/models"
 
 type getBlogResponse struct {
 	Blog getBlogResponseItem `json:"response"`
@@ -16,17 +14,17 @@ type getBlogResponseItem struct {
 	UpdatedAt interface{} `json:"updatedAt"`
 }
 
-func (presenter ResponsePresenter) GetBlog(blog *domains.Blog) {
+func (presenter ResponsePresenter) GetBlog(blog *models.Blog) {
 	response := getBlogResponse{Blog: BlogItem(blog)}
 	presenter.Presenter.StatusOK(response)
 }
 
-func (presenter ResponsePresenter) CreateBlog(blog *domains.Blog) {
+func (presenter ResponsePresenter) CreateBlog(blog *models.Blog) {
 	response := getBlogResponse{Blog: BlogItem(blog)}
 	presenter.Presenter.Created(response)
 }
 
-func BlogItem(blog *domains.Blog) getBlogResponseItem {
+func BlogItem(blog *models.Blog) getBlogResponseItem {
 	return getBlogResponseItem{
 		Id:        blog.ID.Value,
 		Title:     blog.Title.Value,

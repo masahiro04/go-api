@@ -3,7 +3,7 @@ package json
 import (
 	"go-api/adapters/presenters"
 	"go-api/domains"
-	uc "go-api/usecases"
+	"go-api/domains/models"
 )
 
 const dateLayout = "2006-01-02T15:04:05.999Z"
@@ -12,21 +12,21 @@ type ResponsePresenter struct {
 	Presenter *presenters.GinPresenter
 }
 
-func NewPresenter(presenter *presenters.GinPresenter) uc.Presenter {
+func NewPresenter(presenter *presenters.GinPresenter) domains.PresenterRepository {
 	return &ResponsePresenter{Presenter: presenter}
 }
 
-func (presenter ResponsePresenter) Raise(errorKind domains.ErrorKinds, err error) {
+func (presenter ResponsePresenter) Raise(errorKind models.ErrorKinds, err error) {
 	switch errorKind {
-	case domains.BadRequest:
+	case models.BadRequest:
 		presenter.Presenter.BadRequest(err)
-	case domains.UnprocessableEntity:
+	case models.UnprocessableEntity:
 		presenter.Presenter.UnprocessableEntity(err)
-	case domains.NotFound:
+	case models.NotFound:
 		presenter.Presenter.NotFound(err)
-	case domains.InternalServerError:
+	case models.InternalServerError:
 		presenter.Presenter.InternalServerError(err)
-	case domains.Unauthorized:
+	case models.Unauthorized:
 		presenter.Presenter.Unauthorized(err)
 	default:
 		presenter.Presenter.BadRequest(err)

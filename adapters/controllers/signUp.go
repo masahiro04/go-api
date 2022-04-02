@@ -5,7 +5,7 @@ import (
 
 	"go-api/adapters/presenters"
 	"go-api/adapters/presenters/json"
-	uc "go-api/usecases"
+	"go-api/domains/usecases"
 
 	"github.com/gin-gonic/gin"
 )
@@ -26,45 +26,15 @@ func (rH RouterHandler) signUp(c *gin.Context) {
 		return
 	}
 
-	params := uc.SignUpUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c)),
-		InputPort: uc.SignUpParams{
-			Name:     req.Name,
-			Email:    req.Email,
-			Password: *req.Password,
-		},
+	useCase := usecases.SignUpUseCase{
+		OutputPort:      json.NewPresenter(presenters.New(c)),
+		UserDao:         rH.driver.UserDao,
+		DBTransaction:   rH.driver.DBTransaction,
+		FirebaseHandler: rH.driver.FirebaseHandler,
 	}
-
-	rH.ucHandler.SignUp(params)
+	useCase.SignUp(usecases.SignUpParams{
+		Name:     req.Name,
+		Email:    req.Email,
+		Password: *req.Password,
+	})
 }
-
-// import (
-// 	"net/http"
-// 	"strconv"
-//
-// 	"go-api/adapters/presenters"
-// 	"go-api/adapters/presenters/json"
-// 	uc "go-api/usecases"
-//
-// 	"github.com/gin-gonic/gin"
-// )
-//
-// func (rH RouterHandler) userDelete(c *gin.Context) {
-// 	log := rH.log(rH.MethodAndPath(c))
-//
-// 	id, err := strconv.Atoi(c.Param("id"))
-// 	if err != nil {
-// 		log(err)
-// 		c.Status(http.StatusBadRequest)
-// 		return
-// 	}
-//
-// 	useCase := uc.DeleteUserUseCase{
-// 		OutputPort: json.NewPresenter(presenters.New(c)),
-// 		InputPort: uc.DeleteUserParams{
-// 			ID: id,
-// 		},
-// 	}
-// 	rH.ucHandler.UserDelete(useCase)
-// }
-//

@@ -2,11 +2,12 @@ package usecases
 
 import (
 	"go-api/domains"
+	"go-api/domains/models"
 )
 
 type GetUsersUseCase struct {
-	OutputPort PresenterRepository
-	InputPort  GetUsersParams
+	OutputPort domains.PresenterRepository
+	UserDao    domains.UserRepository
 }
 
 type GetUsersParams struct {
@@ -14,14 +15,14 @@ type GetUsersParams struct {
 	Offset int
 }
 
-func (rp Repository) UserGetAll(uc GetUsersUseCase) {
-	users, err := rp.userDao.GetAll()
+func (uc GetUsersUseCase) UserGetAll(params GetUsersParams) {
+	users, err := uc.UserDao.GetAll()
 	if err != nil {
-		uc.OutputPort.Raise(domains.BadRequest, err)
+		uc.OutputPort.Raise(models.BadRequest, err)
 		return
 	}
 
-	users.ApplyLimitAndOffset(uc.InputPort.Limit, uc.InputPort.Offset)
+	users.ApplyLimitAndOffset(params.Limit, params.Offset)
 
 	uc.OutputPort.GetUsers(users)
 

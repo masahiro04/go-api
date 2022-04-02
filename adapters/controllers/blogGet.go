@@ -4,10 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	uc "go-api/usecases"
-
 	"go-api/adapters/presenters"
 	"go-api/adapters/presenters/json"
+	"go-api/domains/usecases"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,9 +21,9 @@ func (rH RouterHandler) blogGet(c *gin.Context) {
 		return
 	}
 
-	useCase := uc.GetBlogUseCase{
+	useCase := usecases.GetBlogUseCase{
 		OutputPort: json.NewPresenter(presenters.New(c)),
-		InputPort:  uc.GetBlogParams{Id: id},
+		BlogDao:    rH.driver.BlogDao,
 	}
-	rH.ucHandler.BlogGet(useCase)
+	useCase.BlogGet(usecases.GetBlogParams{Id: id})
 }

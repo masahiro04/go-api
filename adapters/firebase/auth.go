@@ -3,13 +3,13 @@ package firebase
 import (
 	"context"
 	"fmt"
+	"go-api/domains/models"
 	"log"
 	"time"
 
 	"github.com/spf13/viper"
 
 	"go-api/domains"
-	uc "go-api/usecases"
 
 	"firebase.google.com/go/auth"
 )
@@ -32,7 +32,7 @@ type tokenHandler struct {
 	client firebaseClient
 }
 
-func New(client firebaseClient) uc.FirebaseHandler {
+func New(client firebaseClient) domains.FirebaseHandlerRepository {
 	return tokenHandler{client}
 }
 
@@ -44,7 +44,7 @@ func (tH tokenHandler) VerifyIDToken(idToken string) (token *auth.Token, err err
 	return token, nil
 }
 
-// func (tH tokenHandler) GetUser(uuId string) (user *domains.User, err error) {
+// func (tH tokenHandler) GetUser(uuId string) (user *models.User, err error) {
 // 	firebaseUser, err := tH.client.GetUser(context.Background(), uuId)
 // 	if err != nil {
 // 		return nil, err
@@ -57,7 +57,7 @@ func (tH tokenHandler) VerifyIDToken(idToken string) (token *auth.Token, err err
 // 	return user, nil
 // }
 
-func (tH tokenHandler) CreateUser(user domains.User) (uuId *string, err error) {
+func (tH tokenHandler) CreateUser(user models.User) (uuId *string, err error) {
 	params := (&auth.UserToCreate{}).
 		Email(user.Email.Value).
 		// EmailSignInLinkを実現するにはこちらが必須

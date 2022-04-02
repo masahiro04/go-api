@@ -2,20 +2,21 @@ package usecases
 
 import (
 	"go-api/domains"
+	"go-api/domains/models"
 )
 
 type DeleteUserUseCase struct {
-	OutputPort PresenterRepository
-	InputPort  DeleteUserParams
+	OutputPort domains.PresenterRepository
+	UserDao    domains.UserRepository
 }
 
 type DeleteUserParams struct {
 	ID int
 }
 
-func (rp Repository) UserDelete(uc DeleteUserUseCase) {
-	if err := rp.userDao.Delete(uc.InputPort.ID); err != nil {
-		uc.OutputPort.Raise(domains.BadRequest, err)
+func (uc DeleteUserUseCase) UserDelete(params DeleteUserParams) {
+	if err := uc.UserDao.Delete(params.ID); err != nil {
+		uc.OutputPort.Raise(models.BadRequest, err)
 		return
 	}
 }

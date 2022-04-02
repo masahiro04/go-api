@@ -1,9 +1,8 @@
 package loggers
 
 import (
+	"go-api/domains"
 	"log"
-
-	uc "go-api/usecases"
 
 	"github.com/sirupsen/logrus"
 )
@@ -17,7 +16,7 @@ type CredentialsGetter interface {
 	GetCredentials() string
 }
 
-func NewLogger(env, logLevel, logFormat string) uc.Logger {
+func NewLogger(env, logLevel, logFormat string) domains.LoggerRepository {
 	logger := logrus.New()
 	l, err := logrus.ParseLevel(logLevel)
 	if err != nil {

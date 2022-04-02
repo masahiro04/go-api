@@ -6,7 +6,7 @@ import (
 
 	"go-api/adapters/presenters"
 	"go-api/adapters/presenters/json"
-	uc "go-api/usecases"
+	"go-api/domains/usecases"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,14 +28,14 @@ func (rH RouterHandler) blogPatch(c *gin.Context) {
 		return
 	}
 
-	useCase := uc.EditBlogUseCase{
+	useCase := usecases.EditBlogUseCase{
 		OutputPort: json.NewPresenter(presenters.New(c)),
-		InputPort: uc.EditBlogParams{
-			Id:    id,
-			Title: *req.Blog.Title,
-			Body:  *req.Blog.Body,
-		},
+		BlogDao:    rH.driver.BlogDao,
 	}
-	rH.ucHandler.BlogEdit(useCase)
+	useCase.BlogEdit(usecases.EditBlogParams{
+		Id:    id,
+		Title: *req.Blog.Title,
+		Body:  *req.Blog.Body,
+	})
 
 }

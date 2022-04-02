@@ -2,26 +2,27 @@ package usecases
 
 import (
 	"go-api/domains"
+	"go-api/domains/models"
 )
 
 type GetBlogUseCase struct {
-	OutputPort PresenterRepository
-	InputPort  GetBlogParams
+	OutputPort domains.PresenterRepository
+	BlogDao    domains.BlogRepository
 }
 
 type GetBlogParams struct {
 	Id int
 }
 
-func (rp Repository) BlogGet(uc GetBlogUseCase) {
-	blog, err := rp.blogDao.GetById(uc.InputPort.Id)
+func (uc GetBlogUseCase) BlogGet(params GetBlogParams) {
+	blog, err := uc.BlogDao.GetById(params.Id)
 	if err != nil {
-		uc.OutputPort.Raise(domains.BadRequest, err)
+		uc.OutputPort.Raise(models.BadRequest, err)
 		return
 	}
 
 	if blog == nil {
-		uc.OutputPort.Raise(domains.NotFound, errNotFound)
+		uc.OutputPort.Raise(models.NotFound, errNotFound)
 		return
 	}
 

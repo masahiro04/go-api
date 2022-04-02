@@ -2,6 +2,7 @@ package blogDao
 
 import (
 	"errors"
+	"fmt"
 	"go-api/domains/models"
 	"go-api/domains/models/blog"
 
@@ -13,6 +14,8 @@ type rw struct {
 }
 
 func New(db *gorm.DB) *rw {
+
+	fmt.Println("initialized BlogNew RW")
 	return &rw{
 		db: db,
 	}
@@ -31,6 +34,7 @@ func (BlogDto) TableName() string {
 }
 
 func (rw rw) GetAll() (*models.Blogs, error) {
+	fmt.Println("hogehoge")
 	var dtos []BlogDto
 	rw.db.Find(&dtos)
 	var blogs []models.Blog

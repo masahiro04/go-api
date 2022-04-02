@@ -17,7 +17,7 @@ type BlogRequest struct {
 	} `json:"blog" binding:"required"`
 }
 
-func blogPost(ctx *gin.Context, db domains.) {
+func (rH RouterHandler) blogPost(c *gin.Context) {
 	log := rH.log(rH.MethodAndPath(c))
 	req := &BlogRequest{}
 
@@ -29,12 +29,11 @@ func blogPost(ctx *gin.Context, db domains.) {
 
 	useCase := usecases.CreateBlogUseCase{
 		OutputPort: json.NewPresenter(presenters.New(c)),
-		InputPort: usecases.CreateBlogParams{
-			Title: *req.Blog.Title,
-			Body:  *req.Blog.Body,
-			BlogDao: 
-		},
+		BlogDao:    rH.driver.BlogDao,
 	}
 
-	rH.ucHandler.BlogCreate(useCase)
+	useCase.BlogCreate(usecases.CreateBlogParams{
+		Title: *req.Blog.Title,
+		Body:  *req.Blog.Body,
+	})
 }

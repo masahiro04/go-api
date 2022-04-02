@@ -4,10 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	uc "go-api/usecases"
-
 	"go-api/adapters/presenters"
 	"go-api/adapters/presenters/json"
+	"go-api/domains/usecases"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,9 +21,9 @@ func (rH RouterHandler) userGet(c *gin.Context) {
 		return
 	}
 
-	useCase := uc.GetUserUseCase{
+	useCase := usecases.GetUserUseCase{
 		OutputPort: json.NewPresenter(presenters.New(c)),
-		InputPort:  uc.GetUserParams{ID: id},
+		UserDao:    rH.driver.UserDao,
 	}
-	rH.ucHandler.UserGet(useCase)
+	useCase.UserGet(usecases.GetUserParams{ID: id})
 }

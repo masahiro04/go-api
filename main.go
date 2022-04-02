@@ -10,20 +10,19 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
+	"go-api/adapters"
 	"go-api/adapters/controllers"
 	"go-api/adapters/dao/blogDao"
 	"go-api/adapters/dao/tx"
 	"go-api/adapters/dao/userDao"
 	"go-api/adapters/firebase"
 	"go-api/adapters/loggers"
-	"go-api/domains"
 
 	_ "github.com/lib/pq"
 
 	"fmt"
 
 	infra "go-api/infrastructure"
-	uc "go-api/usecases"
 
 	migrate "github.com/rubenv/sql-migrate"
 	"github.com/sirupsen/logrus"
@@ -139,27 +138,18 @@ func run() {
 		viper.GetString("log.format"),
 	)
 
-	repo := domains.Repository{
-		Logger:          routerLogger,
-		BlogDao:         blogDao.New(db),
-		UserDao:         userDao.New(db),
-		FirebaseHandler: firebaseHandler,
-		DBTransaction:   tx.New(db),
-		// Validator: validator.New(),
-	}
-
-	controllers.NewRouterWithLogger(
-		uc.HandlerConstructor{
+	driver := adapters.NewDriver(
+		adapters.Driver{
 			Logger:          routerLogger,
 			BlogDao:         blogDao.New(db),
 			UserDao:         userDao.New(db),
 			FirebaseHandler: firebaseHandler,
+			DBTransaction:   tx.New(db),
 			// Validator: validator.New(),
-			DBTransaction: tx.New(db),
-		}.New(),
-		firebaseHandler,
-		routerLogger,
-	).SetRoutes(ginServer.Router)
+		},
+	)
+
+	controllers.NewRouter(driver).SetRoutes(ginServer.Router)
 
 	ginServer.Start()
 }

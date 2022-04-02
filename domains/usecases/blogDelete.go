@@ -2,20 +2,21 @@ package usecases
 
 import (
 	"go-api/domains"
+	"go-api/domains/models"
 )
 
 type DeleteBlogUseCase struct {
-	OutputPort PresenterRepository
-	InputPort  DeleteBlogParams
+	OutputPort domains.PresenterRepository
+	BlogDao    domains.BlogRepository
 }
 
 type DeleteBlogParams struct {
 	Id int
 }
 
-func (rp Repository) BlogDelete(uc DeleteBlogUseCase) {
-	if err := rp.blogDao.Delete(uc.InputPort.Id); err != nil {
-		uc.OutputPort.Raise(domains.BadRequest, err)
+func (uc DeleteBlogUseCase) BlogDelete(params DeleteBlogParams) {
+	if err := uc.BlogDao.Delete(params.Id); err != nil {
+		uc.OutputPort.Raise(models.BadRequest, err)
 		return
 	}
 }

@@ -5,7 +5,7 @@ import (
 
 	"go-api/adapters/presenters"
 	"go-api/adapters/presenters/json"
-	uc "go-api/usecases"
+	"go-api/domains/usecases"
 
 	"github.com/gin-gonic/gin"
 )
@@ -27,13 +27,13 @@ func (rH RouterHandler) userPost(c *gin.Context) {
 		return
 	}
 
-	useCase := uc.CreateUserUseCase{
+	useCase := usecases.CreateUserUseCase{
 		OutputPort: json.NewPresenter(presenters.New(c)),
-		InputPort: uc.CreateUserParams{
-			Name:  *req.User.Name,
-			Email: *req.User.Email,
-		},
+		UserDao:    rH.driver.UserDao,
 	}
 
-	rH.ucHandler.UserCreate(useCase)
+	useCase.UserCreate(usecases.CreateUserParams{
+		Name:  *req.User.Name,
+		Email: *req.User.Email,
+	})
 }

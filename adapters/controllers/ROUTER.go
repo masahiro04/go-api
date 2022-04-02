@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"fmt"
-	uc "go-api/usecases"
+	"go-api/adapters"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/render"
@@ -11,27 +11,23 @@ import (
 // driverという名前でも良いかもj
 // Repositoryを返すプログラムでも良さそう
 type RouterHandler struct {
-	ucHandler       uc.Handler
-	firebaseHandler uc.FirebaseHandler
-	Logger          uc.Logger
+	driver adapters.Driver
 }
 
-func NewRouter(
-	i uc.Handler, fb uc.FirebaseHandler) RouterHandler {
+func NewRouter(driver adapters.Driver) RouterHandler {
 	return RouterHandler{
-		ucHandler:       i,
-		firebaseHandler: fb,
+		driver: driver,
 	}
 }
 
-func NewRouterWithLogger(
-	i uc.Handler, fb uc.FirebaseHandler, logger uc.Logger) RouterHandler {
-	return RouterHandler{
-		ucHandler:       i,
-		firebaseHandler: fb,
-		Logger:          logger,
-	}
-}
+// func NewRouterWithLogger(
+// 	i uc.Handler, fb uc.FirebaseHandler, logger uc.Logger) RouterHandler {
+// 	return RouterHandler{
+// 		ucHandler:       i,
+// 		firebaseHandler: fb,
+// 		Logger:          logger,
+// 	}
+// }
 
 func (rH RouterHandler) SetRoutes(r *gin.Engine) {
 	api := r.Group("/api")
@@ -95,7 +91,7 @@ func (rH RouterHandler) errorCatcher() gin.HandlerFunc {
 // so we can see in the logs from which route the log comes from
 func (rH RouterHandler) log(title string) func(...interface{}) {
 	return func(logs ...interface{}) {
-		rH.Logger.Log(title, logs)
+		// rH.Logger.Log(title, logs)
 	}
 }
 

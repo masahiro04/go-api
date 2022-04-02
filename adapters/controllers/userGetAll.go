@@ -5,7 +5,7 @@ import (
 
 	"go-api/adapters/presenters"
 	"go-api/adapters/presenters/json"
-	uc "go-api/usecases"
+	"go-api/domains/usecases"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,10 +24,10 @@ func (rH RouterHandler) userGetAll(c *gin.Context) {
 		offset = defaultOffset
 	}
 
-	useCase := uc.GetUsersUseCase{
+	useCase := usecases.GetUsersUseCase{
 		OutputPort: json.NewPresenter(presenters.New(c)),
-		InputPort:  uc.GetUsersParams{Limit: limit, Offset: offset},
+		UserDao:    rH.driver.UserDao,
 	}
 
-	rH.ucHandler.UserGetAll(useCase)
+	useCase.UserGetAll(usecases.GetUsersParams{Limit: limit, Offset: offset})
 }

@@ -6,7 +6,7 @@ import (
 
 	"go-api/adapters/presenters"
 	"go-api/adapters/presenters/json"
-	uc "go-api/usecases"
+	"go-api/domains/usecases"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,11 +21,11 @@ func (rH RouterHandler) userDelete(c *gin.Context) {
 		return
 	}
 
-	useCase := uc.DeleteUserUseCase{
+	useCase := usecases.DeleteUserUseCase{
 		OutputPort: json.NewPresenter(presenters.New(c)),
-		InputPort: uc.DeleteUserParams{
-			ID: id,
-		},
+		UserDao:    rH.driver.UserDao,
 	}
-	rH.ucHandler.UserDelete(useCase)
+	useCase.UserDelete(usecases.DeleteUserParams{
+		ID: id,
+	})
 }

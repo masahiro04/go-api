@@ -2,12 +2,13 @@ package usecases
 
 import (
 	"go-api/domains"
-	"go-api/domains/user"
+	"go-api/domains/models"
+	"go-api/domains/models/user"
 )
 
 type CreateUserUseCase struct {
-	OutputPort PresenterRepository
-	InputPort  CreateUserParams
+	OutputPort domains.PresenterRepository
+	UserDao    domains.UserRepository
 }
 
 type CreateUserParams struct {
@@ -16,35 +17,35 @@ type CreateUserParams struct {
 	Password string
 }
 
-func (rp Repository) UserCreate(uc CreateUserUseCase) {
-	name, err := user.NewName(uc.InputPort.Name)
+func (uc CreateUserUseCase) UserCreate(params CreateUserParams) {
+	name, err := user.NewName(params.Name)
 	if err != nil {
-		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 	uuid, err := user.NewUUID("dummy")
 	if err != nil {
-		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 
-	email, err := user.NewEmail(uc.InputPort.Email)
+	email, err := user.NewEmail(params.Email)
 	if err != nil {
-		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 
-	password, err := user.NewPassword(uc.InputPort.Password)
+	password, err := user.NewPassword(params.Password)
 	if err != nil {
-		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 
-	newUser := domains.NewUser(uuid, name, email, password)
+	newUser := models.NewUser(uuid, name, email, password)
 
-	createdUser, err := rp.userDao.Create(newUser)
+	createdUser, err := uc.UserDao.Create(newUser)
 	if err != nil {
-		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 

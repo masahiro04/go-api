@@ -2,26 +2,27 @@ package usecases
 
 import (
 	"go-api/domains"
+	"go-api/domains/models"
 )
 
 type GetUserUseCase struct {
-	OutputPort PresenterRepository
-	InputPort  GetUserParams
+	OutputPort domains.PresenterRepository
+	UserDao    domains.UserRepository
 }
 
 type GetUserParams struct {
 	ID int
 }
 
-func (rp Repository) UserGet(uc GetUserUseCase) {
-	user, err := rp.userDao.GetById(uc.InputPort.ID)
+func (uc GetUserUseCase) UserGet(params GetUserParams) {
+	user, err := uc.UserDao.GetById(params.ID)
 	if err != nil {
-		uc.OutputPort.Raise(domains.BadRequest, err)
+		uc.OutputPort.Raise(models.BadRequest, err)
 		return
 	}
 
 	if user == nil {
-		uc.OutputPort.Raise(domains.NotFound, errNotFound)
+		uc.OutputPort.Raise(models.NotFound, errNotFound)
 		return
 	}
 

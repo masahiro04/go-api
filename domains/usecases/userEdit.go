@@ -2,12 +2,13 @@ package usecases
 
 import (
 	"go-api/domains"
-	userModel "go-api/domains/user"
+	"go-api/domains/models"
+	"go-api/domains/models/user"
 )
 
 type EditUserUseCase struct {
-	OutputPort PresenterRepository
-	InputPort  EditUserParams
+	OutputPort domains.PresenterRepository
+	UserDao    domains.UserRepository
 }
 
 type EditUserParams struct {
@@ -16,46 +17,43 @@ type EditUserParams struct {
 	Email string
 }
 
-func (rp Repository) UserEdit(uc EditUserUseCase) {
-	var user *domains.User
-	var err error
-
-	user, err = rp.userDao.GetById(uc.InputPort.ID)
+func (uc EditUserUseCase) UserEdit(params EditUserParams) {
+	newUser, err := uc.UserDao.GetById(params.ID)
 	if err != nil {
-		uc.OutputPort.Raise(domains.BadRequest, err)
+		uc.OutputPort.Raise(models.BadRequest, err)
 		return
 	}
 
-	if user == nil {
-		uc.OutputPort.Raise(domains.NotFound, errNotFound)
+	if newUser == nil {
+		uc.OutputPort.Raise(models.NotFound, errNotFound)
 		return
 	}
 
 	// NOTE(okubo): input portで検索している -> どう考えてもerrは起きない
-	id, _ := userModel.NewId(uc.InputPort.ID)
-	uuid, err := userModel.NewUUID(user.UUID.Value)
+	id, _ := user.NewId(params.ID)
+	uuid, err := user.NewUUID(newUser.UUID.Value)
 	if err != nil {
-		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 
-	name, err := userModel.UpdateName(&uc.InputPort.Name)
+	name, err := user.UpdateName(&params.Name)
 	if err != nil {
-		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 
-	email, err := userModel.UpdateEmail(&uc.InputPort.Email)
+	email, err := user.UpdateEmail(&params.Email)
 	if err != nil {
-		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 
-	updatedUser, err := rp.userDao.Update(
-		uc.InputPort.ID, domains.BuildUser(id, uuid, *name, *email, user.CreatedAt, user.UpdatedAt),
+	updatedUser, err := uc.UserDao.Update(
+		params.ID, models.BuildUser(id, uuid, *name, *email, newUser.CreatedAt, newUser.UpdatedAt),
 	)
 	if err != nil {
-		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 

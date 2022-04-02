@@ -1,13 +1,15 @@
 package usecases
 
 import (
+	"errors"
 	"go-api/domains"
-	blog2 "go-api/domains/blog"
+	"go-api/domains/models"
+	"go-api/domains/models/blog"
 )
 
 type EditBlogUseCase struct {
-	OutputPort PresenterRepository
-	InputPort  EditBlogParams
+	OutputPort domains.PresenterRepository
+	BlogDao    domains.BlogRepository
 }
 
 type EditBlogParams struct {
@@ -16,41 +18,41 @@ type EditBlogParams struct {
 	Body  string
 }
 
-func (rp Repository) BlogEdit(uc EditBlogUseCase) {
-	var blog *domains.Blog
+func (uc EditBlogUseCase) BlogEdit(params EditBlogParams) {
+	var newBlog *models.Blog
 	var err error
 
-	blog, err = rp.blogDao.GetById(uc.InputPort.Id)
+	newBlog, err = uc.BlogDao.GetById(params.Id)
 	if err != nil {
-		uc.OutputPort.Raise(domains.BadRequest, err)
+		uc.OutputPort.Raise(models.BadRequest, err)
 		return
 	}
 
-	if blog == nil {
-		uc.OutputPort.Raise(domains.NotFound, errNotFound)
+	if newBlog == nil {
+		uc.OutputPort.Raise(models.NotFound, errors.New("note found"))
 		return
 	}
 
 	// NOTE(okubo): input portで検索している -> どう考えてもerrは起きない
-	id, _ := blog2.NewId(uc.InputPort.Id)
+	id, _ := blog.NewId(params.Id)
 
-	title, err := blog2.UpdateTitle(&uc.InputPort.Title)
+	title, err := blog.UpdateTitle(&params.Title)
 	if err != nil {
-		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 
-	body, err := blog2.UpdateBody(&uc.InputPort.Body)
+	body, err := blog.UpdateBody(&params.Body)
 	if err != nil {
-		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 
-	updatedBlog, err := rp.blogDao.Update(
-		uc.InputPort.Id, domains.BuildBlog(id, *title, *body, blog.CreatedAt, blog.UpdatedAt),
+	updatedBlog, err := uc.BlogDao.Update(
+		params.Id, models.BuildBlog(id, *title, *body, newBlog.CreatedAt, newBlog.UpdatedAt),
 	)
 	if err != nil {
-		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
+		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 

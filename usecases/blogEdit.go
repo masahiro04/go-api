@@ -6,7 +6,7 @@ import (
 )
 
 type EditBlogUseCase struct {
-	OutputPort Presenter
+	OutputPort PresenterRepository
 	InputPort  EditBlogParams
 }
 
@@ -16,11 +16,11 @@ type EditBlogParams struct {
 	Body  string
 }
 
-func (i interactor) BlogEdit(uc EditBlogUseCase) {
+func (rp Repository) BlogEdit(uc EditBlogUseCase) {
 	var blog *domains.Blog
 	var err error
 
-	blog, err = i.blogDao.GetById(uc.InputPort.Id)
+	blog, err = rp.blogDao.GetById(uc.InputPort.Id)
 	if err != nil {
 		uc.OutputPort.Raise(domains.BadRequest, err)
 		return
@@ -46,7 +46,7 @@ func (i interactor) BlogEdit(uc EditBlogUseCase) {
 		return
 	}
 
-	updatedBlog, err := i.blogDao.Update(
+	updatedBlog, err := rp.blogDao.Update(
 		uc.InputPort.Id, domains.BuildBlog(id, *title, *body, blog.CreatedAt, blog.UpdatedAt),
 	)
 	if err != nil {

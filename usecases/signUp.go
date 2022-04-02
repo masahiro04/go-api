@@ -9,7 +9,7 @@ import (
 )
 
 type SignUpUseCase struct {
-	OutputPort Presenter
+	OutputPort PresenterRepository
 	InputPort  SignUpParams
 }
 
@@ -19,7 +19,7 @@ type SignUpParams struct {
 	Password string
 }
 
-func (i interactor) SignUp(uc SignUpUseCase) {
+func (rp Repository) SignUp(uc SignUpUseCase) {
 	// var err error
 	var createdUser domains.User
 
@@ -45,22 +45,22 @@ func (i interactor) SignUp(uc SignUpUseCase) {
 	u := domains.NewUser(dummyUUID, name, email, password)
 	// uuId, err := i.firebaseHandler.CreateUser(user)
 
-	err = i.dbTransaction.WithTx(func(tx *gorm.DB) error {
-		uuid, err := i.firebaseHandler.CreateUser(u)
+	err = rp.dbTransaction.WithTx(func(tx *gorm.DB) error {
+		uuid, err := rp.firebaseHandler.CreateUser(u)
 		if err != nil {
-			i.logger.Log(err)
+			rp.logger.Log(err)
 			return err
 		}
 
 		newUUID, err := user.NewUUID(*uuid)
 		u.UUID = newUUID
 
-		usr, err := i.userDao.CreateTx(u, tx)
+		usr, err := rp.userDao.CreateTx(u, tx)
 		createdUser = *usr
 		if err != nil {
 			if rollbackErr := tx.Rollback().Error; rollbackErr != nil {
-				if err = i.firebaseHandler.DeleteUser(createdUser.UUID.Value); err != nil {
-					i.logger.Log(err)
+				if err = rp.firebaseHandler.DeleteUser(createdUser.UUID.Value); err != nil {
+					rp.logger.Log(err)
 				}
 			}
 			return err

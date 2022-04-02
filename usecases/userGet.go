@@ -5,7 +5,7 @@ import (
 )
 
 type GetUserUseCase struct {
-	OutputPort Presenter
+	OutputPort PresenterRepository
 	InputPort  GetUserParams
 }
 
@@ -13,8 +13,8 @@ type GetUserParams struct {
 	ID int
 }
 
-func (i interactor) UserGet(uc GetUserUseCase) {
-	user, err := i.userDao.GetById(uc.InputPort.ID)
+func (rp Repository) UserGet(uc GetUserUseCase) {
+	user, err := rp.userDao.GetById(uc.InputPort.ID)
 	if err != nil {
 		uc.OutputPort.Raise(domains.BadRequest, err)
 		return

@@ -6,7 +6,7 @@ import (
 )
 
 type CreateBlogUseCase struct {
-	OutputPort Presenter
+	OutputPort PresenterRepository
 	InputPort  CreateBlogParams
 }
 
@@ -15,7 +15,7 @@ type CreateBlogParams struct {
 	Body  string
 }
 
-func (i interactor) BlogCreate(uc CreateBlogUseCase) {
+func (rp Repository) BlogCreate(uc CreateBlogUseCase) {
 	title, err := blog.NewTitle(uc.InputPort.Title)
 	if err != nil {
 		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
@@ -30,7 +30,7 @@ func (i interactor) BlogCreate(uc CreateBlogUseCase) {
 
 	newBlog := domains.NewBlog(title, body)
 
-	createdBlog, err := i.blogDao.Create(newBlog)
+	createdBlog, err := rp.blogDao.Create(newBlog)
 	if err != nil {
 		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
 		return

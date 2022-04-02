@@ -6,7 +6,7 @@ import (
 )
 
 type CreateUserUseCase struct {
-	OutputPort Presenter
+	OutputPort PresenterRepository
 	InputPort  CreateUserParams
 }
 
@@ -16,7 +16,7 @@ type CreateUserParams struct {
 	Password string
 }
 
-func (i interactor) UserCreate(uc CreateUserUseCase) {
+func (rp Repository) UserCreate(uc CreateUserUseCase) {
 	name, err := user.NewName(uc.InputPort.Name)
 	if err != nil {
 		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
@@ -42,7 +42,7 @@ func (i interactor) UserCreate(uc CreateUserUseCase) {
 
 	newUser := domains.NewUser(uuid, name, email, password)
 
-	createdUser, err := i.userDao.Create(newUser)
+	createdUser, err := rp.userDao.Create(newUser)
 	if err != nil {
 		uc.OutputPort.Raise(domains.UnprocessableEntity, err)
 		return

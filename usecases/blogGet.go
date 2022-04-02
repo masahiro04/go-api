@@ -5,7 +5,7 @@ import (
 )
 
 type GetBlogUseCase struct {
-	OutputPort Presenter
+	OutputPort PresenterRepository
 	InputPort  GetBlogParams
 }
 
@@ -13,8 +13,8 @@ type GetBlogParams struct {
 	Id int
 }
 
-func (i interactor) BlogGet(uc GetBlogUseCase) {
-	blog, err := i.blogDao.GetById(uc.InputPort.Id)
+func (rp Repository) BlogGet(uc GetBlogUseCase) {
+	blog, err := rp.blogDao.GetById(uc.InputPort.Id)
 	if err != nil {
 		uc.OutputPort.Raise(domains.BadRequest, err)
 		return

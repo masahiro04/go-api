@@ -5,7 +5,7 @@ import (
 )
 
 type DeleteBlogUseCase struct {
-	OutputPort Presenter
+	OutputPort PresenterRepository
 	InputPort  DeleteBlogParams
 }
 
@@ -13,8 +13,8 @@ type DeleteBlogParams struct {
 	Id int
 }
 
-func (i interactor) BlogDelete(uc DeleteBlogUseCase) {
-	if err := i.blogDao.Delete(uc.InputPort.Id); err != nil {
+func (rp Repository) BlogDelete(uc DeleteBlogUseCase) {
+	if err := rp.blogDao.Delete(uc.InputPort.Id); err != nil {
 		uc.OutputPort.Raise(domains.BadRequest, err)
 		return
 	}

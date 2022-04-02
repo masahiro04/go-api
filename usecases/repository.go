@@ -11,22 +11,22 @@ import (
 
 // interactor : the struct that will have as properties all the IMPLEMENTED interfaces
 // in order to provide them to its methods : the use cases and implement the Handler interface
-type interactor struct {
-	logger          Logger
-	presenter       Presenter
-	blogDao         BlogDao
-	userDao         UserDao
-	firebaseHandler FirebaseHandler
+type Repository struct {
+	logger          LoggerRepository
+	presenter       PresenterRepository
+	blogDao         BlogDaoRepository
+	userDao         UserDaoRepository
+	firebaseHandler FirebaseHandlerRepository
 	// validator     Validator
-	dbTransaction DBTransaction
+	dbTransaction DBTransactionRepository
 }
 
 // Logger : only used to log stuff
-type Logger interface {
+type LoggerRepository interface {
 	Log(...interface{})
 }
 
-type Presenter interface {
+type PresenterRepository interface {
 	Raise(errorKind domains.ErrorKinds, err error)
 	Present() error
 
@@ -39,15 +39,15 @@ type Presenter interface {
 	GetUser(user *domains.User)
 }
 
-type Validator interface {
-	Validate(targetStruct interface{}) error
-}
+// type ValidatorRepository interface {
+// 	Validate(targetStruct interface{}) error
+// }
 
-type DBTransaction interface {
+type DBTransactionRepository interface {
 	WithTx(runner func(tx *gorm.DB) error) error
 }
 
-type FirebaseHandler interface {
+type FirebaseHandlerRepository interface {
 	VerifyIDToken(idToken string) (token *auth.Token, err error)
 	// GetUser(uuId string) (user *domain.User, err error)
 	CreateUser(user domains.User) (uuId *string, err error)
@@ -62,7 +62,7 @@ type FirebaseHandler interface {
 	RevokeRefreshTokens(uuId string) error
 }
 
-type BlogDao interface {
+type BlogDaoRepository interface {
 	GetAll() (*domains.Blogs, error)
 	GetById(id int) (*domains.Blog, error)
 	Create(blog domains.Blog) (*domains.Blog, error)
@@ -71,7 +71,7 @@ type BlogDao interface {
 	Delete(id int) error
 }
 
-type UserDao interface {
+type UserDaoRepository interface {
 	GetAll() (*domains.Users, error)
 	GetById(id int) (*domains.User, error)
 	Create(user domains.User) (*domains.User, error)

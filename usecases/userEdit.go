@@ -6,7 +6,7 @@ import (
 )
 
 type EditUserUseCase struct {
-	OutputPort Presenter
+	OutputPort PresenterRepository
 	InputPort  EditUserParams
 }
 
@@ -16,11 +16,11 @@ type EditUserParams struct {
 	Email string
 }
 
-func (i interactor) UserEdit(uc EditUserUseCase) {
+func (rp Repository) UserEdit(uc EditUserUseCase) {
 	var user *domains.User
 	var err error
 
-	user, err = i.userDao.GetById(uc.InputPort.ID)
+	user, err = rp.userDao.GetById(uc.InputPort.ID)
 	if err != nil {
 		uc.OutputPort.Raise(domains.BadRequest, err)
 		return
@@ -51,7 +51,7 @@ func (i interactor) UserEdit(uc EditUserUseCase) {
 		return
 	}
 
-	updatedUser, err := i.userDao.Update(
+	updatedUser, err := rp.userDao.Update(
 		uc.InputPort.ID, domains.BuildUser(id, uuid, *name, *email, user.CreatedAt, user.UpdatedAt),
 	)
 	if err != nil {

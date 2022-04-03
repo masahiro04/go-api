@@ -16,20 +16,22 @@ type SignUpRequest struct {
 	Password *string `json:"password"`
 }
 
-func (rH RouterHandler) signUp(c *gin.Context) {
+func (rH RouterHandler) signUp(ctx *gin.Context) {
 	req := &SignUpRequest{}
-	if err := c.BindJSON(req); err != nil {
-		rH.drivers.Logger.Errorf(c, err.Error())
-		c.Status(http.StatusBadRequest)
+	if err := ctx.BindJSON(req); err != nil {
+		rH.drivers.Logger.Errorf(ctx, err.Error())
+		ctx.Status(http.StatusBadRequest)
 		return
 	}
 
-	useCase := usecases.SignUpUseCase{
-		OutputPort:      json.NewPresenter(presenters.New(c)),
-		UserDao:         rH.drivers.UserDao,
-		DBTransaction:   rH.drivers.DBTransaction,
-		FirebaseHandler: rH.drivers.FirebaseHandler,
-	}
+	useCase := usecases.NewSignUpUseCase(
+		ctx,
+		rH.drivers.Logger,
+		json.NewPresenter(presenters.New(ctx)),
+		rH.drivers.UserDao,
+		rH.drivers.DBTransaction,
+		rH.drivers.FirebaseHandler,
+	)
 
 	useCase.SignUp(usecases.SignUpParams{
 		Name:     req.Name,

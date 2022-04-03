@@ -11,17 +11,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (rH RouterHandler) userGet(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+func (rH RouterHandler) userGet(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		rH.drivers.Logger.Errorf(c, err.Error())
-		c.Status(http.StatusBadRequest)
+		rH.drivers.Logger.Errorf(ctx, err.Error())
+		ctx.Status(http.StatusBadRequest)
 		return
 	}
 
-	useCase := usecases.GetUserUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c)),
-		UserDao:    rH.drivers.UserDao,
-	}
+	useCase := usecases.NewGetUserUseCase(
+		ctx,
+		rH.drivers.Logger,
+		json.NewPresenter(presenters.New(ctx)),
+		rH.drivers.UserDao,
+	)
 	useCase.UserGet(usecases.GetUserParams{ID: id})
 }

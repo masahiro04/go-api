@@ -11,27 +11,29 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (rH RouterHandler) blogPatch(c *gin.Context) {
+func (rH RouterHandler) blogPatch(ctx *gin.Context) {
 	req := &BlogRequest{}
-	if err := c.BindJSON(req); err != nil {
-		rH.drivers.Logger.Errorf(c, err.Error())
-		c.Status(http.StatusBadRequest)
+	if err := ctx.BindJSON(req); err != nil {
+		rH.drivers.Logger.Errorf(ctx, err.Error())
+		ctx.Status(http.StatusBadRequest)
 		return
 	}
 
-	id, err := strconv.Atoi(c.Param("id"))
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		rH.drivers.Logger.Errorf(c, err.Error())
-		c.Status(http.StatusBadRequest)
+		rH.drivers.Logger.Errorf(ctx, err.Error())
+		ctx.Status(http.StatusBadRequest)
 		return
 	}
 
-	useCase := usecases.EditBlogUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c)),
-		BlogDao:    rH.drivers.BlogDao,
-	}
+	useCase := usecases.NewEditBlogUseCase(
+		ctx,
+		rH.drivers.Logger,
+		json.NewPresenter(presenters.New(ctx)),
+		rH.drivers.BlogDao,
+	)
 	useCase.BlogEdit(usecases.EditBlogParams{
-		Id:    id,
+		ID:    id,
 		Title: req.Blog.Title,
 		Body:  req.Blog.Body,
 	})

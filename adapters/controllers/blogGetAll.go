@@ -15,24 +15,25 @@ const (
 	defaultOffset = 0
 )
 
-func (rH RouterHandler) blogsGetAll(c *gin.Context) {
-	limit, err := strconv.Atoi(c.Query("limit"))
+func (rH RouterHandler) blogsGetAll(ctx *gin.Context) {
+	limit, err := strconv.Atoi(ctx.Query("limit"))
 	if err != nil {
-		rH.drivers.Logger.Warnf(c, "blogsGetAll", err)
+		rH.drivers.Logger.Warnf(ctx, "blogsGetAll", err)
 		limit = defaultLimit
 	}
 
-	offset, err := strconv.Atoi(c.Query("offset"))
+	offset, err := strconv.Atoi(ctx.Query("offset"))
 	if err != nil {
-		rH.drivers.Logger.Warnf(c, "blogsGetAll", err)
+		rH.drivers.Logger.Warnf(ctx, "blogsGetAll", err)
 		offset = defaultOffset
 	}
 
-	// TODO(okubo): からでもエラー起きないので、そこは直したい
-	useCase := usecases.GetBlogsUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c)),
-		BlogDao:    rH.drivers.BlogDao,
-	}
+	useCase := usecases.NewGetBlogsUseCase(
+		ctx,
+		rH.drivers.Logger,
+		json.NewPresenter(presenters.New(ctx)),
+		rH.drivers.BlogDao,
+	)
 
 	useCase.BlogGetAll(usecases.GetBlogsParams{Limit: limit, Offset: offset})
 }

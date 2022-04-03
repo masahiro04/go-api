@@ -17,18 +17,20 @@ type UserRequest struct {
 	} `json:"user" binding:"required"`
 }
 
-func (rH RouterHandler) userPost(c *gin.Context) {
+func (rH RouterHandler) userPost(ctx *gin.Context) {
 	req := &UserRequest{}
-	if err := c.BindJSON(req); err != nil {
-		rH.drivers.Logger.Errorf(c, err.Error())
-		c.Status(http.StatusBadRequest)
+	if err := ctx.BindJSON(req); err != nil {
+		rH.drivers.Logger.Errorf(ctx, err.Error())
+		ctx.Status(http.StatusBadRequest)
 		return
 	}
 
-	useCase := usecases.CreateUserUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c)),
-		UserDao:    rH.drivers.UserDao,
-	}
+	useCase := usecases.NewCreateUserUseCase(
+		ctx,
+		rH.drivers.Logger,
+		json.NewPresenter(presenters.New(ctx)),
+		rH.drivers.UserDao,
+	)
 
 	useCase.UserCreate(usecases.CreateUserParams{
 		Name:  *req.User.Name,

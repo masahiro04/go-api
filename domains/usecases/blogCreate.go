@@ -1,16 +1,11 @@
 package usecases
 
 import (
+	"context"
 	"go-api/domains"
 	"go-api/domains/models"
 	"go-api/domains/models/blog"
 )
-
-// NOTE(okubo): OutputPort
-type CreateBlogUseCase struct {
-	OutputPort domains.PresenterRepository
-	BlogDao    domains.BlogRepository
-}
 
 // NOTE(okubo): InputPort
 type CreateBlogParams struct {
@@ -18,9 +13,27 @@ type CreateBlogParams struct {
 	Body  string
 }
 
-// NOTE(okubo): OutputPort(出力) と InputPort(入力) を結びつける = interactor
-// noteKk
-func (uc CreateBlogUseCase) BlogCreate(params CreateBlogParams) {
+// NOTE(okubo): OutputPort
+type createBlogUseCase struct {
+	Ctx        context.Context
+	Logger     domains.Logger
+	OutputPort domains.PresenterRepository
+	BlogDao    domains.BlogRepository
+}
+
+func NewCreateBlogUseCase(
+	ctx context.Context, logger domains.Logger,
+	outputPort domains.PresenterRepository, blogDao domains.BlogRepository,
+) *createBlogUseCase {
+	return &createBlogUseCase{
+		Ctx:        ctx,
+		Logger:     logger,
+		OutputPort: outputPort,
+		BlogDao:    blogDao,
+	}
+}
+
+func (uc createBlogUseCase) BlogCreate(params CreateBlogParams) {
 	title, err := blog.NewTitle(params.Title)
 	if err != nil {
 		uc.OutputPort.Raise(models.UnprocessableEntity, err)
@@ -29,6 +42,7 @@ func (uc CreateBlogUseCase) BlogCreate(params CreateBlogParams) {
 
 	body, err := blog.NewBody(params.Body)
 	if err != nil {
+		uc.Logger.Warnf(uc.Ctx, err.Error())
 		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
@@ -37,6 +51,7 @@ func (uc CreateBlogUseCase) BlogCreate(params CreateBlogParams) {
 
 	createdBlog, err := uc.BlogDao.Create(newBlog)
 	if err != nil {
+		uc.Logger.Warnf(uc.Ctx, err.Error())
 		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}

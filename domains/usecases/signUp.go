@@ -1,20 +1,13 @@
 package usecases
 
 import (
+	"context"
 	"go-api/domains"
 	"go-api/domains/models"
 	"go-api/domains/models/user"
 
 	"gorm.io/gorm"
 )
-
-// NOTE(okubo): OutputPort
-type SignUpUseCase struct {
-	OutputPort      domains.PresenterRepository
-	UserDao         domains.UserRepository
-	DBTransaction   domains.DBTransactionRepository
-	FirebaseHandler domains.FirebaseHandlerRepository
-}
 
 // NOTE(okubo): InputPort
 type SignUpParams struct {
@@ -23,25 +16,56 @@ type SignUpParams struct {
 	Password string
 }
 
+// NOTE(okubo): OutputPort
+type signUpUseCase struct {
+	Ctx             context.Context
+	Logger          domains.Logger
+	OutputPort      domains.PresenterRepository
+	UserDao         domains.UserRepository
+	DBTransaction   domains.DBTransactionRepository
+	FirebaseHandler domains.FirebaseHandlerRepository
+}
+
+func NewSignUpUseCase(
+	ctx context.Context,
+	logger domains.Logger,
+	outputPort domains.PresenterRepository,
+	userDao domains.UserRepository,
+	dbtransaction domains.DBTransactionRepository,
+	firebaseHandler domains.FirebaseHandlerRepository,
+) *signUpUseCase {
+	return &signUpUseCase{
+		Ctx:             ctx,
+		Logger:          logger,
+		OutputPort:      outputPort,
+		UserDao:         userDao,
+		DBTransaction:   dbtransaction,
+		FirebaseHandler: firebaseHandler,
+	}
+}
+
+// NOTE(okubo): InputPort
 // NOTE(okubo): OutputPort(出力) と InputPort(入力) を結びつける = interactor
-func (uc SignUpUseCase) SignUp(params SignUpParams) {
-	// var err error
+func (uc signUpUseCase) SignUp(params SignUpParams) {
 	var createdUser models.User
 
 	name, err := user.NewName(params.Name)
 	if err != nil {
+		uc.Logger.Errorf(uc.Ctx, err.Error())
 		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 
 	email, err := user.NewEmail(params.Email)
 	if err != nil {
+		uc.Logger.Errorf(uc.Ctx, err.Error())
 		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 
 	password, err := user.NewPassword(params.Password)
 	if err != nil {
+		uc.Logger.Errorf(uc.Ctx, err.Error())
 		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
@@ -53,6 +77,7 @@ func (uc SignUpUseCase) SignUp(params SignUpParams) {
 	err = uc.DBTransaction.WithTx(func(tx *gorm.DB) error {
 		uuid, err := uc.FirebaseHandler.CreateUser(u)
 		if err != nil {
+			uc.Logger.Errorf(uc.Ctx, err.Error())
 			// rp.logger.Log(err)
 			return err
 		}
@@ -65,6 +90,7 @@ func (uc SignUpUseCase) SignUp(params SignUpParams) {
 		if err != nil {
 			if rollbackErr := tx.Rollback().Error; rollbackErr != nil {
 				if err = uc.FirebaseHandler.DeleteUser(createdUser.UUID.Value); err != nil {
+					uc.Logger.Errorf(uc.Ctx, err.Error())
 					// rp.logger.Log(err)
 				}
 			}
@@ -96,6 +122,7 @@ func (uc SignUpUseCase) SignUp(params SignUpParams) {
 	// 	return
 	// }
 	if err != nil {
+		uc.Logger.Errorf(uc.Ctx, err.Error())
 		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}

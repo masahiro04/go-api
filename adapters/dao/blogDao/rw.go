@@ -2,7 +2,6 @@ package blogDao
 
 import (
 	"errors"
-	"fmt"
 	"go-api/domains/models"
 	"go-api/domains/models/blog"
 
@@ -32,7 +31,6 @@ func (BlogDto) TableName() string {
 }
 
 func (rw rw) GetAll() (*models.Blogs, error) {
-	fmt.Println("hogehoge")
 	var dtos []BlogDto
 	rw.db.Find(&dtos)
 	var blogs []models.Blog

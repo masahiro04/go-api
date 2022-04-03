@@ -1,16 +1,11 @@
 package usecases
 
 import (
+	"context"
 	"go-api/domains"
 	"go-api/domains/models"
 	"go-api/domains/models/user"
 )
-
-// NOTE(okubo): OutputPort
-type EditUserUseCase struct {
-	OutputPort domains.PresenterRepository
-	UserDao    domains.UserRepository
-}
 
 // NOTE(okubo): InputPort
 type EditUserParams struct {
@@ -19,15 +14,39 @@ type EditUserParams struct {
 	Email string
 }
 
+// NOTE(okubo): OutputPort
+type editUserUseCase struct {
+	Ctx        context.Context
+	Logger     domains.Logger
+	OutputPort domains.PresenterRepository
+	UserDao    domains.UserRepository
+}
+
+func NewEditUserUseCase(
+	ctx context.Context,
+	logger domains.Logger,
+	outputPort domains.PresenterRepository,
+	userDao domains.UserRepository,
+) *editUserUseCase {
+	return &editUserUseCase{
+		Ctx:        ctx,
+		Logger:     logger,
+		OutputPort: outputPort,
+		UserDao:    userDao,
+	}
+}
+
 // NOTE(okubo): OutputPort(出力) と InputPort(入力) を結びつける = interactor
-func (uc EditUserUseCase) UserEdit(params EditUserParams) {
+func (uc editUserUseCase) UserEdit(params EditUserParams) {
 	newUser, err := uc.UserDao.GetById(params.ID)
 	if err != nil {
+		uc.Logger.Errorf(uc.Ctx, err.Error())
 		uc.OutputPort.Raise(models.BadRequest, err)
 		return
 	}
 
 	if newUser == nil {
+		uc.Logger.Errorf(uc.Ctx, err.Error())
 		uc.OutputPort.Raise(models.NotFound, errNotFound)
 		return
 	}
@@ -36,18 +55,21 @@ func (uc EditUserUseCase) UserEdit(params EditUserParams) {
 	id, _ := user.NewId(params.ID)
 	uuid, err := user.NewUUID(newUser.UUID.Value)
 	if err != nil {
+		uc.Logger.Errorf(uc.Ctx, err.Error())
 		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 
 	name, err := user.UpdateName(&params.Name)
 	if err != nil {
+		uc.Logger.Errorf(uc.Ctx, err.Error())
 		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
 
 	email, err := user.UpdateEmail(&params.Email)
 	if err != nil {
+		uc.Logger.Errorf(uc.Ctx, err.Error())
 		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}
@@ -56,6 +78,7 @@ func (uc EditUserUseCase) UserEdit(params EditUserParams) {
 		params.ID, models.BuildUser(id, uuid, *name, *email, newUser.CreatedAt, newUser.UpdatedAt),
 	)
 	if err != nil {
+		uc.Logger.Errorf(uc.Ctx, err.Error())
 		uc.OutputPort.Raise(models.UnprocessableEntity, err)
 		return
 	}

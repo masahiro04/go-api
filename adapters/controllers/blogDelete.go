@@ -11,18 +11,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (rH RouterHandler) blogDelete(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+func (rH RouterHandler) blogDelete(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		rH.drivers.Logger.Errorf(c, err.Error())
-		c.Status(http.StatusBadRequest)
+		rH.drivers.Logger.Errorf(ctx, err.Error())
+		ctx.Status(http.StatusBadRequest)
 		return
 	}
 
-	useCase := usecases.DeleteBlogUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c)),
-		BlogDao:    rH.drivers.BlogDao,
-	}
+	useCase := usecases.NewDeleteBlogUseCase(
+		ctx,
+		rH.drivers.Logger,
+		json.NewPresenter(presenters.New(ctx)),
+		rH.drivers.BlogDao,
+	)
 
-	useCase.BlogDelete(usecases.DeleteBlogParams{Id: id})
+	useCase.BlogDelete(usecases.DeleteBlogParams{ID: id})
 }

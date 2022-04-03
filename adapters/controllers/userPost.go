@@ -18,11 +18,9 @@ type UserRequest struct {
 }
 
 func (rH RouterHandler) userPost(c *gin.Context) {
-	log := rH.log(rH.MethodAndPath(c))
 	req := &UserRequest{}
-
 	if err := c.BindJSON(req); err != nil {
-		log(err)
+		rH.drivers.Logger.Errorf(c, err.Error())
 		c.Status(http.StatusBadRequest)
 		return
 	}

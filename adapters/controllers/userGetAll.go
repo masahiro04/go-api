@@ -11,16 +11,15 @@ import (
 )
 
 func (rH RouterHandler) userGetAll(c *gin.Context) {
-	log := rH.log(rH.MethodAndPath(c))
 	limit, err := strconv.Atoi(c.Query("limit"))
 	if err != nil {
-		log(err)
+		rH.drivers.Logger.Warnf(c, err.Error())
 		limit = defaultLimit
 	}
 
 	offset, err := strconv.Atoi(c.Query("offset"))
 	if err != nil {
-		log(err)
+		rH.drivers.Logger.Warnf(c, err.Error())
 		offset = defaultOffset
 	}
 

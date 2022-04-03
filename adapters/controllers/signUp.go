@@ -17,11 +17,9 @@ type SignUpRequest struct {
 }
 
 func (rH RouterHandler) signUp(c *gin.Context) {
-	log := rH.log(rH.MethodAndPath(c))
-
 	req := &SignUpRequest{}
 	if err := c.BindJSON(req); err != nil {
-		log(err)
+		rH.drivers.Logger.Errorf(c, err.Error())
 		c.Status(http.StatusBadRequest)
 		return
 	}

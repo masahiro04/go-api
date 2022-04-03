@@ -132,13 +132,19 @@ func run() {
 	firebaseHandler := firebase.New(client)
 
 	// Loggar
-	routerLogger := loggers.NewLogger(
-		os.Getenv("ENV"),
-		viper.GetString("log.level"),
-		viper.GetString("log.format"),
-	)
 
-	drivers := adapters.NewDriver(routerLogger, blogDao.New(db), userDao.New(db), firebaseHandler, tx.New(db))
+	logger, err := loggers.NewZapLogger()
+	if err != nil {
+		panic(err)
+	}
+
+	// routerLogger := loggers.NewLogger(
+	// 	os.Getenv("ENV"),
+	// 	viper.GetString("log.level"),
+	// 	viper.GetString("log.format"),
+	// )
+
+	drivers := adapters.NewDriver(logger, blogDao.New(db), userDao.New(db), firebaseHandler, tx.New(db))
 
 	controllers.NewRouter(drivers).SetRoutes(ginServer.Router)
 

@@ -16,16 +16,15 @@ const (
 )
 
 func (rH RouterHandler) blogsGetAll(c *gin.Context) {
-	log := rH.log(rH.MethodAndPath(c))
 	limit, err := strconv.Atoi(c.Query("limit"))
 	if err != nil {
-		log(err)
+		rH.drivers.Logger.Warnf(c, "blogsGetAll", err)
 		limit = defaultLimit
 	}
 
 	offset, err := strconv.Atoi(c.Query("offset"))
 	if err != nil {
-		log(err)
+		rH.drivers.Logger.Warnf(c, "blogsGetAll", err)
 		offset = defaultOffset
 	}
 

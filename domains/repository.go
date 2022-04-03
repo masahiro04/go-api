@@ -9,34 +9,6 @@ import (
 	// "firebase.google.com/go/auth"
 )
 
-// interactor : the struct that will have as properties all the IMPLEMENTED interfaces
-// in order to provide them to its methods : the use cases and implement the Handler interface
-// type Repository struct {
-// 	Logger          LoggerRepository
-// 	Presenter       PresenterRepository
-// 	BlogDao         BlogRepository
-// 	UserDao         UserRepository
-// 	FirebaseHandler FirebaseHandlerRepository
-// 	// validator     Validator
-// 	DBTransaction DBTransactionRepository
-// }
-//
-// func (rp Repository) New(rpInstance Repository) Repository {
-// 	return Repository{
-// 		Logger:          rpInstance.Logger,
-// 		Presenter:       rpInstance.Presenter,
-// 		BlogDao:         rpInstance.BlogDao,
-// 		UserDao:         rpInstance.UserDao,
-// 		FirebaseHandler: rpInstance.FirebaseHandler,
-// 		DBTransaction:   rpInstance.DBTransaction,
-// 	}
-// }
-
-// Logger : only used to log stuff
-type LoggerRepository interface {
-	Log(...interface{})
-}
-
 type PresenterRepository interface {
 	Raise(errorKind models.ErrorKinds, err error)
 	Present() error

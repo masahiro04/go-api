@@ -12,18 +12,16 @@ import (
 )
 
 func (rH RouterHandler) blogPatch(c *gin.Context) {
-	log := rH.log(rH.MethodAndPath(c))
-
 	req := &BlogRequest{}
 	if err := c.BindJSON(req); err != nil {
-		log(err)
+		rH.drivers.Logger.Errorf(c, err.Error())
 		c.Status(http.StatusBadRequest)
 		return
 	}
 
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		log(err)
+		rH.drivers.Logger.Errorf(c, err.Error())
 		c.Status(http.StatusBadRequest)
 		return
 	}

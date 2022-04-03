@@ -13,12 +13,15 @@ import (
 
 func TestNewUser_Success(t *testing.T) {
 	// NOTE(okubo): Body.valueとの比較したいけど、小文字はexportされないので、Value経由で比較
+	uuidInput := "uuidinput"
 	nameInput := "大久保"
 	emailInput := "test@example.con"
+
+	uuid, _ := user.NewUUID(uuidInput)
 	name, _ := user.NewName(nameInput)
 	email, _ := user.NewEmail(emailInput)
 	password, _ := user.NewPassword("hogehgoe")
-	newUser := models.NewUser(name, email, password)
+	newUser := models.NewUser(uuid, name, email, password)
 	t.Run("", func(t *testing.T) {
 		assert.Equal(t, newUser.Name, name)
 		assert.Equal(t, newUser.Email, email)
@@ -27,15 +30,17 @@ func TestNewUser_Success(t *testing.T) {
 
 func TestBuildUser_Success(t *testing.T) {
 	idInput := 1
+
+	uuidInput := "uuidinput"
 	nameInput := "大久保"
 	emailInput := "test@example.con"
 
 	id, _ := user.NewId(idInput)
-
+	uuid, _ := user.NewUUID(uuidInput)
 	name, _ := user.NewName(nameInput)
 	email, _ := user.NewEmail(emailInput)
 
-	newUser := models.BuildUser(id, name, email, time.Time{}, time.Time{})
+	newUser := models.BuildUser(id, uuid, name, email, time.Time{}, time.Time{})
 
 	t.Run("", func(t *testing.T) {
 		assert.Equal(t, newUser.Name, name)

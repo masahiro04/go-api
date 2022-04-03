@@ -25,15 +25,6 @@ func TestNewUUIDWithBlankString_Fail(t *testing.T) {
 	})
 }
 
-func TestNewUUIDWithNotCorrectFormat_Fail(t *testing.T) {
-	input := "hogehoge"
-	newUUID, err := user.NewUUID(input)
-	t.Run("hoge", func(t *testing.T) {
-		assert.Equal(t, newUUID.Value, input)
-		assert.NotNil(t, err)
-	})
-}
-
 func TestUpdateUUID_Success(t *testing.T) {
 	input := "hogehoge@example.com"
 	updatedUUID, err := user.UpdateUUID(&input)

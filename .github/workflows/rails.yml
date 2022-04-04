@@ -1,0 +1,145 @@
+env:
+  RUBY_VERSION: 2.7.2
+  RAILS_ENV: test
+  POSTGRES_USER: postgres
+  PGHOST: localhost
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_DB: ep_matching_test
+  MAIL_SENDER_FROM: no-reply@ep.net
+#  SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
+  SLACK_WEBHOOK: https://hooks.slack.com/services/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
+  SLACK_USERNAME: github_actions_bot
+  SLACK_CHANNEL: github-actions
+
+name: Lint check
+on: [push]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: Set up Ruby 2.7
+        uses: ruby/setup-ruby@v1.68.0
+        with:
+          ruby-version: 2.7.2
+          bundler-cache: true
+      - name: Cache node modules
+        uses: actions/cache@v2.1.4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: bundle install
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3 --path vendor/bundle
+      - name: yarn install
+        run: yarn install --check-files
+      - name: Run rubocop
+        run: bundle exec rubocop
+
+#      - name: Run haml lint
+#        run: bundle exec haml-lint app/views/
+
+      - name: Run brakeman
+        run: bundle exec brakeman
+
+      - name: Run rails best practices
+        run: bundle exec rails_best_practices -e node_modules
+
+      #-- Slack通知 --#
+      # 成功
+      - name: Slack Notification on Success
+        if: ${{ success() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_TITLE: Deploy Success
+          SLACK_COLOR: good
+
+      # 失敗
+      - name: Slack Notification on Failure
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_TITLE: Deploy Failure
+          SLACK_COLOR: danger
+
+  rspec:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: Set up Ruby 2.7
+        uses: ruby/setup-ruby@v1.68.0
+        with:
+          ruby-version: 2.7.2
+          bundler-cache: true
+      - name: Cache node modules
+        uses: actions/cache@v2.1.4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: yarn install
+        run: yarn install --check-files
+
+      - name: bundle install
+        uses: actions/cache@v2.1.4
+        with:
+          path: vendor/bundle
+          key: bundle-${{ hashFiles('**/Gemfile.lock') }}
+
+      - name: Setup Bundles
+        run: |
+          gem install bundler
+          bundle install
+
+      - name: Setup database
+        env:
+          RAILS_ENV: ${{ env.RAILS_ENV }}
+          PGHOST: ${{ env.PGHOST }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+        run: |
+          cp ./config/database.yml.ci ./config/database.yml
+          bundle exec rake db:create RAILS_ENV=test
+          bundle exec rails db:create RAILS_ENV=test
+          bundle exec rails db:migrate RAILS_ENV=test
+
+      # Chrome driver
+      - name: Setup chrome driver (for Selenium)
+        uses: nanasess/setup-chromedriver@master
+
+      - name: Run rspec
+        run: |
+            bundle exec rspec
+
+
+      #-- Slack通知 --#
+      # 成功
+      - name: Slack Notification on Success
+        if: ${{ success() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_TITLE: Deploy Success
+          SLACK_COLOR: good
+
+      # 失敗
+      - name: Slack Notification on Failure
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_TITLE: Deploy Failure
+          SLACK_COLOR: danger

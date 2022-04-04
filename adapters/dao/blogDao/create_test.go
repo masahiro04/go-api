@@ -2,7 +2,7 @@ package blogDao_test
 
 import (
 	"go-api/adapters/dao/blogDao"
-	"go-api/domains"
+	"go-api/domains/models"
 	factories "go-api/test/factories"
 	testhelpers "go-api/test/testHelpers"
 	"testing"
@@ -28,7 +28,7 @@ func TestCreate(t *testing.T) {
 
 	tests := []struct {
 		name      string
-		blog      *domains.Blog
+		blog      *models.Blog
 		wantError error
 	}{
 		{

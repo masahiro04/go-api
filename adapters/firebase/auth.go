@@ -4,12 +4,11 @@ import (
 	"context"
 	"fmt"
 	"go-api/domains/models"
+	"go-api/usecases"
 	"log"
 	"time"
 
 	"github.com/spf13/viper"
-
-	"go-api/domains"
 
 	"firebase.google.com/go/auth"
 )
@@ -32,7 +31,7 @@ type tokenHandler struct {
 	client firebaseClient
 }
 
-func New(client firebaseClient) domains.FirebaseHandlerRepository {
+func New(client firebaseClient) usecases.FirebaseHandlerRepository {
 	return tokenHandler{client}
 }
 

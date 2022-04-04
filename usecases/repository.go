@@ -1,4 +1,4 @@
-package domains
+package usecases
 
 import (
 	"go-api/domains/models"

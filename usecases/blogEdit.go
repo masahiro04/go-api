@@ -3,7 +3,6 @@ package usecases
 import (
 	"context"
 	"errors"
-	"go-api/domains"
 	"go-api/domains/models"
 	"go-api/domains/models/blog"
 )
@@ -18,15 +17,12 @@ type EditBlogParams struct {
 // NOTE(okubo): OutputPort
 type editBlogUseCase struct {
 	Ctx        context.Context
-	Logger     domains.Logger
-	OutputPort domains.PresenterRepository
-	BlogDao    domains.BlogRepository
+	Logger     Logger
+	OutputPort PresenterRepository
+	BlogDao    BlogRepository
 }
 
-func NewEditBlogUseCase(
-	ctx context.Context, logger domains.Logger,
-	outputPort domains.PresenterRepository, blogDao domains.BlogRepository,
-) *editBlogUseCase {
+func NewEditBlogUseCase(ctx context.Context, logger Logger, outputPort PresenterRepository, blogDao BlogRepository) *editBlogUseCase {
 	return &editBlogUseCase{
 		Ctx:        ctx,
 		Logger:     logger,

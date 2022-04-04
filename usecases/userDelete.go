@@ -2,7 +2,6 @@ package usecases
 
 import (
 	"context"
-	"go-api/domains"
 	"go-api/domains/models"
 )
 
@@ -14,16 +13,16 @@ type DeleteUserParams struct {
 // NOTE(okubo): OutputPort
 type deleteUserUseCase struct {
 	Ctx        context.Context
-	Logger     domains.Logger
-	OutputPort domains.PresenterRepository
-	UserDao    domains.UserRepository
+	Logger     Logger
+	OutputPort PresenterRepository
+	UserDao    UserRepository
 }
 
 func NewDeleteUserUseCase(
 	ctx context.Context,
-	logger domains.Logger,
-	outputPort domains.PresenterRepository,
-	userDao domains.UserRepository,
+	logger Logger,
+	outputPort PresenterRepository,
+	userDao UserRepository,
 ) *deleteUserUseCase {
 	return &deleteUserUseCase{
 		Ctx:        ctx,

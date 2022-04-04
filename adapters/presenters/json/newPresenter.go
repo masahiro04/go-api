@@ -2,8 +2,8 @@ package json
 
 import (
 	"go-api/adapters/presenters"
-	"go-api/domains"
 	"go-api/domains/models"
+	"go-api/usecases"
 )
 
 const dateLayout = "2006-01-02T15:04:05.999Z"
@@ -12,7 +12,7 @@ type ResponsePresenter struct {
 	Presenter *presenters.GinPresenter
 }
 
-func NewPresenter(presenter *presenters.GinPresenter) domains.PresenterRepository {
+func NewPresenter(presenter *presenters.GinPresenter) usecases.PresenterRepository {
 	return &ResponsePresenter{Presenter: presenter}
 }
 

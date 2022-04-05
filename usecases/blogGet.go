@@ -18,7 +18,12 @@ type getBlogUseCase struct {
 	BlogDao    BlogRepository
 }
 
-func NewGetBlogUseCase(ctx context.Context, logger Logger, outputPort PresenterRepository, blogDao BlogRepository) *getBlogUseCase {
+func NewGetBlogUseCase(
+	ctx context.Context,
+	logger Logger,
+	outputPort PresenterRepository,
+	blogDao BlogRepository,
+) IBlogGet {
 	return &getBlogUseCase{
 		Ctx:        ctx,
 		Logger:     logger,

@@ -22,7 +22,12 @@ type editBlogUseCase struct {
 	BlogDao    BlogRepository
 }
 
-func NewEditBlogUseCase(ctx context.Context, logger Logger, outputPort PresenterRepository, blogDao BlogRepository) *editBlogUseCase {
+func NewEditBlogUseCase(
+	ctx context.Context,
+	logger Logger,
+	outputPort PresenterRepository,
+	blogDao BlogRepository,
+) IBlogEdit {
 	return &editBlogUseCase{
 		Ctx:        ctx,
 		Logger:     logger,

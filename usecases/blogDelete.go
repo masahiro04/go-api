@@ -18,7 +18,12 @@ type deleteBlogUseCase struct {
 	BlogDao    BlogRepository
 }
 
-func NewDeleteBlogUseCase(ctx context.Context, logger Logger, outputPort PresenterRepository, blogDao BlogRepository) *deleteBlogUseCase {
+func NewDeleteBlogUseCase(
+	ctx context.Context,
+	logger Logger,
+	outputPort PresenterRepository,
+	blogDao BlogRepository,
+) IBlogDelete {
 	return &deleteBlogUseCase{
 		Ctx:        ctx,
 		Logger:     logger,

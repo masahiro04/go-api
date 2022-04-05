@@ -20,9 +20,13 @@ type createBlogUseCase struct {
 	BlogDao    BlogRepository
 }
 
-func NewCreateBlogUseCase(ctx context.Context, logger Logger, outputPort PresenterRepository, blogDao BlogRepository) *createBlogUseCase {
+func NewCreateBlogUseCase(
+	ctx context.Context,
+	logger Logger,
+	outputPort PresenterRepository,
+	blogDao BlogRepository,
+) IBlogCreate {
 	return &createBlogUseCase{
-		Ctx:        ctx,
 		Logger:     logger,
 		OutputPort: outputPort,
 		BlogDao:    blogDao,

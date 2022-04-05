@@ -26,7 +26,7 @@ func NewCreateUserUseCase(
 	logger Logger,
 	outputPort PresenterRepository,
 	userDao UserRepository,
-) *createUserUseCase {
+) IUserCreate {
 	return &createUserUseCase{
 		Ctx:        ctx,
 		Logger:     logger,

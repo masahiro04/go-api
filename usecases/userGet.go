@@ -23,7 +23,7 @@ func NewGetUserUseCase(
 	logger Logger,
 	outputPort PresenterRepository,
 	userDao UserRepository,
-) *getUserUseCase {
+) IUserGet {
 	return &getUserUseCase{
 		Ctx:        ctx,
 		Logger:     logger,

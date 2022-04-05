@@ -32,7 +32,7 @@ func NewSignUpUseCase(
 	userDao UserRepository,
 	dbtransaction DBTransactionRepository,
 	firebaseHandler FirebaseHandlerRepository,
-) *signUpUseCase {
+) ISignUp {
 	return &signUpUseCase{
 		Ctx:             ctx,
 		Logger:          logger,

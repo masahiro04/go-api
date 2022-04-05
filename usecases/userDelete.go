@@ -23,7 +23,7 @@ func NewDeleteUserUseCase(
 	logger Logger,
 	outputPort PresenterRepository,
 	userDao UserRepository,
-) *deleteUserUseCase {
+) IUserDelete {
 	return &deleteUserUseCase{
 		Ctx:        ctx,
 		Logger:     logger,

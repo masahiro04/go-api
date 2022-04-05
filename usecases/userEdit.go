@@ -26,7 +26,7 @@ func NewEditUserUseCase(
 	logger Logger,
 	outputPort PresenterRepository,
 	userDao UserRepository,
-) *editUserUseCase {
+) IUserEdit {
 	return &editUserUseCase{
 		Ctx:        ctx,
 		Logger:     logger,

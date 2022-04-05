@@ -9,15 +9,6 @@ import (
 	// "firebase.google.com/go/auth"
 )
 
-// type Adapters struct {
-// 	presenter       PresenterRepository
-// 	validator       ValidatorRepository
-// 	dbtransaction   DBTransactionRepository
-// 	FirebaseHandler FirebaseHandlerRepository
-// 	blogDao         BlogRepository
-// 	userDao         UserRepository
-// }
-
 type PresenterRepository interface {
 	Raise(errorKind models.ErrorKinds, err error)
 	Present() error

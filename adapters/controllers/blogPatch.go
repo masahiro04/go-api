@@ -6,36 +6,36 @@ import (
 
 	"go-api/adapters/presenters"
 	"go-api/adapters/presenters/json"
-	uc "go-api/usecases"
+	"go-api/domains/usecases"
 
 	"github.com/gin-gonic/gin"
 )
 
-func (rH RouterHandler) blogPatch(c *gin.Context) {
-	log := rH.log(rH.MethodAndPath(c))
-
+func (rH RouterHandler) blogPatch(ctx *gin.Context) {
 	req := &BlogRequest{}
-	if err := c.BindJSON(req); err != nil {
-		log(err)
-		c.Status(http.StatusBadRequest)
+	if err := ctx.BindJSON(req); err != nil {
+		rH.drivers.Logger.Errorf(ctx, err.Error())
+		ctx.Status(http.StatusBadRequest)
 		return
 	}
 
-	id, err := strconv.Atoi(c.Param("id"))
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		log(err)
-		c.Status(http.StatusBadRequest)
+		rH.drivers.Logger.Errorf(ctx, err.Error())
+		ctx.Status(http.StatusBadRequest)
 		return
 	}
 
-	useCase := uc.EditBlogUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c), log),
-		InputPort: uc.EditBlogParams{
-			Id:    id,
-			Title: *req.Blog.Title,
-			Body:  *req.Blog.Body,
-		},
-	}
-	rH.ucHandler.BlogEdit(useCase)
+	useCase := usecases.NewEditBlogUseCase(
+		ctx,
+		rH.drivers.Logger,
+		json.NewPresenter(presenters.New(ctx)),
+		rH.drivers.BlogDao,
+	)
+	useCase.BlogEdit(usecases.EditBlogParams{
+		ID:    id,
+		Title: req.Blog.Title,
+		Body:  req.Blog.Body,
+	})
 
 }

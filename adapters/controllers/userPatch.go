@@ -6,36 +6,36 @@ import (
 
 	"go-api/adapters/presenters"
 	"go-api/adapters/presenters/json"
-	uc "go-api/usecases"
+	"go-api/domains/usecases"
 
 	"github.com/gin-gonic/gin"
 )
 
-func (rH RouterHandler) userPatch(c *gin.Context) {
-	log := rH.log(rH.MethodAndPath(c))
-
+func (rH RouterHandler) userPatch(ctx *gin.Context) {
 	req := &UserRequest{}
-	if err := c.BindJSON(req); err != nil {
-		log(err)
-		c.Status(http.StatusBadRequest)
+	if err := ctx.BindJSON(req); err != nil {
+		rH.drivers.Logger.Errorf(ctx, err.Error())
+		ctx.Status(http.StatusBadRequest)
 		return
 	}
 
-	id, err := strconv.Atoi(c.Param("id"))
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		log(err)
-		c.Status(http.StatusBadRequest)
+		rH.drivers.Logger.Errorf(ctx, err.Error())
+		ctx.Status(http.StatusBadRequest)
 		return
 	}
 
-	useCase := uc.EditUserUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c), log),
-		InputPort: uc.EditUserParams{
-			ID:    id,
-			Name:  *req.User.Name,
-			Email: *req.User.Email,
-		},
-	}
-	rH.ucHandler.UserEdit(useCase)
+	useCase := usecases.NewEditUserUseCase(
+		ctx,
+		rH.drivers.Logger,
+		json.NewPresenter(presenters.New(ctx)),
+		rH.drivers.UserDao,
+	)
 
+	useCase.UserEdit(usecases.EditUserParams{
+		ID:    id,
+		Name:  *req.User.Name,
+		Email: *req.User.Email,
+	})
 }

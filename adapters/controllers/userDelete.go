@@ -6,26 +6,27 @@ import (
 
 	"go-api/adapters/presenters"
 	"go-api/adapters/presenters/json"
-	uc "go-api/usecases"
+	"go-api/domains/usecases"
 
 	"github.com/gin-gonic/gin"
 )
 
-func (rH RouterHandler) userDelete(c *gin.Context) {
-	log := rH.log(rH.MethodAndPath(c))
-
-	id, err := strconv.Atoi(c.Param("id"))
+func (rH RouterHandler) userDelete(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		log(err)
-		c.Status(http.StatusBadRequest)
+		rH.drivers.Logger.Errorf(ctx, err.Error())
+		ctx.Status(http.StatusBadRequest)
 		return
 	}
 
-	useCase := uc.DeleteUserUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c), log),
-		InputPort: uc.DeleteUserParams{
-			ID: id,
-		},
-	}
-	rH.ucHandler.UserDelete(useCase)
+	useCase := usecases.NewDeleteUserUseCase(
+		ctx,
+		rH.drivers.Logger,
+		json.NewPresenter(presenters.New(ctx)),
+		rH.drivers.UserDao,
+	)
+
+	useCase.UserDelete(usecases.DeleteUserParams{
+		ID: id,
+	})
 }

@@ -2,7 +2,7 @@ package json
 
 import (
 	"fmt"
-	"go-api/domains"
+	"go-api/domains/models"
 )
 
 type getUserResponse struct {
@@ -17,17 +17,17 @@ type getUserResponseItem struct {
 	UpdatedAt interface{} `json:"updatedAt"`
 }
 
-func (presenter ResponsePresenter) GetUser(user *domains.User) {
+func (presenter ResponsePresenter) GetUser(user *models.User) {
 	response := getUserResponse{User: UserItem(user)}
 	presenter.Presenter.StatusOK(response)
 }
 
-func (presenter ResponsePresenter) CreateUser(user *domains.User) {
+func (presenter ResponsePresenter) CreateUser(user *models.User) {
 	response := getUserResponse{User: UserItem(user)}
 	presenter.Presenter.Created(response)
 }
 
-func UserItem(user *domains.User) getUserResponseItem {
+func UserItem(user *models.User) getUserResponseItem {
 	fmt.Println(user.CreatedAt)
 	fmt.Println("user.CreatedAt")
 	return getUserResponseItem{

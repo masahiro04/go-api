@@ -5,7 +5,7 @@ import (
 
 	"go-api/adapters/presenters"
 	"go-api/adapters/presenters/json"
-	uc "go-api/usecases"
+	"go-api/domains/usecases"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,23 +17,23 @@ type UserRequest struct {
 	} `json:"user" binding:"required"`
 }
 
-func (rH RouterHandler) userPost(c *gin.Context) {
-	log := rH.log(rH.MethodAndPath(c))
+func (rH RouterHandler) userPost(ctx *gin.Context) {
 	req := &UserRequest{}
-
-	if err := c.BindJSON(req); err != nil {
-		log(err)
-		c.Status(http.StatusBadRequest)
+	if err := ctx.BindJSON(req); err != nil {
+		rH.drivers.Logger.Errorf(ctx, err.Error())
+		ctx.Status(http.StatusBadRequest)
 		return
 	}
 
-	useCase := uc.CreateUserUseCase{
-		OutputPort: json.NewPresenter(presenters.New(c), log),
-		InputPort: uc.CreateUserParams{
-			Name:  *req.User.Name,
-			Email: *req.User.Email,
-		},
-	}
+	useCase := usecases.NewCreateUserUseCase(
+		ctx,
+		rH.drivers.Logger,
+		json.NewPresenter(presenters.New(ctx)),
+		rH.drivers.UserDao,
+	)
 
-	rH.ucHandler.UserCreate(useCase)
+	useCase.UserCreate(usecases.CreateUserParams{
+		Name:  *req.User.Name,
+		Email: *req.User.Email,
+	})
 }

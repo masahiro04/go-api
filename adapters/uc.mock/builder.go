@@ -6,7 +6,7 @@ package mock
 import (
 	"log"
 
-	uc "go-api/usecases"
+	"go-api/usecases"
 
 	"github.com/golang/mock/gomock"
 )
@@ -45,8 +45,8 @@ func NewMockedInteractor(mockCtrl *gomock.Controller) Interactor {
 }
 
 //GetUCHandler : returns a uc.interactor in order to call its methods aka the use cases to test
-func (i Interactor) GetUCHandler() uc.Handler {
-	return uc.HandlerConstructor{
+func (i Interactor) GetUCHandler() usecases.Handler {
+	return usecases.HandlerConstructor{
 		Logger:    i.Logger,
 		Presenter: i.Presenter,
 		BlogDao:   i.BlogDao,

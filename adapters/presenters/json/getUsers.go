@@ -1,15 +1,13 @@
 package json
 
-import (
-	"go-api/domains"
-)
+import "go-api/domains/models"
 
 type getGetUsersResponse struct {
 	Users []getUserResponseItem `json:"response"`
 	Count int                   `json:"count"`
 }
 
-func (presenter ResponsePresenter) GetUsers(users *domains.Users) {
+func (presenter ResponsePresenter) GetUsers(users *models.Users) {
 	// nilではなく空配列でレスポンスを返せるようにする
 	response := getGetUsersResponse{
 		Users: []getUserResponseItem{},

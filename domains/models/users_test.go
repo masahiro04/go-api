@@ -2,7 +2,7 @@ package models_test
 
 import (
 	"go-api/domains/models"
-	factories "go-api/test/factories"
+	"go-api/test/factories"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

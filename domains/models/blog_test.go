@@ -3,7 +3,7 @@ package models_test
 import (
 	"go-api/domains/models"
 	"go-api/domains/models/blog"
-	factories "go-api/test/factories"
+	"go-api/test/factories"
 	"testing"
 	"time"
 

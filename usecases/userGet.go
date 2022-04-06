@@ -2,7 +2,6 @@ package usecases
 
 import (
 	"context"
-	"go-api/domains"
 	"go-api/domains/models"
 )
 
@@ -14,17 +13,17 @@ type GetUserParams struct {
 // NOTE(okubo): OutputPort
 type getUserUseCase struct {
 	Ctx        context.Context
-	Logger     domains.Logger
-	OutputPort domains.PresenterRepository
-	UserDao    domains.UserRepository
+	Logger     Logger
+	OutputPort PresenterRepository
+	UserDao    UserRepository
 }
 
 func NewGetUserUseCase(
 	ctx context.Context,
-	logger domains.Logger,
-	outputPort domains.PresenterRepository,
-	userDao domains.UserRepository,
-) *getUserUseCase {
+	logger Logger,
+	outputPort PresenterRepository,
+	userDao UserRepository,
+) IUserGet {
 	return &getUserUseCase{
 		Ctx:        ctx,
 		Logger:     logger,

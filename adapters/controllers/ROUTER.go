@@ -14,6 +14,8 @@ type RouterHandler struct {
 	drivers *adapters.Driver
 }
 
+// NOTE(okubo): usecasesのinterfaceを適用することで、抽象→実装
+// func NewRouter(driver *adapters.Driver) RouterHandler {
 func NewRouter(driver *adapters.Driver) RouterHandler {
 	return RouterHandler{
 		drivers: driver,

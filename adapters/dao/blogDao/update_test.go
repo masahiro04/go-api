@@ -2,8 +2,8 @@ package blogDao_test
 
 import (
 	"go-api/adapters/dao/blogDao"
-	"go-api/domains"
 	blogModel "go-api/domains/blog"
+	"go-api/domains/models"
 	factories "go-api/test/factories"
 	testhelpers "go-api/test/testHelpers"
 	"testing"
@@ -37,11 +37,11 @@ func TestUpdate(t *testing.T) {
 	id, _ := blogModel.NewId(blog.ID.Value)
 	title, _ := blogModel.NewTitle("タイトル22")
 	body, _ := blogModel.NewBody("内容22")
-	updatedBlog := domains.BuildBlog(id, title, body, time.Time{}, time.Time{})
+	updatedBlog := models.BuildBlog(id, title, body, time.Time{}, time.Time{})
 
 	tests := []struct {
 		name      string
-		blog      *domains.Blog
+		blog      *models.Blog
 		wantError error
 	}{
 		{

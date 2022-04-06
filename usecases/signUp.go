@@ -2,7 +2,6 @@ package usecases
 
 import (
 	"context"
-	"go-api/domains"
 	"go-api/domains/models"
 	"go-api/domains/models/user"
 
@@ -19,21 +18,21 @@ type SignUpParams struct {
 // NOTE(okubo): OutputPort
 type signUpUseCase struct {
 	Ctx             context.Context
-	Logger          domains.Logger
-	OutputPort      domains.PresenterRepository
-	UserDao         domains.UserRepository
-	DBTransaction   domains.DBTransactionRepository
-	FirebaseHandler domains.FirebaseHandlerRepository
+	Logger          Logger
+	OutputPort      PresenterRepository
+	UserDao         UserRepository
+	DBTransaction   DBTransactionRepository
+	FirebaseHandler FirebaseHandlerRepository
 }
 
 func NewSignUpUseCase(
 	ctx context.Context,
-	logger domains.Logger,
-	outputPort domains.PresenterRepository,
-	userDao domains.UserRepository,
-	dbtransaction domains.DBTransactionRepository,
-	firebaseHandler domains.FirebaseHandlerRepository,
-) *signUpUseCase {
+	logger Logger,
+	outputPort PresenterRepository,
+	userDao UserRepository,
+	dbtransaction DBTransactionRepository,
+	firebaseHandler FirebaseHandlerRepository,
+) ISignUp {
 	return &signUpUseCase{
 		Ctx:             ctx,
 		Logger:          logger,

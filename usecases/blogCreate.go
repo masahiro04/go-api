@@ -2,7 +2,6 @@ package usecases
 
 import (
 	"context"
-	"go-api/domains"
 	"go-api/domains/models"
 	"go-api/domains/models/blog"
 )
@@ -16,17 +15,18 @@ type CreateBlogParams struct {
 // NOTE(okubo): OutputPort
 type createBlogUseCase struct {
 	Ctx        context.Context
-	Logger     domains.Logger
-	OutputPort domains.PresenterRepository
-	BlogDao    domains.BlogRepository
+	Logger     Logger
+	OutputPort PresenterRepository
+	BlogDao    BlogRepository
 }
 
 func NewCreateBlogUseCase(
-	ctx context.Context, logger domains.Logger,
-	outputPort domains.PresenterRepository, blogDao domains.BlogRepository,
-) *createBlogUseCase {
+	ctx context.Context,
+	logger Logger,
+	outputPort PresenterRepository,
+	blogDao BlogRepository,
+) IBlogCreate {
 	return &createBlogUseCase{
-		Ctx:        ctx,
 		Logger:     logger,
 		OutputPort: outputPort,
 		BlogDao:    blogDao,

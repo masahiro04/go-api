@@ -1,6 +1,8 @@
 package tx
 
 import (
+	"go-api/usecases"
+
 	"gorm.io/gorm"
 )
 
@@ -8,7 +10,7 @@ type rw struct {
 	db *gorm.DB
 }
 
-func New(db *gorm.DB) *rw {
+func New(db *gorm.DB) usecases.DBTransactionRepository {
 	return &rw{
 		db: db,
 	}

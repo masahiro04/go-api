@@ -3,7 +3,7 @@ package loggers
 import (
 	"context"
 	"fmt"
-	"go-api/domains"
+	"go-api/usecases"
 
 	"go.uber.org/zap"
 )
@@ -12,7 +12,7 @@ type ZapLogger struct {
 	logger *zap.SugaredLogger
 }
 
-var _ domains.Logger = ZapLogger{}
+var _ usecases.Logger = ZapLogger{}
 
 func NewZapLogger() (ZapLogger, error) {
 	logger, err := zap.NewDevelopment()

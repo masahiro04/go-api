@@ -6,7 +6,7 @@ import (
 
 	"go-api/adapters/presenters"
 	"go-api/adapters/presenters/json"
-	"go-api/domains/usecases"
+	"go-api/usecases"
 
 	"github.com/gin-gonic/gin"
 )

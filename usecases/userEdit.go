@@ -2,7 +2,6 @@ package usecases
 
 import (
 	"context"
-	"go-api/domains"
 	"go-api/domains/models"
 	"go-api/domains/models/user"
 )
@@ -17,17 +16,17 @@ type EditUserParams struct {
 // NOTE(okubo): OutputPort
 type editUserUseCase struct {
 	Ctx        context.Context
-	Logger     domains.Logger
-	OutputPort domains.PresenterRepository
-	UserDao    domains.UserRepository
+	Logger     Logger
+	OutputPort PresenterRepository
+	UserDao    UserRepository
 }
 
 func NewEditUserUseCase(
 	ctx context.Context,
-	logger domains.Logger,
-	outputPort domains.PresenterRepository,
-	userDao domains.UserRepository,
-) *editUserUseCase {
+	logger Logger,
+	outputPort PresenterRepository,
+	userDao UserRepository,
+) IUserEdit {
 	return &editUserUseCase{
 		Ctx:        ctx,
 		Logger:     logger,

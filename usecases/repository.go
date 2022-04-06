@@ -1,4 +1,4 @@
-package domains
+package usecases
 
 import (
 	"go-api/domains/models"
@@ -22,9 +22,9 @@ type PresenterRepository interface {
 	GetUser(user *models.User)
 }
 
-type ValidatorRepository interface {
-	Validate(targetStruct interface{}) error
-}
+// type ValidatorRepository interface {
+// 	Validate(targetStruct interface{}) error
+// }
 
 type DBTransactionRepository interface {
 	WithTx(runner func(tx *gorm.DB) error) error

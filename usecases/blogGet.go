@@ -2,7 +2,6 @@ package usecases
 
 import (
 	"context"
-	"go-api/domains"
 	"go-api/domains/models"
 )
 
@@ -14,12 +13,17 @@ type GetBlogParams struct {
 // NOTE(okubo): OutputPort
 type getBlogUseCase struct {
 	Ctx        context.Context
-	Logger     domains.Logger
-	OutputPort domains.PresenterRepository
-	BlogDao    domains.BlogRepository
+	Logger     Logger
+	OutputPort PresenterRepository
+	BlogDao    BlogRepository
 }
 
-func NewGetBlogUseCase(ctx context.Context, logger domains.Logger, outputPort domains.PresenterRepository, blogDao domains.BlogRepository) *getBlogUseCase {
+func NewGetBlogUseCase(
+	ctx context.Context,
+	logger Logger,
+	outputPort PresenterRepository,
+	blogDao BlogRepository,
+) IBlogGet {
 	return &getBlogUseCase{
 		Ctx:        ctx,
 		Logger:     logger,

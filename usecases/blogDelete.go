@@ -2,7 +2,6 @@ package usecases
 
 import (
 	"context"
-	"go-api/domains"
 	"go-api/domains/models"
 )
 
@@ -14,15 +13,17 @@ type DeleteBlogParams struct {
 // NOTE(okubo): OutputPort
 type deleteBlogUseCase struct {
 	Ctx        context.Context
-	Logger     domains.Logger
-	OutputPort domains.PresenterRepository
-	BlogDao    domains.BlogRepository
+	Logger     Logger
+	OutputPort PresenterRepository
+	BlogDao    BlogRepository
 }
 
 func NewDeleteBlogUseCase(
-	ctx context.Context, logger domains.Logger,
-	outputPort domains.PresenterRepository, blogDao domains.BlogRepository,
-) *deleteBlogUseCase {
+	ctx context.Context,
+	logger Logger,
+	outputPort PresenterRepository,
+	blogDao BlogRepository,
+) IBlogDelete {
 	return &deleteBlogUseCase{
 		Ctx:        ctx,
 		Logger:     logger,

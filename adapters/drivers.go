@@ -1,17 +1,17 @@
 package adapters
 
-import "go-api/domains"
+import "go-api/usecases"
 
 type Driver struct {
-	Logger domains.Logger
-	// Presenter       domains.PresenterRepository
-	BlogDao         domains.BlogRepository
-	UserDao         domains.UserRepository
-	FirebaseHandler domains.FirebaseHandlerRepository
-	DBTransaction   domains.DBTransactionRepository
+	Logger usecases.Logger
+	// Presenter       usecases.PresenterRepository
+	BlogDao         usecases.BlogRepository
+	UserDao         usecases.UserRepository
+	FirebaseHandler usecases.FirebaseHandlerRepository
+	DBTransaction   usecases.DBTransactionRepository
 }
 
-func NewDriver(logger domains.Logger, blogDao domains.BlogRepository, userDao domains.UserRepository, firebaseHandler domains.FirebaseHandlerRepository, dbTransaction domains.DBTransactionRepository) *Driver {
+func NewDriver(logger usecases.Logger, blogDao usecases.BlogRepository, userDao usecases.UserRepository, firebaseHandler usecases.FirebaseHandlerRepository, dbTransaction usecases.DBTransactionRepository) *Driver {
 	return &Driver{
 		Logger: logger,
 		// Presenter:       presenter,

@@ -4,15 +4,11 @@
 package mock
 
 import (
-	"log"
-
-	"go-api/usecases"
-
 	"github.com/golang/mock/gomock"
 )
 
 // Interactor : is used in order to update its properties accordingly to each test conditions
-type Interactor struct {
+type Driver struct {
 	Logger    *MockLogger
 	Presenter *MockPresenter
 	BlogDao   *MockBlogDao
@@ -22,19 +18,19 @@ type Interactor struct {
 }
 
 type Tester struct {
-	Calls      func(*Interactor)
+	Calls      func(*Driver)
 	ShouldPass bool
 }
 
-type SimpleLogger struct{}
+// type SimpleLogger struct{}
 
-func (SimpleLogger) Log(logs ...interface{}) {
-	log.Println(logs...)
-}
+// func (SimpleLogger) Log(logs ...interface{}) {
+// 	log.Println(logs...)
+// }
 
 //NewMockedInteractor : the Interactor constructor
-func NewMockedInteractor(mockCtrl *gomock.Controller) Interactor {
-	return Interactor{
+func NewMockDriver(mockCtrl *gomock.Controller) Driver {
+	return Driver{
 		Logger:    NewMockLogger(mockCtrl),
 		Presenter: NewMockPresenter(mockCtrl),
 		BlogDao:   NewMockBlogDao(mockCtrl),
@@ -45,13 +41,13 @@ func NewMockedInteractor(mockCtrl *gomock.Controller) Interactor {
 }
 
 //GetUCHandler : returns a uc.interactor in order to call its methods aka the use cases to test
-func (i Interactor) GetUCHandler() usecases.Handler {
-	return usecases.HandlerConstructor{
-		Logger:    i.Logger,
-		Presenter: i.Presenter,
-		BlogDao:   i.BlogDao,
-		UserDao:   i.UserDao,
-		// Validator: i.Validator,
-		// DBTransaction: i.DBTransaction,
-	}.New()
-}
+// func (d Driver) GetUCHandler() usecases.Handler {
+// 	return usecases.HandlerConstructor{
+// 		Logger:    i.Logger,
+// 		Presenter: i.Presenter,
+// 		BlogDao:   i.BlogDao,
+// 		UserDao:   i.UserDao,
+// 		// Validator: i.Validator,
+// 		// DBTransaction: i.DBTransaction,
+// 	}.New()
+// }
